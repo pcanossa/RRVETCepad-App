@@ -1,0 +1,60 @@
+<div class="body-animal-page d-flex flex-wrap">
+  <app-adm-navbar class="nav-menu"></app-adm-navbar>
+    <div class="animais d-flex flex-column align-items-center">
+      <app-header></app-header>
+      <h1>Animais Cadastrados</h1>
+      <div class="carteirinha d-flex flex-column align-items-center justify-content-center" >
+        <form class="input-group mb-3" [formGroup]="animal">
+          <input type="text" class="form-control" placeholder="RGA" aria-label="RGA" name="rga" aria-describedby="button-addon2" formControlName="rga">
+          <button class="btn btn-outline-secondary" (click)="consultaAnimais(httpOptions)" id="button-addon2">Consultar</button>
+        </form>
+
+        <div class="cards d-flex flex-wrap align-items-evenly justify-content-center" *ngIf="animalDates">
+          <div class="animal-card d-flex justify-content-start align-items-center" style="background-color: rgb(172, 247, 222);">
+            <div class="topo-card d-flex justify-content-center">
+              <div class="header d-flex flex-column align-items-center">
+                <h1><i class="fa-solid fa-user"></i></h1>
+                <div class="infos d-flex flex-column align-items-start">
+                  <h6>Nome:  {{animalDates.tut_nome}}</h6>
+                  <h6>CPF: {{animalDates.tut_cpf}}</h6>
+                  <h6>Telefone: {{formatarTelefone(animalDates.tut_telefone)}}</h6>
+                  <h6>Endereço:  {{animalDates.tut_rua}}, {{animalDates.tut_numero}} - {{animalDates.tut_bairro}} - {{animalDates.tut_cidade}}</h6>
+                  <h5>Tipo: {{animalDates.tut_tipo}}</h5>
+                  <div class="dropdown">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div class="animal-card" *ngIf="animalDates">
+            <h1><i class="fa-solid fa-dog" *ngIf="animalDates.ani_especie === 'Canina'"></i></h1>
+            <h1><i class="fa-solid fa-cat" *ngIf="animalDates.ani_especie === 'Felina'"></i></h1>
+            <div class="card-content">
+              <a href="/animalPage" (click)="enviarID(
+                animalDates.ani_id,
+                animalDates.ani_nome,
+                animalDates.ani_especie,
+                animalDates.ani_raca,
+                animalDates.ani_cor,
+                animalDates.ani_sexo,
+                animalDates.ani_nascimento,
+                animalDates.ani_particularidades,
+                animalDates.ani_rga,
+                animalDates.ani_urlfoto,
+                animalDates.tut_nome,
+                animalDates.tut_telefone,
+                animalDates.tut_rua,
+                animalDates.tut_numero,
+                animalDates.tut_bairro,
+                animalDates.tut_cidade,
+                animalDates.tut_cpf,
+                animalDates.tut_tipo
+                )"><h5>{{animalDates.ani_nome}}</h5></a>
+              <h6>{{animalDates.ani_raca}}</h6>
+            </div>
+          <h4><i style="color: rgb(250, 183, 231); margin-left: 10px;" class="fa-solid fa-venus" *ngIf="animalDates.ani_sexo === 'F'"></i></h4>
+          <h4><i style="color: rgb(106, 212, 212); margin-left: 10px;" class="fa-solid fa-mars" *ngIf="animalDates.ani_sexo === 'M'"></i></h4>
+      </div>
+    </div>
+  </div>

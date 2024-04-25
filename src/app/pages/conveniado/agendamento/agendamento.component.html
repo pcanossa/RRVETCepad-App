@@ -1,0 +1,55 @@
+<div class="body-animais d-flex flex-wrap">
+  <app-resize-navbar></app-resize-navbar>
+  <app-navbar class="nav-menu"></app-navbar>
+  <div class="animais d-flex flex-column align-items-center">
+    <app-header></app-header>
+    <h1>Agendamento</h1>
+    <form class="dados d-flex align-items-center justify-content-evenly flex-wrap" [formGroup]="dadoAgendamento">
+      <div>
+        <label for="sexo">Selecione o Pet*</label>
+        <select class="form-select form-select-lg"  name="" id="" aria-label=".form-select-lg example" formControlName="animal" required>
+          <option *ngFor="let animal of animais" [value]="animal.ani_id">{{animal.ani_nome}}</option>
+        </select>
+      </div>
+      <div>
+        <label for="sexo">Selecione uma Unidade*</label>
+        <select class="form-select form-select-lg"  name="unidade" id="unidade" aria-label=".form-select-lg example" formControlName="unidade" required>
+          <option  value="Ibaté">Ibaté</option>
+        </select>
+      </div>
+      <div>
+        <label for="sexo">Selecione o Mês*</label>
+        <select class="form-select form-select-lg"  name="mes" id="mes" aria-label=".form-select-lg example" formControlName="mes" required >
+          <option [value]="mes.value" *ngFor="let mes of meses | keyvalue">{{mes.key}}</option>
+        </select>
+      </div>
+      <div class="botao d-flex align-items-center justify-content-center">
+        <button class="btn btn-primary" type="button" (click)="formatDate();consultaAgenda(httpOptions);">Consultar Horários Disponíveis</button>
+      </div>
+    </form>
+    <form class="datas dados d-flex align-items-center justify-content-evenly flex-wrap" [formGroup]="agendamento" *ngIf="agenda">
+      <div class="datas dados d-flex align-items-center justify-content-evenly flex-wrap" *ngIf="dias.length != 0;">
+      <div class="d-flex align-items-center justify-content-center flex-wrap" *ngFor=" let dia of dias[iterador]">
+        <div class="data-card d-flex flex-column align-items-center justify-content-center">
+          <h5>{{formatDateForm(dia.agd_data_hora)}}</h5>
+          <h5>{{formatHour(dia.agd_data_hora)}}h</h5>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="id" id="id" [value]="dia.agd_id" formControlName="id">
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="" *ngIf="datasDisponiveis.length === 0">
+        Datas não disponíveis para esse mês
+      </div>
+    </form>
+    <div class="setas d-flex align-items-evenly justify-content-evenly" *ngIf="agenda">
+      <h2><i class="fa-solid fa-chevron-left" (click)="diminuiIterador();"></i></h2>
+      <h2><i class="fa-solid fa-chevron-right" (click)="somaIterador();"></i></h2>
+    </div>
+    <div class="botao d-flex flex-column align-items-center justify-content-center">
+      <button class="btn btn-primary" type="button" (click)="realizaAgendamento();" *ngIf="agenda">Agendar</button>
+      <h5 style="color:rgb(4, 138, 104)">{{msgSucesso}}{{msgError}}</h5>
+    </div>
+  </div>
+</div>

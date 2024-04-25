@@ -1,0 +1,50 @@
+<div class="body d-flex flex-column justify-content-center align-items-center">
+  <div class="header d-flex flex-column justify-content-center align-items-center">
+    <h4>Bem Vindo!!</h4>
+    <h4>Esse é seu Primeiro Acesso ao Nosso App</h4>
+    <h4>Cadastre sua senha de acesso:</h4>
+  </div>
+  <div class="login-box container d-flex flex-column justify-content-center align-items-center">
+    <img src="../../../assets/img/logo.png" class="imgLogo" alt="">
+    <img src="../../../assets/img/avilaescuropng.png" alt="">
+    <div class="container dados-login">
+      <form action="" class="login" [formGroup]="formAuth">
+      <label class="usuario d-flex">
+        <h4>
+          <i class="fa-regular fa-circle-user"></i>
+          Digite seu CPF
+        </h4>
+      </label>
+      <input type="text" placeholder="CPF" formControlName="cpf" class="password ">
+        <hr>
+      <label class="usuario d-flex">
+        <h4>
+          <i class="fa-solid fa-lock"></i>
+          Digite sua Nova Senha
+        </h4>
+      </label>
+      <input type="password" placeholder="Nova Senha" formControlName="novaSenha" class="password ">
+      <hr>
+      <label class="senha d-flex">
+        <h4>
+          <i class="fa-solid fa-rotate-right"></i>
+          Repita sua senha
+        </h4>
+      </label>
+      <input type="password" placeholder="Repita sua Senha" formControlName="senha">
+      <hr>
+      <button class="btn btn-primary" type="button" [disabled]="formAuth.invalid" (click)="submitForm(formAuth.value.senha, formAuth.value.novaSenha);">
+        REGISTRAR SENHA
+      </button>
+    </form>
+    <div class="erro d-flex justify-content-center align-items-center">
+      <h5>{{ msgError }}</h5>
+      <h5>{{ scsMessage }}</h5>
+    </div>
+    </div>
+  </div>
+  <div class="opcoes">
+    <a href="https://wa.me/5516999913289"><p>Dúvidas? Fale conosco clicando aqui!</p></a>
+    <a href="/app-login"><p>Retornar para o Login</p></a>
+  </div>
+</div>

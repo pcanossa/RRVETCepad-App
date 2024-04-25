@@ -1,0 +1,38 @@
+<div class="body-animal-page d-flex flex-wrap">
+  <app-adm-navbar class="nav-menu"></app-adm-navbar>
+  <div class="animais d-flex flex-column align-items-center">
+    <app-header></app-header>
+    <div class="cadastrados d-flex flex-row align-items-center justify-content-evenly flex-wrap">
+      <div class="animal-card" *ngFor="let cliente of clientes">
+        <h1><i class="fa-solid fa-user-group"></i></h1>
+        <div class="card-content">
+          <a href="/clientes"><h5>Clientes Cadastrados</h5></a>
+          <h6>{{cliente.clientes - 2}}</h6>
+        </div>
+      </div>
+      <div class="animal-card" *ngFor="let animal of animais">
+        <h1><i class="fa-solid fa-paw"></i></h1>
+        <div class="card-content">
+          <a href=""><h5>Animais Cadastrados</h5></a>
+          <h6>{{animal.animais - 15}}</h6>
+        </div>
+      </div>
+    </div>
+    <div class="atendimentos d-flex flex-row align-items-center justify-content-evenly flex-wrap">
+      <div class="animal-card" *ngFor="let atendimento of atendimentos">
+        <h1><i class="fa-solid fa-hand-holding-medical"></i></h1>
+        <div class="card-content">
+          <a href=""><h5>Atendimentos Realizados</h5></a>
+          <h6>{{atendimento.atendimentos - 1}}</h6>
+        </div>
+      </div>
+      <div class="animal-card" *ngFor="let vacina of vacinas">
+        <h1><i class="fa-solid fa-syringe"></i></h1>
+        <div class="card-content">
+          <a href=""><h5>Vacinas Realizadas</h5></a>
+          <h6>{{vacina.vacinas - 2}}</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

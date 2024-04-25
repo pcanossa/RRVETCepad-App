@@ -1,0 +1,34 @@
+<div class="body-animais d-flex flex-wrap">
+  <app-resize-navbar></app-resize-navbar>
+  <app-navbar class="nav-menu"></app-navbar>
+  <div class="animais d-flex flex-column align-items-center">
+    <app-header></app-header>
+    <h4>ANIMAIS CADASTRADOS</h4>
+    <div class="cards d-flex flex-row flex-wrap align-items-center justify-content-center">
+      <div class="animal-card" *ngFor="let animal of animais">
+          <h1><i class="fa-solid fa-dog" *ngIf="animal.ani_especie === 'Canina'"></i></h1>
+          <h1><i class="fa-solid fa-cat" *ngIf="animal.ani_especie === 'Felina'"></i></h1>
+          <div class="card-content">
+            <a href="/animalPage" (click)="enviarID(
+              animal.ani_id,
+              animal.ani_nome,
+              animal.ani_especie,
+              animal.ani_raca,
+              animal.ani_cor,
+              animal.ani_sexo,
+              animal.ani_nascimento,
+              animal.ani_particularidades,
+              animal.ani_microchip,
+              animal.ani_urlfoto,
+              animal.ani_urlqrcode
+              )"><h5>{{animal.ani_nome}}</h5></a>
+            <h6>{{animal.ani_raca}}</h6>
+          </div>
+      </div>
+    </div>
+    <div class="erro d-flex flex-column justify-content-center align-items-center flex-wrap">
+      <h5>{{msgError}}</h5>
+      <h5>{{msgErrorDois}}</h5>
+    </div>
+  </div>
+</div>

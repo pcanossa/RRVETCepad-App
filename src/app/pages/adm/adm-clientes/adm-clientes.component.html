@@ -1,0 +1,65 @@
+<div class="body-animal-page d-flex flex-wrap">
+  <app-adm-navbar class="nav-menu"></app-adm-navbar>
+    <div class="animais d-flex flex-column align-items-center">
+      <app-header></app-header>
+      <h1>Animais Cadastrados</h1>
+      <div class="carteirinha d-flex flex-column align-items-center justify-content-center" >
+        <form class="input-group mb-3" [formGroup]="cliente">
+          <input type="text" class="form-control" placeholder="RGA" aria-label="CPF" name="cpf" aria-describedby="button-addon2" formControlName="cpf">
+          <button class="btn btn-outline-secondary" (click)="getCli(httpOptions)" id="button-addon2">Consultar</button>
+        </form>
+        <div class="cards d-flex flex-wrap align-items-evenly justify-content-center" *ngIf="tutor">
+          <div class="animal-card d-flex justify-content-start align-items-center" style="background-color: rgb(172, 247, 222);" *ngFor="let cli of tutor; let i for index">
+            <div class="topo-card d-flex justify-content-center">
+              <div class="header d-flex flex-column align-items-center">
+                <h1><i class="fa-solid fa-user"></i></h1>
+                <div class="infos d-flex flex-column align-items-start">
+                  <h6>Nome:  {{cli.cli_nome}}</h6>
+                  <h6>CPF: {{cli.cli_cpf}}</h6>
+                  <h6>Telefone: {{formatarTelefone(cli.cli_telefone)}}</h6>
+                  <h6>Endereço:  {{cli.cli_rua}}, {{cli.cli_numero}} - {{cli.cli_bairro}} - {{cli.cli_cidade}}</h6>
+                  <h6>Número de Planos Adquiridos: {{cli.cli_qtdade_planos}}</h6>
+                  <h6 style="color:rgb(102, 4, 4)" (click)="showConfirmation();">
+                    <i class="fa-solid fa-xmark" style="color:rgb(102, 4, 4)"></i> Cancelar Fatura
+                  </h6>
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" (click)="consultaAnimais(cli.cli_id)">
+                      Animais Cadastrados
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li *ngFor="let animal of animais">
+                        <h6>{{animal.ani_nome}}</h6>
+                        <h6>{{animal.crt_numero}}</h6>
+                        <br>
+                      </li>
+                      <li>
+                        {{masgError}}
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" (click)="getFaturaPessoa(cli.cli_cpf);">
+                      Faturas
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li>
+                        <h6>
+                          Forma de Aquisição: {{formaAquisicao}}
+                        </h6>
+                      </li>
+                      <li *ngFor="let fatura of faturas">
+                        <h6 *ngIf="fatura.status !== 'canceled'">
+                          Vencimento: {{formatDateForm(fatura.dueDate)}} <br>
+                          Status: {{retornaStatus(fatura.status)}}
+                          <br>
+                        </h6>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,117 @@
+<div class="body-animal-page d-flex flex-wrap">
+  <app-adm-navbar class="nav-menu"></app-adm-navbar>
+  <div class="animais d-flex flex-column align-items-center">
+    <app-header></app-header>
+    <div class="h1">
+      <h1>Novo Animal</h1>
+    </div>
+    <div class="busca-cliente d-flex flex-column align-items-center justify-content-center">
+      <form action="" [formGroup]="cliente" class="form-cliente d-flex flex-column align-items-center justify-content-center">
+        <div class="cpf input-group mb-3 d-flex justify-content-center align-items-center" id="cpf">
+          <input type="text" class="form-control"  id="input-cpf" placeholder="CPF Cliente" aria-label="CPF Cliente" aria-describedby="button-addon2" formControlName="cpf">
+          <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="getCli(httpOptions); verificaCPF(cliente.cpf);">Buscar Cliente</button>
+        </div>
+        <div class="select d-flex align-items-center justify-content-center" *ngFor="let tutor of tutores">
+          <div class="cliente-card d-flex flex-column align-items-start justify-content-center">
+            <h5><i class="fa-solid fa-user"></i> {{tutor.tut_nome}}</h5>
+            <h6>{{tutor.tut_rua}}, {{tutor.tut_numero}}, {{tutor.tut_bairro}} - {{tutor.tut_cidade}}</h6>
+            <h6>{{formatarNumeroTelefone(tutor.tut_telefone)}}</h6>
+          </div>
+          <div class="form-check">
+        </div>
+      </div>
+      <div class="sem-cliente d-flex align-items-center justify-content-center" style="color: red;" *ngIf="tutores === undefined || tutores?.length===0 || CPFValid">
+        Nenhum Cliente encontrado!
+      </div>
+      </form>
+    </div>
+    <form [formGroup]="dadosAnimal">
+      <div class="form d-flex align-items-center justify-content-evenly flex-wrap">
+        <div class="col-md-4">
+          <label for="validationCustom01" class="form-label">Nome do Animal*</label>
+          <input type="text" class="form-control" id="validationCustom01" id="nome" formControlName="nome" required>
+        </div>
+        <div>
+          <label for="especie">Espécie*</label>
+        <select class="form-select form-select-lg" id="especie"  name="especie" aria-label=".form-select-lg example" (blur)="analisaEspecie();" formControlName="especie" [(ngModel)]="especie">
+          <option selected [value]="'default'">Espécie*</option>
+          <option *ngFor="let especie of especies.sort();" (value)="especie">{{especie}}</option>
+        </select>
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <div>
+            <label for="raca">Raça*</label>
+          <select class="form-select form-select-lg" id="raca" name="raca" aria-label=".form-select-lg example" *ngIf="cao" (blur)="acionaOutro('raca', 'outraRaca')" formControlName="raca" [(ngModel)]="raca">
+            <option selected [value]="'default'">Raça*</option>
+            <option  *ngFor="let raca of racasCao.sort();"  (value)="raca">{{raca}}</option>
+          </select>
+          </div>
+          <div>
+          <select class="form-select form-select-lg" id="raca" name="raca" aria-label=".form-select-lg example" *ngIf="gato" (blur)="acionaOutro('raca', 'outraRaca')" formControlName="raca" [(ngModel)]="raca">
+            <option selected [value]="'default'">Raça*</option>
+            <option  *ngFor="let raca of racasGato.sort();"  (value)="raca">{{raca}}</option>
+          </select>
+          <div class="col-md-4" class="outro-raca" *ngIf="acionaOutro('raca', 'outraRaca')">
+            <label for="validationCustom01" class="form-label">Outra Raça</label>
+            <input type="text" class="form-control" id="validationCustom01" id="outraRaca" formControlName="raca" [(ngModel)]="raca">
+          </div>
+        </div>
+        </div>
+        <div>
+          <label for="cor">Cor*</label>
+        <select class="form-select form-select-lg"  name="cor" id="cor" aria-label=".form-select-lg example" (blur)="acionaOutro('raca', 'outraCor')" formControlName="cor" [(ngModel)]="cor">
+          <option selected hidden [value]="'default'">Cor*</option>
+          <option  *ngFor="let cor of cores.sort();"  (value)="cor">{{cor}}</option>
+        </select>
+        <div class="col-md-4" class="outro-cor" *ngIf="acionaOutro('cor', 'outraCor')">
+          <label for="validationCustom01" class="form-label">Outra Cor</label>
+          <input type="text" class="form-control" id="validationCustom01" id="outraCor" formControlName="cor" [(ngModel)]="cor">
+        </div>
+        </div>
+        <div>
+          <label for="sexo">Sexo*</label>
+          <select class="form-select form-select-lg"  name="sexo" id="sexo" aria-label=".form-select-lg example" formControlName="sexo" required [(ngModel)]="sexo">
+            <option selected hidden value="'default'">Sexo*</option>
+            <option  select value='F'>Fêmea</option>
+            <option  select value='M'>Macho</option>
+          </select>
+        </div>
+        <div>
+          <label for="sexo">Porte*</label>
+          <select  class="form-select form-select-lg"  name="porte" id="porte" aria-label=".form-select-lg example" formControlName="porte" required [(ngModel)]="porte">
+            <option selected hidden value="'default'">Porte*</option>
+            <option  *ngFor="let portes of porte" (value)="portes">{{portes}}</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="validationCustom01" class="form-label">Data Nascimento*</label>
+          <input type="date" class="form-control" id="validationCustom01" id="nome" formControlName="nascimento" required>
+        </div>
+        <div class="col-md-4">
+          <label for="validationCustom01" class="form-label">RGA</label>
+          <input type="text" class="form-control" id="validationCustom01" id="nome" formControlName="rga" required>
+        </div>
+      </div>
+      <div class="d-flex flex-column align-items-center justify-content-center">
+        <div class="form-floating">
+          <textarea class="form-control" cols="40" placeholder="Particularidades" id="floatingTextarea2" style="height: 200px;" formControlName="particularidades"></textarea>
+          <label for="floatingTextarea2">Particularidades</label>
+        </div>
+        <div class="input-group mb-3 d-flex justify-content-center align-items-center" id='foto'>
+          <label class="input-group-text" for="inputGroupFile01">Foto</label>
+          <input type="file" class="form-control" id="inputGroupFile01" accept=".jpeg, .jpg, .png" (change)="atualizarFoto($event)">
+        </div>
+      </div>
+      <div class="button d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary" (click)="cadastraAnimal();">Registrar</button>
+      </div>
+      <div class="erros d-flex justify-content-center align-items-center" *ngIf="dadosAnimal.errors?.['erro'] || cliente.errors?.['erro']">
+        <h5>Os campos com * são obrigatórios</h5>
+      </div>
+      <div class="ok d-flex justify-content-center align-items-center">
+        <h5>{{ msgOK?.message }}</h5>
+      </div>
+    </form>
+  </div>
+</div>
+

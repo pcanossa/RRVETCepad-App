@@ -1,0 +1,58 @@
+.content-script img {
+  width: 80%;
+}
+
+.content-script {
+  width: 45%;
+}
+
+.content-script img {
+  object-fit: contain;
+}
+
+.content-img {
+  width: 50%;
+}
+
+.content-img img{
+  width: 100%;
+}
+
+.content-two {
+  width: 100%;
+}
+
+.content-two img {
+  width: 100%;
+}
+
+.sobre .cabecalho h4{
+  color: rgba(1, 122, 162, 1);
+  margin: 50px 0px;
+}
+
+.sobre {
+  margin: 50px 0px;
+}
+
+.card {
+  width: 280px;
+  height: 260px;
+  border: 3px solid rgba(100, 99, 101, 1);
+  margin: 50px 25px;
+}
+
+.card-cima {
+  height: 50%;
+  width: 100%;
+  background-color: #D6E9EF;
+  color: #017AA2;
+}
+
+.card-baixo {
+  height: 50%;
+  width: 100%;
+  color: #5C5C5C;
+  text-align: center;
+  padding: 10px;
+}

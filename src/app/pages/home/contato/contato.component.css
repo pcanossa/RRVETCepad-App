@@ -1,0 +1,85 @@
+* {
+  text-decoration: none;
+}
+
+.contato {
+  background: url('../../../../assets/img/Contato.png');
+  height: 218px;
+  color: white;
+  padding: 0px 10px;
+}
+
+h2 {
+  color: white;
+}
+
+h3 {
+  color: white;
+}
+
+.button-whats {
+  padding: 10px;
+  background: rgba(99, 158, 177, 0.35);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  border: none;
+}
+
+.button-whats:hover {
+  background: rgba(26, 134, 171, 0.35);
+  transition: 0.5s;
+}
+
+.button-whats h1 {
+  color: #BBD0D7;
+  margin-right: 5px;
+}
+
+h4 {
+  color: #E7AB3F;
+}
+
+.item {
+  margin: 20px 0px;
+}
+
+.social {
+  margin: 40px 0;
+}
+
+.barra {
+  background-color: #E7A800;
+  height: 130px;
+  width: 100%;
+  color: #E7A800;
+}
+
+.dev {
+  margin-left: 20px;
+}
+
+.dev img {
+  max-width: 60%;
+}
+
+.operacional {
+  background-color: rgba(39, 131, 185, 0.35);
+  border-radius: 10px;
+}
+
+.operacional h6 {
+  color: rgb(87, 87, 92);
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+  border-radius: 10px;
+  transition: 1s;
+}
+
+.operacional :hover {
+  background-color: rgb(15, 121, 153);
+  color: rgb(185, 211, 211);
+  transition: 1s;
+}
+

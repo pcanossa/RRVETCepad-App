@@ -1,0 +1,100 @@
+<div class="body-animal-page d-flex flex-wrap">
+  <app-adm-navbar class="nav-menu"></app-adm-navbar>
+  <div class="animais d-flex flex-column justify-content-center align-items-center">
+    <h1>Cadastro</h1>
+    <form action="" class="d-flex flex-column align-items-center justify-content-center" [formGroup]="dadosPessoa">
+      <div class="d-flex align-items-center justify-content-evenly flex-wrap">
+        <mat-form-field class="example-full-width" id="input">
+          <mat-label>Nome Completo</mat-label>
+          <input matInput placeholder="Ex. João da Silva" required formControlName="nome">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" id="input">
+          <mat-label>CPF</mat-label>
+          <input matInput placeholder="Ex. 31241366607" required formControlName="cpf" [(ngModel)]="cpf" (blur)="retornaCPF()">
+          <div class="erros" *ngIf="dadosPessoa.get('cpf')?.errors?.['erro']">
+            <p>{{dadosPessoa.get('cpf')?.errors?.['erro']}}</p>
+          </div>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" id="input" required>
+          <mat-label>Telefone</mat-label>
+          <input matInput placeholder="Ex. 16999938712" required formControlName="telefone" [(ngModel)]="telefone" (blur)="validaTelefone();">
+          <div class="erros" *ngIf="dadosPessoa.get('telefone')?.errors?.['erro']">
+            <p>{{dadosPessoa.get('telefone')?.errors?.['erro']}}</p>
+          </div>
+        </mat-form-field>
+      </div>
+      <div class="d-flex align-items-center justify-content-evenly flex-wrap">
+        <mat-form-field class="example-full-width" id="input">
+          <mat-label>CEP</mat-label>
+          <input matInput placeholder="Ex. 14815000" required formControlName="cep" [(ngModel)]="cep" (blur)="consultaCep()">
+          <div class="erros" *ngIf="dadosPessoa.get('cep')?.errors?.['erro']">
+            <p>{{dadosPessoa.get('cep')?.errors?.['erro']}}</p>
+          </div>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" id="input">
+          <mat-label>Rua</mat-label>
+          <input matInput placeholder="Ex. Rua Florianópolis" required formControlName="rua" [value]="end.rua" name="rua">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" id="input">
+          <mat-label>Número</mat-label>
+          <input matInput placeholder="Ex. 35" required formControlName="numero">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" id="input">
+          <mat-label>Complemento</mat-label>
+          <input matInput placeholder="Ex. Apto21" required formControlName="complemento">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" id="input">
+          <mat-label>Bairro</mat-label>
+          <input matInput placeholder="Ex. Jardim Brasil" required formControlName="bairro" [value]="end.bairro" name="bairro">
+        </mat-form-field>
+      </div>
+      <div class="d-flex align-items-center justify-content-evenly flex-wrap">
+        <mat-form-field class="example-full-width" id="input">
+          <mat-label>Cidade</mat-label>
+          <input matInput placeholder="Ex. Ibaté" required formControlName="cidade" [value]="end.cidade">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" id="input">
+          <mat-label>Estado</mat-label>
+          <input matInput placeholder="Ex. SP" required formControlName="estado" name="uf" [value]="end.uf" [(ngModel)]="uf" (blur)="validaUF();">
+          <div class="erros" *ngIf="dadosPessoa.get('estado')?.errors?.['erro']">
+            <p>{{dadosPessoa.get('estado')?.errors?.['erro']}}</p>
+          </div>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker" placeholder="Data de Nascimento*" required formControlName="nascimento" [(ngModel)]="idade" (blur)="verificarIdadeMaiorQue18()">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <div class="erros" *ngIf="dadosPessoa.get('nascimento')?.errors?.['erro']">
+            <p>{{dadosPessoa.get('nascimento')?.errors?.['erro']}}</p>
+          </div>
+        </mat-form-field>
+      </div>
+      <div class="d-flex align-items-center justify-content-evenly flex-wrap">
+        <mat-form-field>
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="tipo">
+           <mat-option *ngFor="let tipo of tipos" [value]="tipo">{{tipo}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </form>
+    <div class="formas d-flex justify-content-center align-items-center">
+      <button class="btn btn-primary" type="button" id="aquisicao" (click)="criaCobranca()">Registrar</button>
+    </div>
+    <div *ngIf="carregando" class="d-flex flex-column justify-content-center align-items-center">
+      <div class="spinner-border text-info">
+        <span class="visually-hidden">Cadastrando...</span>
+      </div>
+      <h5>Cadastrando Tutor</h5>
+    </div>
+    <div *ngIf="msgOK">
+      <h5 style="color: rgb(66, 66, 73)">{{ msgOK }}</h5>
+    </div>
+      <div class="erros d-flex justify-content-center align-items-center" *ngIf="dadosPessoa.errors?.['erro']">
+        <h5>Os campos com * são obrigatórios</h5>
+      </div>
+      <div class="erros d-flex justify-content-center align-items-center">
+        <h5>{{msgError}}</h5>
+      </div>
+  </div>
+</div>

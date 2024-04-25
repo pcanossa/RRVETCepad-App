@@ -1,0 +1,42 @@
+
+h1 {
+  color: #0478A1;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.texto {
+  width: 50%;
+}
+
+h5 {
+  text-align: justify;
+}
+
+.text-um {
+ margin: 50px 0px;
+}
+
+.text-dois {
+  height: 500px;
+  width: 100%;
+  background-image: url(../../../../assets/img/telefundop.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 0 15px;
+  object-fit: cover;
+}
+
+.text-dois h1 {
+  margin-right: 10px;
+}
+
+img {
+  width: 80%;
+  height: 80%;
+  object-fit: cover;
+}
+
+.img {
+  width: 40%;
+}

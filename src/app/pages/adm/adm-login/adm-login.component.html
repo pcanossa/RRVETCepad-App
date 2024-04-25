@@ -1,0 +1,38 @@
+<div class="body d-flex flex-column justify-content-center align-items-center">
+  <div class="login-box container d-flex flex-column justify-content-center align-items-center">
+    <img src="../../../assets/img/logo.png" class="imgLogo" alt="">
+    <img src="../../../assets/img/avilaescuropng.png" alt="">
+    <div class="container dados-login">
+      <form action="" class="login" [formGroup]="formAuth">
+      <label class="usuario d-flex">
+        <h4>
+          <i class="fa-regular fa-circle-user"></i>
+          Usuário
+        </h4>
+      </label>
+      <input type="text" placeholder="CPF" formControlName="cpf" class="password ">
+      <hr>
+      <label class="senha d-flex">
+        <h4>
+          <i class="fa-solid fa-lock"></i>
+          Senha
+        </h4>
+      </label>
+      <input type="password" placeholder="Senha" formControlName="senha">
+      <hr>
+      <button class="btn btn-primary" type="button" [disabled]="formAuth.invalid" (click)="submitForm();" >
+        LOGIN
+      </button>
+    </form>
+    <div class="erro d-flex justify-content-center align-items-center">
+      <h5>{{ msgError }}</h5>
+    </div>
+    </div>
+  </div>
+  <div class="opcoes">
+    <a href="/app-recuperaSenha"><p>Esqueci minha senha</p></a>
+    <a href="/app-new"><p>Primeiro Acesso? Clique Aqui!</p></a>
+    <a href="https://wa.me/5516999913289"><p>Dúvidas? Fale conosco clicando aqui!</p></a>
+  </div>
+</div>
+

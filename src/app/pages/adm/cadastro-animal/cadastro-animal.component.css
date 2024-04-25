@@ -1,0 +1,189 @@
+*{
+  text-decoration: none;
+}
+.ok h5 {
+  color: #0c792d;
+}
+
+.body-animal-page {
+  width: 100%;
+}
+
+.nav-menu {
+  min-width:100%;
+  background-color: #0478A1;
+  height: auto;
+}
+
+
+.animais {
+  padding-top: 40px;
+  width: 70%;
+}
+
+.animais h1 {
+  font-family: 'Amatic SC', cursive;
+  text-shadow: 0px 4px 4px #00000040;
+  font-weight: bold;
+  margin-bottom: 40PX;
+}
+
+.cards {
+  min-width: 100%;
+}
+
+.animal-card {
+  width: 300px;
+  background-color: #f2eec6;
+  margin: 40px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  padding-left: 20px;
+  padding-top: 5px;
+  padding-right: 15px;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5px;
+}
+
+.erros h5{
+  color: rgb(196, 55, 0);
+}
+
+.erros p{
+  color: rgb(196, 55, 0);
+}
+
+.input-group {
+ padding: 40px 20px;
+}
+
+.col-md-4 {
+  margin: 5px;
+}
+
+.busca-cliente {
+  width: 100%;
+}
+
+.form-cliente {
+  width: 100%;
+}
+
+.form-cliente .btn {
+  margin: 15px 0;
+}
+
+form {
+  width: 100%;
+}
+
+input {
+  margin: 15px;
+  max-width: 200px;
+}
+
+#foto {
+  width: 100%;
+}
+
+#foto input {
+  width: 100%;
+  font-size: small;
+}
+
+#foto label {
+  width: 15%;
+  margin: 15px 0px;
+  font-size: small;
+}
+
+#cpf input {
+  margin-right: 0;
+}
+
+select {
+  padding: 15px;
+  max-height: 48.48px;
+  font-size: small;
+}
+
+.select {
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.form-select .form-select-lg {
+  margin-bottom:  0!important;
+}
+
+.form input {
+  margin-bottom: 5px;
+  height: 48.48px;
+}
+
+.form select {
+  margin-top: 25px;
+}
+
+.sem-cliente {
+  margin-bottom: 30px;
+}
+
+#input-cpf{
+  max-width: 300px;
+  max-height: 38.42px;
+  align-self: center;
+
+}
+
+.cliente-card {
+  background-color: #eee67b;
+  padding: 15px;
+  width:50%;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.venda {
+  width: 100%;
+}
+
+.venda select {
+  margin-bottom: 25px;
+}
+
+@media screen and (min-width: 451px) {
+  .nav-menu {
+    min-width:25%;
+    background-color: #0478A1;
+    min-height: 100vh;
+  }
+
+  .animais {
+    max-width: 70%;
+  }
+}
+
+@media screen and (max-width: 451px) {
+
+  .animais {
+    width: 100%;
+  }
+}
+
+.button button {
+  margin-top: 30px;
+  width: 200px;
+  color: white;
+  background-color: #0478A1;
+  border: none;
+  margin-bottom: 15px;
+}
+

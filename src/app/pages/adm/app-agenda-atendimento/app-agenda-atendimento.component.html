@@ -1,0 +1,202 @@
+<div class="body-animal-page d-flex flex-wrap">
+  <app-adm-navbar class="nav-menu"></app-adm-navbar>
+  <div class="animais d-flex flex-column align-items-center">
+    <app-header></app-header>
+    <h1>Atendimento / Agendamento</h1>
+    <div class="carteirinha d-flex flex-column align-items-center justify-content-center" >
+      <form class="input-group mb-3" [formGroup]="carteirinha" (ngSubmit)="consultaCart(carteirinha.value?.numero);">
+        <input type="text" class="form-control" placeholder="Número da carteirinha" aria-label="Número da carteirinha" name="carteirinha" aria-describedby="button-addon2" formControlName="numero">
+        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Consultar</button>
+      </form>
+      <div class="cards d-flex flex-wrap align-items-center justify-content-center" *ngIf="valid">
+        <div class="animal-card d-flex justify-content-start align-items-center" >
+          <div class="topo-card d-flex justify-content-center">
+            <div class="header d-flex flex-column align-items-center">
+              <h1>{{animal[0].ani_nome}}</h1>
+              <div class="infos d-flex flex-column align-items-start">
+                <h6>Espécie:  {{animal[0].ani_especie}}</h6>
+                <h6>Raça: {{animal[0].ani_raca}}</h6>
+                <h6>Cor: {{animal[0].ani_cor}}</h6>
+                <h6>Sexo: {{animal[0].ani_sexo}}</h6>
+                <h6>Idade: {{calcIdade(animal[0].ani_nascimento)}}</h6>
+                <h5>Microchip: {{animal[0].ani_microchip}}</h5>
+                <h6>Particularidades:</h6>
+              </div>
+            </div>
+            <div class="identificacoes d-flex flex-column align-items-center">
+              <img [src]="animal[0].ani_urlfoto" alt="" id="foto-animal" src="../../../../assets/fotos/">
+            </div>
+          </div>
+          <div class="particularidades d-flex flex-column align-items-start">
+            <h6>{{animal[0].ani_particularidades}}</h6>
+          </div>
+        </div>
+        <div class="animal-card d-flex justify-content-start align-items-center" style="background-color: rgb(172, 247, 222);">
+          <div class="topo-card d-flex justify-content-center">
+            <div class="header d-flex flex-column align-items-center">
+              <h1><i class="fa-solid fa-user"></i></h1>
+              <div class="infos d-flex flex-column align-items-start">
+                <h6>Tutor:  {{animal[0].cli_nome}}</h6>
+                <h6>CPF: {{animal[0].cli_cpf}}</h6>
+                <h6>Telefone: {{animal[0].cli_telefone}}</h6>
+                <h6>Endereço: {{animal[0].cli_rua}}, {{animal[0].cli_numero}} </h6>
+                <h6>{{animal[0].cli_bairro}} - {{animal[0].cli_cidade}}</h6>
+                <h6>Email: {{animal[0].cli_email}}</h6>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="d-flex flex-column align-items-center justify-content-center">
+      <button class="qrbutton btn btn-primary" type="button" id="qrbutton" (click)="LeQRCode();" *ngIf="!animal">Scanear QRCode</button>
+    </div>
+    <div class="d-flex flex-column align-items-center justify-content-center" *ngIf="QRCode">
+      <ngx-scanner-qrcode #scanner class="scanner" [isBeep]="false"></ngx-scanner-qrcode>
+      <p *ngIf="scanner.isLoading">⌛ Loading...</p>
+      <button class="qrbutton" id="qrbutton" (click)="scanner.isStart ? scanner.stop() : scanner.start(); AfterViewChecked();">
+        {{ scanner.isStart ? 'Parar' : 'Iniciar' }}
+      </button>
+    </div>
+    <div class="seleciona-tipo d-flex align-items-center justify-content-evenly flex-wrap" *ngIf="animal">
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" (change)="consultaHorariosDisponiveis();">
+        <label class="form-check-label" for="flexRadioDefault2">
+          Agendamento de Horários Fixos
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" (change)="novoExtra();">
+        <label class="form-check-label" for="flexRadioDefault1">
+          Agendamento Extra
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" (change)="consultaAgdAnimal(animal[0].ani_id);">
+        <label class="form-check-label" for="flexRadioDefault1">
+          Validar Consulta
+        </label>
+      </div>
+    </div>
+    <div class="dados d-flex align-items-center justify-content-evenly flex-wrap" *ngIf="agendamentoComum">
+      <form class="dados d-flex align-items-evenly justify-content-evenly flex-wrap" [formGroup]="dadoAgendamento">
+        <div>
+          <label for="sexo">Selecione uma Unidade*</label>
+          <select class="form-select form-select-lg"  name="unidade" id="unidade" aria-label=".form-select-lg example" formControlName="unidade" required>
+            <option  selected value="São Carlos">São Carlos</option>
+            <option  value="Ibaté">Ibaté</option>
+          </select>
+        </div>
+        <div>
+          <label for="sexo">Selecione o Mês*</label>
+          <select class="form-select form-select-lg"  name="mes" id="mes" aria-label=".form-select-lg example" formControlName="mes" required >
+            <option [value]="mes.value" *ngFor="let mes of meses | keyvalue">{{mes.key}}</option>
+          </select>
+        </div>
+        <div class="botao d-flex align-items-center justify-content-center">
+          <button class="btn btn-primary" id="qrbutton" type="button" (click)="formatDate();consultaAgenda(httpOptions);">Consultar Horários Disponíveis</button>
+        </div>
+      </form>
+    </div>
+    <form class="datas dados d-flex align-items-center justify-content-evenly flex-wrap" [formGroup]="agendamento" *ngIf="agenda">
+      <div class="datas dados d-flex align-items-center justify-content-evenly flex-wrap" *ngIf="dias.length != 0;">
+      <div class="d-flex align-items-center justify-content-center flex-wrap" *ngFor=" let dia of dias[iterador]">
+        <div class="data-card d-flex flex-column align-items-center justify-content-center">
+          <h5>{{formatDateForm(dia.agd_data_hora)}}</h5>
+          <h5>{{formatHour(dia.agd_data_hora)}}h</h5>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="id" id="id" [value]="dia.agd_id" formControlName="id">
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="setas d-flex align-items-evenly justify-content-evenly" *ngIf="agenda">
+        <h2><i class="fa-solid fa-chevron-left" (click)="diminuiIterador();"></i></h2>
+        <h2><i class="fa-solid fa-chevron-right" (click)="somaIterador();"></i></h2>
+      </div>
+      <div class="botao d-flex flex-column align-items-center justify-content-center">
+        <button class="btn btn-primary" type="button" (click)="realizaAgendamento();" *ngIf="agenda">Agendar</button>
+      </div>
+      <div class="respostas d-flex flex-column justify-content-center align-items-center">
+        <h5 style="color:rgb(4, 138, 104)">{{msgSucesso}}</h5>
+        <h5 style="color:rgb(148, 51, 38)">{{msgError}}</h5>
+      </div>
+      <div class="" *ngIf="datasDisponiveis.length === 0">
+        Datas não disponíveis para esse mês
+      </div>
+    </form>
+    <form class="dados d-flex align-items-center justify-content-evenly flex-wrap" [formGroup]="dadoAgendamento" *ngIf="agendamentoExtra">
+      <div>
+        <label for="sexo">Selecione uma Unidade*</label>
+        <select class="form-select form-select-lg"  name="unidade" id="unidade" aria-label=".form-select-lg example" formControlName="unidade" required>
+          <option  selected value="São Carlos">São Carlos</option>
+          <option  value="Ibaté">Ibaté</option>
+        </select>
+      </div>
+      <div>
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="data">Data / Hora</label>
+          <input type="datetime-local" class="form-control" placeholder="" aria-label="Example text with button addon" id="data" formControlName="dataHora">
+        </div>
+      </div>
+      <div>
+        <label for="sexo">Tipo de Atendimento*</label>
+        <select class="form-select form-select-lg"  name="unidade" id="unidade" aria-label=".form-select-lg example" formControlName="tipo" required>
+          <option  *ngFor="let tipo of tipoAtendimento.sort();" [value]="tipo">{{tipo}}</option>
+        </select>
+      </div>
+    </form>
+    <div class="botao d-flex flex-column align-items-center justify-content-center">
+      <button class="btn btn-primary" type="button" id="qrbutton" (click)="realizaAgendamentoExtra();" *ngIf="agendamentoExtra">Agendar</button>
+    </div>
+    <div class="container tab-agd" *ngIf="agd?.length > 0 && !agendamentoComum && !agendamentoExtra">
+      <div class="row">
+        <div class="col">
+          <h6>Dia Agendado</h6>
+        </div>
+        <div class="col">
+          <h6>Hora</h6>
+        </div>
+        <div class="col">
+          <h6>Tipo de Atendimento</h6>
+        </div>
+        <div class="col">
+          <h6>Unidade</h6>
+        </div>
+        <div class="col">
+          <h6> </h6>
+        </div>
+        <div class="col">
+          <h6> </h6>
+        </div>
+      </div>
+      <div class="row" *ngFor="let ag of agd">
+        <div class="col">
+          <h6>{{formatDateForm(ag.agd_data_hora)}}</h6>
+        </div>
+        <div class="col">
+          <h6>{{formatHourMinutes(ag.agd_data_hora)}}</h6>
+        </div>
+        <div class="col">
+          <h6>{{ag.agd_tipo_agendamento}}</h6>
+        </div>
+        <div class="col">
+          <h6>{{ag.agd_unidade}}</h6>
+        </div>
+        <div class="col d-flex justify-content-center align-items-center">
+          <h6>
+            <button class="btn btn-primary" type="button" id="btnOk" (click)="valida(ag.agd_id); consultaAgdAnimal(animal[0].ani_id);"><p style="color: aliceblue; text-align: center; margin: 0;">Validar <i style="color: aliceblue; text-align: center;" class="fa-solid fa-check"></i></p></button>
+          </h6>
+        </div>
+        <div class="col d-flex justify-content-center align-items-center">
+          <h6>
+            <button class="btn btn-primary" type="button" id="btnCancel" (click)="desmarca(ag.agd_id, ag.agd_tipo_agendamento); consultaAgdAnimal(animal[0].ani_id); "><p style="color: aliceblue; text-align: center; margin: 0;"><i class="fa-solid fa-xmark" style="color: aliceblue; text-align: center; margin: 0;"></i></p></button>
+          </h6>
+        </div>
+      </div>
+    </div>
+    <div class="respostas d-flex flex-column justify-content-center align-items-center">
+      <h5 style="color:rgb(4, 138, 104)">{{msgSucesso}}</h5>
+      <h5 style="color:rgb(148, 51, 38)">{{msgError}}</h5>
+    </div>
+  </div>
+</div>

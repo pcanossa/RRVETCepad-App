@@ -1,0 +1,47 @@
+<div class="body-animal-page d-flex flex-wrap">
+  <app-adm-navbar class="nav-menu"></app-adm-navbar>
+  <div class="animais d-flex flex-column align-items-center">
+    <app-header></app-header>
+    <h5>{{formatDate(outra[0].hora)}} - {{formatDate(outra[6].hora)}}</h5>
+    <div class="painel-setas d-flex justify-content-evenly align-items-evenly">
+      <h5><i class="fa-solid fa-chevron-left" (click)="diminuiIterador();"></i></h5>
+      <h5><i class="fa-solid fa-chevron-right" (click)="somaIterador();"></i></h5>
+    </div>
+    <div class="agenda d-flex flex-column align-items-center justify-content-center flex-wrap">
+      <div class="domingo d-flex justify-content-center">
+        <div class="cab-esq d-flex flex-column align-items-center" *ngFor="let datas of outra">
+          <div class="cabcab d-flex flex-column align-items-center justify-content-center">
+            <h5>{{datas.dia}}</h5>
+            <h5 style="font-size: medium;">{{(formatDate(datas.hora)).replace('20','')}}</h5>
+          </div>
+          <div class="Seteh d-flex flex-column align-items-center justify-content-center">
+            <div class="hora d-flex align-items-start justify-content-center">
+            </div>
+              <div *ngFor="let agendamento of dadosAgenda">
+                <div [class]="agendamento.agd_tipo_agendamento+' d-flex flex-column align-items-center justify-content-center'" id='ag' *ngIf="formatDate(agendamento.agd_data_hora)=== formatDate(datas.hora)">
+                  <p style="color:rgb(0, 156, 218)">{{agendamento.ani_nome}}</p>
+                  <p style="color:#6b4103">{{agendamento.cli_nome}}</p>
+                  <p>{{formatHour(agendamento.agd_data_hora)}}</p>
+                </div>
+              </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div class="legenda d-flex align-items-center justify-content-evenly flex-wrap">
+    <h5>Lengenda de cores: </h5>
+    <h5 class="Consulta">Consulta</h5>
+    <h5 class="Emergencia">Emergência</h5>
+    <h5 class="Retorno">Retorno</h5>
+    <h5 class="Encaixe">Encaixe</h5>
+    <h5 class="Cirurgia">Avaliação Cirurgica</h5>
+    <h5 class="Home">Ultrassonografia</h5>
+    <h5 class="Coleta-Exame">Coleta de Exame</h5>
+    <h5 class="Vacina">Eletrocardiograma</h5>
+  </div>
+    <div class="novo-agendamento">
+      <a href="/app-agendaAtendimento"><button class="btn btn-primary" style="color: #f8e5ac;" type="button">Novo Agendamento</button></a>
+    </div>
+
+  </div>
+</div>

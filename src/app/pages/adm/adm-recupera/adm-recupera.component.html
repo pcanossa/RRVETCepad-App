@@ -1,0 +1,75 @@
+<div class="body d-flex flex-column justify-content-center align-items-center">
+  <div class="header d-flex flex-column justify-content-center align-items-center">
+    <h4>Esqueceu sua senha?</h4>
+    <h4>Digite seu CPF para envio de email de recuperação:</h4>
+  </div>
+  <div class="login-box container d-flex flex-column justify-content-center align-items-center" *ngIf="!registroOK">
+    <img src="../../../assets/img/logo.png" class="imgLogo" alt="">
+    <img src="../../../assets/img/avilaescuropng.png" alt="">
+
+    <div class="container dados-login">
+      <form action="" class="login" [formGroup]="formAuth">
+        <div class="cpf" *ngIf='enviado===false'>
+        <label class="usuario d-flex">
+          <h4>
+            <i class="fa-regular fa-circle-user"></i>
+            Digite seu CPF
+          </h4>
+        </label>
+        <input type="text" placeholder="CPF" formControlName="cpf" class="password ">
+        <hr>
+        <button class="btn btn-primary" type="button" [disabled]="formAuth.invalid" (click)="submitForm();" >
+          ENVIAR EMAIL
+        </button>
+      </div>
+      <div class="valida" *ngIf="enviado && codigoValid">
+      <label class="usuario d-flex">
+        <h4>
+          <i class="fa-solid fa-key"></i>
+          Digite o Código Recebido por Email
+        </h4>
+      </label>
+      <input type="text" placeholder="Código de Validação" formControlName="codigo" class="password ">
+      <hr>
+      <button class="btn btn-primary" type="button" [disabled]="formAuth.invalid" (click)="validaCodigo();" >
+        VALIDAR CÓDIGO
+      </button>
+      </div>
+      <div class="senha" *ngIf=registroSenha>
+      <label class="usuario d-flex">
+        <h4>
+          <i class="fa-solid fa-lock"></i>
+          Digite uma Nova Senha
+        </h4>
+      </label>
+      <input type="password" placeholder="Nova Senha" formControlName="senha" class="password ">
+      <hr>
+      <label class="usuario d-flex">
+        <h4>
+          <i class="fa-solid fa-arrow-rotate-right"></i>
+          Repita a Senha
+        </h4>
+      </label>
+      <input type="password" placeholder="Repita a Senha" formControlName="repeatSenha" class="password ">
+      <hr>
+      <button class="btn btn-primary" type="button" [disabled]="formAuth.invalid" (click)="registroNovaSenha()" >
+        ALTERAR SENHA
+      </button>
+    </div>
+    </form>
+    <div class="erro d-flex justify-content-center align-items-center">
+      <h5>{{ msgError }}</h5>
+    </div>
+    <div class="erro d-flex justify-content-center align-items-center" *ngIf=enviado>
+      <h5>{{ msgSucess }}</h5>
+    </div>
+    </div>
+  </div>
+  <div class="succes d-flex justify-content-center align-items-center">
+    <h1>{{registroOK}}</h1>
+  </div>
+  <div class="opcoes">
+    <a href="https://wa.me/5511970245443"><p>Dúvidas? Fale conosco clicando aqui!</p></a>
+    <a href="/"><p>Retornar para o Login</p></a>
+  </div>
+</div>

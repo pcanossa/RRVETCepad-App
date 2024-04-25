@@ -1,0 +1,17 @@
+<div class="body-animal-page d-flex flex-wrap">
+  <app-adm-navbar class="nav-menu"></app-adm-navbar>
+  <div class="animais d-flex flex-column align-items-center">
+    <app-header></app-header>
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      <h1>Você está acessando de:</h1>
+      <h5>Estado: {{localizacao.state}}</h5>
+      <h5>Cidade: {{localizacao.city}}</h5>
+      <h5>Regional: {{localizacao.city_district}}</h5>
+      <h5>Bairro: {{localizacao.suburb}}</h5>
+      <h5>Rua: {{localizacao.road}}</h5>
+      <h5>Cep: {{localizacao.postcode}}</h5>
+      <h5>Horário {{retornaDiaHora()}}</h5>
+    </div>
+  </div>
+</div>
+

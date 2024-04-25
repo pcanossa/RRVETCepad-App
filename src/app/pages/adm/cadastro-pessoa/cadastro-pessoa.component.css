@@ -1,0 +1,96 @@
+*{
+  text-decoration: none;
+}
+
+.ok h5 {
+  color: #0c792d;
+}
+
+.nav-menu {
+  min-width:100%;
+  background-color: #0478A1;
+  min-height: 100%;
+}
+
+
+.animais {
+  padding-top: 40px;
+}
+
+.animais h1 {
+  font-family: 'Amatic SC', cursive;
+  text-shadow: 0px 4px 4px #00000040;
+  font-weight: bold;
+  margin-bottom: 40PX;
+}
+
+.cards {
+  min-width: 100%;
+}
+
+.animal-card {
+  width: 300px;
+  background-color: #f2eec6;
+  margin: 40px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  padding-left: 20px;
+  padding-top: 5px;
+  padding-right: 15px;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5px;
+}
+
+.erros h5{
+  color: rgb(196, 55, 0);
+}
+
+.erros p{
+  color: rgb(196, 55, 0);
+}
+
+.input-group {
+ padding: 40px 20px;
+}
+
+.col-md-4 {
+  margin: 5px;
+}
+
+@media screen and (min-width: 451px) {
+  .nav-menu {
+    min-width:25%;
+    background-color: #0478A1;
+    min-height: 100vh;
+  }
+
+  .animais {
+    max-width: 70%;
+  }
+}
+
+@media screen and (max-width: 451px) {
+
+  .animais {
+    width: 100%;
+  }
+}
+
+.button button {
+  margin-top: 30px;
+  width: 200px;
+  color: white;
+  background-color: #0478A1;
+  border: none;
+  margin-bottom: 15px;
+}
+
+
+

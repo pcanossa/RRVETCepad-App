@@ -1,0 +1,999 @@
+<div class="body-animal-page d-flex flex-wrap">
+  <app-adm-navbar class="nav-menu"></app-adm-navbar>
+  <div class="animais d-flex flex-column align-items-center" >
+    <app-header></app-header>
+
+    <form class="sessao d-flex flex-column align-items-center justify-content-center" [formGroup]="parametros">
+      <h2>Parâmetros no Animal</h2>
+      <div class="d-flex align-items-center justify-content-evenly">
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1">Peso</span>
+          <input type="text" class="form-control" placeholder="Kg" aria-label="Username" aria-describedby="basic-addon1" formControlName="peso">
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1">FC</span>
+          <input type="text" class="form-control" placeholder="BPM" aria-label="Username" aria-describedby="basic-addon1" formControlName="bpm">
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1">FR</span>
+          <input type="text" class="form-control" placeholder="MPM" aria-label="Username" aria-describedby="basic-addon1" formControlName="mpm">
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1">TºC</span>
+          <input type="text" class="form-control" placeholder="ºC" aria-label="Username" aria-describedby="basic-addon1" formControlName="temperatura">
+        </div>
+      </div>
+      <div class="d-flex align-items-center justify-content-evenly">
+        <mat-form-field>
+          <mat-label>Mucosas</mat-label>
+          <mat-select formControlName="mucosas">
+            <mat-option *ngFor="let mucosa of mucosas" [value]="mucosa">
+              {{mucosa}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="d-flex align-items-center justify-content-evenly flex-wrap">
+        <div class="form-floating" *ngFor="let linfonodo of linfonodos | keyvalue">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" [formControlName]="linfonodo.key">
+            <option *ngFor="let estado of linfEstado" [value]="estado">{{estado}}</option>
+          </select>
+          <label for="floatingSelect">Linf. {{linfonodo.value}}</label>
+        </div>
+      </div>
+      <div class="d-flex align-items-center justify-content-evenly flex-wrap">
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="ausResp">
+            <option *ngFor="let som of sonsRespiratorios" [value]="som">{{som}}</option>
+          </select>
+          <label for="floatingSelect">Ausculta Respiratória</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="ausCard">
+            <option *ngFor="let som of sonsCardiacos" [value]="som">{{som}}</option>
+          </select>
+          <label for="floatingSelect">Ausculta Cardíaca</label>
+        </div>
+      </div>
+    </form>
+    <form class="d-flex align-items-center justify-content-evenly " [formGroup]="oParametros">
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">TPC</span>
+        <input type="text" class="form-control" placeholder="segundos" aria-label="segundos" aria-describedby="basic-addon1" formControlName="tpc">
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">P.A.</span>
+        <input type="text" class="form-control" placeholder="mmHg" aria-label="seg" aria-describedby="basic-addon1" formControlName="pa">
+      </div>
+    </form>
+    <form class="sec d-flex flex-column align-items-center justify-content-center" [formGroup]="tipoAtendimento">
+      <div class="sessao d-flex  flex-column align-items-center justify-content-evenly flex-wrap">
+        <h1>Tipo Atendimento</h1>
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" formControlName="tipo">
+          <mat-button-toggle value="C">Consulta</mat-button-toggle>
+          <mat-button-toggle value="R">Retorno</mat-button-toggle>
+        </mat-button-toggle-group>
+        <div class="form-floating" *ngIf="tipoAtendimento.value?.tipo === 'R'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="evolucao">
+            <option value="meohora">Melhora do Quadro</option>
+            <option value="piora">Piora do Quadro</option>
+            <option value="igual">Quadro se mantem igual</option>
+          </select>
+          <div class="mb-2" >
+            <label for="exampleFormControlTextarea1" class="form-label" >Detalhes</label>
+            <h4>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" cols="50" style="font-size: large;" formControlName="detalhes"></textarea>
+          </h4>
+          </div>
+        </div>
+        <div class="mb-2" *ngIf="tipoAtendimento.value?.tipo === 'retorno'" >
+          <label for="exampleFormControlTextarea1" class="form-label" >Detalhes sobre Evolução Clínica</label>
+          <h4>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" cols="50" style="font-size: large;" formControlName="detalhes" ></textarea>
+        </h4>
+        </div>
+      </div>
+    </form>
+    <form class="sec d-flex flex-column align-items-center justify-content-center" [formGroup]="anamnese">
+      <div class="sessao d-flex  flex-column align-items-center justify-content-evenly flex-wrap">
+        <h2>Anamnese</h2>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="ambiente">
+            <option *ngFor="let opcao of anm_ambiente" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Tipo de Ambiente Mantido</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="ingHidrica">
+            <option *ngFor="let opcao of anm_hidrica" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Ingestão Hídricao</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="tipoAgua">
+            <option *ngFor="let opcao of anm_agua" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Tipo de Água Ofertada</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="diurese">
+            <option *ngFor="let opcao of anm_diurese" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Diurese</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="aspectoUrina">
+            <option *ngFor="let opcao of anm_aspecto_urina" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Aspecto Urina</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="freqMiccao">
+            <option *ngFor="let opcao of anr_frequencia_racao" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Frequência de Micção</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="pesoCorporal">
+            <option *ngFor="let opcao of anm_peso_corporal" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Manutenção de Peso Corporal</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="escoreCorporal">
+            <option *ngFor="let opcao of anm_escore_corporal" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Escore Corporal</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="prurido">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Prurido</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.prurido === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="freqPrurido">
+            <option *ngFor="let opcao of anm_frequencias" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Frequência Prurido</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.prurido === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="inicioPrurido">
+            <option *ngFor="let opcao of anm_inicios" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Início Prurido</label>
+        </div>
+        <div class="d-flex align-items-center justify-content-center"  *ngIf="anamnese.value?.prurido === 'presente'">
+          <mat-form-field class="example-full-width">
+            <mat-label>Local(ais) de Prurido </mat-label>
+            <input matInput placeholder="Ex. Interdigital" formControlName="localPrurido">
+          </mat-form-field>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="vomito">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Vômito</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.vomito === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="freqVomito">
+            <option *ngFor="let opcao of anm_frequencias" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Frequência Vômito</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.vomito === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="inicioVomito">
+            <option *ngFor="let opcao of anm_inicios" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Início Vômito</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="regurgitacao">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Regurgitação</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.regurgitacao === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="freqRegurgitacao">
+            <option *ngFor="let opcao of anm_frequencias" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Frequência Regurgitaçaõ</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.regurgitacao === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="inicioRegurgitacao">
+            <option *ngFor="let opcao of anm_inicios" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Início Regurgitação</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="comportamento">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Mudança de Comportamento</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.comportamento === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="tipoComportamento">
+            <option *ngFor="let opcao of anm_comportamento" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Tipo de Mudança</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.comportamento === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="inicioComportamento">
+            <option *ngFor="let opcao of anm_inicios" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Início de Mudança de Comportamento</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="sono">
+            <option *ngFor="let opcao of anm_sono" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Sono</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="vocalizacao">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Vocalização</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.vocalizacao === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="periodoVocalizacao">
+            <option *ngFor="let opcao of anm_periodos" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Período de Vocalização</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.vocalizacao === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="inicioVocalizacao">
+            <option *ngFor="let opcao of anm_inicios" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Início de Vocalização</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="incoordenacao">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Incoordenação</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.incoordenacao === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="freqIncoordenacao">
+            <option *ngFor="let opcao of anm_frequencias" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Frequência Incoordenação</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.incoordenacao === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="inicioIncoordenacao">
+            <option *ngFor="let opcao of anm_inicios" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Início Incoordenação</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.incoordenacao === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="momentoIncoordenacao">
+            <option *ngFor="let opcao of anm_momentos" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Momento Incoordenação</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="sincope">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Síncope</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.sincope === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="freqSincope">
+            <option *ngFor="let opcao of anm_frequencias" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Frequência Síncope</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.sincope === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="inicioSincope">
+            <option *ngFor="let opcao of anm_inicios" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Início Síncope</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.sincope === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="momentoSincope">
+            <option *ngFor="let opcao of anm_momentos" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Momento Síncope</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="tosse">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Tosse</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.tosse === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="freqTosse">
+            <option *ngFor="let opcao of anm_frequencias" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Frequência Tosse</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.tosse === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="inicioTosse">
+            <option *ngFor="let opcao of anm_inicios" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Início Tosse</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.tosse === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="momentoTosse">
+            <option *ngFor="let opcao of anm_momentos" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Momento Tosse</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="crise">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Crise Epilética</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.crise === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="freqCrise">
+            <option *ngFor="let opcao of anm_frequencias" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Frequência Crises</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.crise === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="inicioCrise">
+            <option *ngFor="let opcao of anm_inicios" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Início Crises</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.crise === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="momentoCrise">
+            <option *ngFor="let opcao of anm_momentos" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Momento Crises</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="lambedura">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Lambedura</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.lambedura === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="freqLambedura">
+            <option *ngFor="let opcao of anm_frequencias" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Frequência Lambedura</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.lambedura === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="inicioLambedura">
+            <option *ngFor="let opcao of anm_inicios" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Início Lambedura</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.lambedura === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="momentoLambedura">
+            <option *ngFor="let opcao of anm_momentos" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Momento Lambedura</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="carrapatos">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Informa Visualização de Carrapatos</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="pulgas">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Informa Visualização de Pulgas</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="vermes">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Informa Visualização de Vermes</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="tipoAlimentacao">
+            <option *ngFor="let opcao of anr_alimentos" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Alimentação Fornecida</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.tipoAlimentacao === 'ração' || anamnese.value?.tipoAlimentacao === 'misto'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="tamRacao">
+            <option *ngFor="let opcao of anr_tipo_racao" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Tipo de Ração Adquirida</label>
+        </div>
+        <div class="d-flex align-items-center justify-content-center" *ngIf="anamnese.value?.tipoAlimentacao === 'ração' || anamnese.value?.tipoAlimentacao === 'misto'">
+          <mat-form-field class="example-full-width">
+            <mat-label>Marca de Ração Ofertada </mat-label>
+            <input matInput placeholder="Ex. Premier Ambientes Internos" formControlName="marcaRacao">
+          </mat-form-field>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="freqAlimentar">
+            <option *ngFor="let opcao of anr_frequencia_racao" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Frequência de Oferta Alimentar</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.tipoAlimentacao === 'comida' || anamnese.value?.tipoAlimentacao === 'misto'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="motivoComida">
+            <option *ngFor="let opcao of anr_motivo_comida" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Motivo de Oferta de Comida</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="aspectoFezes">
+            <option *ngFor="let opcao of anr_fezes" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Aspecto das Fezes</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="freqDefeccao">
+            <option *ngFor="let opcao of anr_frequencia_racao" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Frequência de Defecção</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="suplemento">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Oferta de Suplementos Alimentares</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.suplemento === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="motivoSuplemento">
+            <option *ngFor="let opcao of ans_suplemetacao" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Motivo de Suplementação</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.suplemento === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="inicioSuplemento">
+            <option *ngFor="let opcao of anm_inicios" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Início Suplementação</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="banho">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Realização de Banho</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.banho === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="freqBanho">
+            <option *ngFor="let opcao of and_frequencia_banhos" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Frequência de Banho</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.banho === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="inicioBanho">
+            <option *ngFor="let opcao of anm_inicios" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Início Banhos</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.banho === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="motivoBanho">
+            <option *ngFor="let opcao of anr_motivo_banho" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Motivo Banhos</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="arrancamentoPelo">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Arrancamento de Pêlos de Ouvido (Banho)</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="antirrabica">
+            <option *ngFor="let opcao of anm_inicios" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Última Vacina Antirrábica</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="polivalente">
+            <option *ngFor="let opcao of anm_inicios" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Última Vacina Polivalente</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="vermifugo">
+            <option *ngFor="let opcao of anm_inicios" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Última Vermifugação</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="ectoparasiticida">
+            <option *ngFor="let opcao of anm_inicios" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Último Ectoparasiticida</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="tipoEcto">
+            <option *ngFor="let opcao of anp_ectoparasiticida" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Tipo de Ectoparasiticida Utilizado</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="castracao">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Castração</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.castracao === 'ausente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="motivoCastracao">
+            <option *ngFor="let opcao of anp_motivo_recusa" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Motivo de Não Realização de Castração</label>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="petiscos">
+            <option *ngFor="let opcao of anm_booleana" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Oferta de Petiscos</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.petiscos === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="freqPetiscos">
+            <option *ngFor="let opcao of anm_frequencias" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Frequência de Oferta de Petiscos</label>
+        </div>
+        <div class="form-floating" *ngIf="anamnese.value?.petiscos === 'presente'">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="inicioPetiscos">
+            <option *ngFor="let opcao of anm_inicios" [value]="opcao">{{opcao}}</option>
+          </select>
+          <label for="floatingSelect">Início Oferta de Petiscos</label>
+        </div>
+        <div class="mb-2" >
+          <label for="exampleFormControlTextarea1" class="form-label" >Outras Informações</label>
+          <h4>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" cols="50" style="font-size: large;" formControlName="outras"></textarea>
+        </h4>
+        </div>
+      </div>
+    </form>
+
+    <div style="margin-top: 40px;">
+      <h2>Exame Físico</h2>
+    </div>
+    <form class="sessao d-flex flex-column align-items-center justify-content-center" [formGroup]="exameFisico">
+      <div class="mb-2" *ngFor="let exameFisico of examesFisicos | keyvalue" >
+        <label for="exampleFormControlTextarea1" class="form-label" >{{exameFisico.value}}</label>
+        <h4>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" cols="50" style="font-size: large;" [formControlName]="exameFisico.key">
+        NDN</textarea>
+      </h4>
+      </div>
+    </form>
+    <form class="sessao d-flex flex-column align-items-center justify-content-center">
+      <h2>Doenças Anteriores Diagnosticadas</h2>
+      <div class="d-flex align-items-center justify-content-evenly">
+        <div class="d-flex align-items-center justify-content-center">
+          <mat-form-field class="example-full-width">
+            <mat-label>Doença</mat-label>
+            <input matInput placeholder="Ex. Gastroenterite" [formControl]="dncAnteriores"
+            [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let doenca of filteredOptionsDncAnteriores | async" [value]="doenca.dnc_nome">
+                {{doenca.dnc_nome}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="adiciona">
+        <h3><i class="fa-solid fa-plus" (click)="addArray(doencasAnteriores, dncAnteriores);"></i></h3>
+      </div>
+      <div class="novo d-flex d-flex  flex-column justify-content-center align-items-center"></div>
+        <div class="d-flex align-items-center justify-content-evenly" *ngFor="let doenca of doencasAnteriores; let i = index">
+          <h5>{{doenca}}</h5>
+          <h3><i class="fa-regular fa-rectangle-xmark" style="color: rgb(112, 18, 18);" (click)="removeArray(doencasAnteriores, i);"></i></h3>
+        </div>
+    </form>
+    <form class="sessao d-flex flex-column align-items-center justify-content-center">
+      <h2>Suspeita Diagnóstico</h2>
+      <div class="d-flex align-items-center justify-content-evenly">
+        <div class="d-flex align-items-center justify-content-center">
+          <mat-form-field class="example-full-width">
+            <mat-label>Doença</mat-label>
+            <input matInput placeholder="Ex. Gastroenterite" [formControl]="diagnosticos"
+            [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let doenca of filteredOptionsDiag | async" [value]="doenca.dnc_nome">
+                {{doenca.dnc_nome}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="adiciona">
+        <h3><i class="fa-solid fa-plus" (click)="addArray(doencas, diagnosticos);"></i></h3>
+      </div>
+      <div class="novo d-flex d-flex  flex-column justify-content-center align-items-center"></div>
+        <div class="d-flex align-items-center justify-content-evenly" *ngFor="let doenca of doencas; let i = index">
+          <h5>{{doenca}}</h5>
+          <h3><i class="fa-regular fa-rectangle-xmark" style="color: rgb(112, 18, 18);" (click)="removeArray(doencas, i);"></i></h3>
+        </div>
+    </form>
+    <h2>Aplicações</h2>
+    <form class="sec d-flex align-items-center justify-content-center flex-wrap" [formGroup]="aplicacoes">
+      <div class="sessao d-flex  flex-column align-items-center justify-content-evenly flex-wrap">
+        <div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Medicação</mat-label>
+            <input matInput placeholder="Ex. Metronidazol" [formControl]="medicacoes"
+            [matAutocomplete]="autoMed" formControlName="medicacao">
+            <mat-autocomplete #autoMed="matAutocomplete">
+              <mat-option *ngFor="let med of filteredOptionsMed | async" [value]="med.med_principio">
+                {{med.med_principio}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div>
+          <div class="form-floating mb-6">
+            <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="apresentacao">
+              <option *ngFor="let apresentacao of apresentacoes.sort()" [value]="apresentacao">{{apresentacao}}</option>
+            </select>
+            <label for="floatingSelect">Apresentação</label>
+          </div>
+          <div class="input-group mb-10">
+            <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Concentração" formControlName="concentracao">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="apre">medida</button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="medidaC">
+                <option *ngFor="let concentracao of concentracoes" [value]="concentracao">{{concentracao}}</option>
+              </select>
+            </ul>
+          </div>
+          <div class="input-group mb-10">
+            <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Dose" formControlName="dose">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="apre">medida</button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="medidaD">
+                <option (value)="aplicacoes.value.dose+'ml'">ml</option>
+                <option (value)="aplicacoes.value.dose+'mg'">mg</option>
+                <option (value)="aplicacoes.value.dose+'g'">g</option>
+              </select>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="form-floating mb-6">
+            <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="via">
+              <option *ngFor="let via of vias.sort()" [value]="via">{{via}}</option>
+            </select>
+            <label for="floatingSelect">Via de Administração</label>
+          </div>
+        </div>
+        <div class="col d-flex justify-content-center">
+          <h3><i class="fa-solid fa-plus" (click)="addAplic()"></i></h3>
+        </div>
+        <div class="row d-flex align-items-center justify-content-evenly flex-wrap" id="aplic" *ngFor="let aplicacao of apli; let i = index">
+          <div class="col">
+            <h6>{{aplicacao.medicacao}}</h6>
+          </div>
+          <div class="col">
+            <h6>{{aplicacao.apresentacao}} {{aplicacao.concentracao}}{{aplicacao.medidaC}}</h6>
+          </div>
+          <div class="col">
+            <h6>Dose {{aplicacao.dose}}{{aplicacao.medidaD}}</h6>
+          </div>
+          <div class="col d-flex justify-content-center align-items-center">
+            <h3><i class="fa-regular fa-rectangle-xmark" style="color: rgb(112, 18, 18);" (click)="removeArray(apli, i)"></i></h3>
+          </div>
+        </div>
+      </div>
+    </form>
+    <h2>Receituário</h2>
+    <div class="sec d-flex align-items-center justify-content-center flex-wrap">
+      <form class="sessao flex-column d-flex align-items-center justify-content-evenly flex-wrap" [formGroup]="receituario">
+        <div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Medicação</mat-label>
+            <input matInput placeholder="Ex. Metronidazol" [formControl]="medicacoes"
+            [matAutocomplete]="autoMed" formControlName="medicacao">
+            <mat-autocomplete #autoMed="matAutocomplete" (optionSelected)="onMedicationSelected($event)">
+              <mat-option *ngFor="let med of filteredOptionsMed | async" [value]="med.med_nome" >
+                {{med.med_nome}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div>
+          <div class=" form-floating mb-8">
+            <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="apresentacao">
+              <option *ngFor="let apresentacao of apresentacoes.sort()" [value]="apresentacao">{{apresentacao}}</option>
+            </select>
+            <label for="floatingSelect">Apresentação</label>
+          </div>
+          <div class="input-group mb-10">
+            <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Dose" formControlName="dose">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="apre">medida</button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="medidaD">
+                <option value="ml">ml</option>
+                <option value="cp">cp</option>
+                <option value="gota">gota</option>
+                <option value="g">g</option>
+                <option value="porção">porção</option>
+                <option value="medida">medida</option>
+                <option value="sachê">sachê</option>
+                <option value="dose">dose</option>
+              </select>
+            </ul>
+          </div>
+          <div class=" input-group mb-6">
+            <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Concentração" formControlName="concentracao">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="apre">medida</button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="medidaC">
+                <option *ngFor="let concentracao of concentracoes" [value]="concentracao">{{concentracao}}</option>
+              </select>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <div class="form-floating mb-6">
+            <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="via">
+              <option *ngFor="let via of vias.sort()" [value]="via">{{via}}</option>
+            </select>
+            <label for="floatingSelect">Via de Administração</label>
+          </div>
+        </div>
+        <div class=" form-floating mb-8">
+          <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="frequencia">
+            <option *ngFor="let frequencia of frequencias | keyvalue" [value]="frequencia.key">{{frequencia.key}}</option>
+          </select>
+          <label for="floatingSelect">Frequência</label>
+        </div>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              ?
+            </mat-panel-title>
+            <mat-panel-description>
+              Sobre Frequências
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p *ngFor="let frequencia of frequencias | keyvalue">{{frequencia.key}} - {{frequencia.value}}</p>
+        </mat-expansion-panel>
+        <div class=" input-group mb-10 d-flex justify-content-end">
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="duração" aria-label="Recipient's username" aria-describedby="basic-addon2" formControlName="duracao">
+            <span class="input-group-text" id="basic-addon2">dias</span>
+          </div>
+        </div>
+        <div class="mb-2" >
+          <label for="exampleFormControlTextarea1" class="form-label" >Orientações</label>
+          <h4>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" cols="50" style="font-size: large;" formControlName="orientacao"></textarea>
+        </h4>
+        </div>
+        <button class="btn btn-primary" type="button" (click)="addArrayDois(orientacoes, receituario.value?.orientacao)">Adicionar Orientação</button>
+        <mat-radio-group aria-label="Select an option" formControlName="duracao">
+          <mat-radio-button value="Uso contínuo">Uso contínuo</mat-radio-button>
+        </mat-radio-group>
+        <div class="col d-flex justify-content-center">
+          <h3><i class="fa-solid fa-plus" (click)="addReceituario();"></i></h3>
+        </div>
+        <div class="row d-flex align-items-center justify-content-evenly flex-wrap" id="aplic" *ngFor="let receituario of rec; let i = index">
+          <div class="col">
+            <h6>{{receituario.medicacao}}</h6>
+          </div>
+          <div class="col">
+            <h6>{{receituario.apresentacao}}  {{receituario.concentracao}}</h6>
+          </div>
+          <div class="col">
+            <h6>{{receituario.frequencia}}</h6>
+          </div>
+          <div class="col">
+            <h6>{{receituario.duracao}} </h6><h6 *ngIf="receituario.duaracao != 'Uso contínuo'"></h6>
+          </div>
+          <div class="col d-flex justify-content-center align-items-center">
+            <h3><i class="fa-regular fa-rectangle-xmark" style="color: rgb(112, 18, 18);" (click)="removeArray(rec, i)"></i></h3>
+          </div>
+        </div>
+        <div class="row d-flex align-items-center justify-content-evenly flex-wrap" id="aplic" *ngFor="let orientacao of orientacoes; let i = index">
+          <div class="col">
+            <h6>{{orientacao}}</h6>
+          </div>
+          <div class="col d-flex justify-content-center align-items-center">
+            <h3><i class="fa-regular fa-rectangle-xmark" style="color: rgb(112, 18, 18);" (click)="removeArray(orientacoes, i)"></i></h3>
+          </div>
+        </div>
+      </form>
+      <a href="/receita" target="_blank"><button class="btn btn-primary" type="button" style="margin-bottom: 10px;" (click)="mostraReceita()">Ver Receita</button></a>
+    </div>
+    <h2>Aplicação de Vacinas</h2>
+    <form class="sessao d-flex align-items-center justify-content-center flex-wrap" [formGroup]="apliVacina">
+      <div class="row d-flex flex-column align-items-center justify-content-evenly flex-wrap">
+        <div class="d-flex align-items-center justify-content-center">
+          <mat-form-field class="example-full-width">
+            <mat-label>Vacina</mat-label>
+            <input matInput placeholder="Ex. V10" [formControl]="vacinas"
+            [matAutocomplete]="autoVac">
+            <mat-autocomplete #autoVac="matAutocomplete" (optionSelected)="onVacineSelected($event)">
+              <mat-option *ngFor="let vacT of filteredOptionsVac | async; let i = index" [value]="vacT.vac_tipo">
+                {{vacT.vac_tipo}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="d-flex align-items-center justify-content-center">
+          <mat-form-field class="example-full-width">
+            <mat-label>Marca</mat-label>
+            <input matInput placeholder="Ex. Nobivac Canine" [formControl]="vacMarca"
+            [matAutocomplete]="autoVacMarca">
+            <mat-autocomplete #autoVacMarca="matAutocomplete">
+              <mat-option *ngFor="let vac of filteredOptionsVacMarca | async" [value]="vac.vac_marca">
+                {{vac.vac_marca}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="d-flex align-items-center justify-content-center">
+          <mat-form-field class="example-full-width">
+            <mat-label>Lote</mat-label>
+            <input matInput placeholder="Ex. 012/23" formControlName="lote">
+          </mat-form-field>
+        </div>
+        <div class="input-group mb-3">
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker" placeholder="Data de Vencimento" formControlName="validade">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <div class="erros" >
+              <p></p>
+            </div>
+          </mat-form-field>
+        </div>
+        <div class="input-group mb-3">
+          <mat-form-field>
+            <input matInput [matDatepicker]="pickerR" placeholder="Data de Reforço" formControlName="reforco">
+            <mat-datepicker-toggle matSuffix [for]="pickerR"></mat-datepicker-toggle>
+            <mat-datepicker #pickerR></mat-datepicker>
+            <div class="erros" >
+              <p></p>
+            </div>
+          </mat-form-field>
+        </div>
+        <div class="col d-flex justify-content-center" style="max-width: 60%;">
+          <h3><i class="fa-solid fa-plus" (click)="addVac();"></i></h3>
+        </div>
+        <div class="row d-flex align-items-center justify-content-center flex-wrap" id="ex" *ngFor="let vac of tvac; let i = index">
+          <div class="col">
+            <h6>{{vac.vacina}} {{vac.id}}</h6>
+          </div>
+          <div class="col">
+            <h6>{{vac.marca}}</h6>
+          </div>
+          <div class="col">
+            <h6>Lote: {{vac.lote}}</h6>
+          </div>
+          <div class="col">
+            <h6>Vencimento: {{formatDate(vac.validade)}}</h6>
+          </div>
+          <div class="col">
+            <h6>Reforço: {{formatDate(vac.reforco)}}</h6>
+          </div>
+          <div class="col d-flex justify-content-center align-items-center" (click)="removeArray(tvac, i)">
+            <h3><i class="fa-regular fa-rectangle-xmark" style="color: rgb(112, 18, 18);"></i></h3>
+          </div>
+        </div>
+      </div>
+    </form>
+    <h2>Exames</h2>
+    <form class="sessao d-flex align-items-center justify-content-center flex-wrap" [formGroup]="pExames">
+      <div class="row d-flex align-items-center justify-content-center flex-wrap">
+        <div class="d-flex align-items-center justify-content-center">
+          <mat-form-field class="example-full-width">
+            <mat-label>Exame</mat-label>
+            <input matInput placeholder="Ex. Hemograma" [formControl]="exames"
+            [matAutocomplete]="autoExm" formControlName="exame">
+            <mat-autocomplete #autoExm="matAutocomplete">
+              <mat-option *ngFor="let exm of filteredOptionsExm | async" [value]="exm.exm_nome">
+                {{exm.exm_nome}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="d-flex align-items-center justify-content-center">
+          <mat-form-field class="example-full-width">
+            <mat-label>Amostra</mat-label>
+            <input matInput placeholder="Ex. Sangue Total" [formControl]="amostra"
+            [matAutocomplete]="autoAmo">
+            <mat-autocomplete #autoAmo="matAutocomplete">
+              <mat-option *ngFor="let exm of filteredOptionsAmo | async" [value]="exm.exm_tipo_amostra">
+                {{exm.exm_tipo_amostra}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="col-md-8">
+          <div class="mb-2">
+            <label for="exampleFormControlTextarea1" class="form-label" >Descrição p/ Citologia</label>
+            <h4>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="9" cols="50" style="font-size: large;" formControlName="citologia">
+            </textarea>
+          </h4>
+          </div>
+        </div>
+        <div class="row d-flex flex-column flex-wrap" style="max-width: 50%;" >
+          <div class="col d-flex justify-content-center" style="background-color: rgb(109, 252, 204); border-radius: 10px;" (click)="addExame();">
+            <h3><i class="fa-solid fa-plus"></i></h3>
+          </div>
+        </div>
+        <div class="row d-flex align-items-center justify-content-center flex-wrap" id="ex" *ngFor="let exame of pexms; let i = index">
+          <div class="col">
+            <h6>{{exame.exame}}</h6>
+          </div>
+          <div class="col">
+            <h6>{{exame.amostra}}</h6>
+          </div>
+          <div class="col d-flex justify-content-center align-items-center">
+            <h3><i class="fa-regular fa-rectangle-xmark" style="color: rgb(112, 18, 18);" (click)="removeArray(pexms, i)"></i></h3>
+          </div>
+        </div>
+    </div>
+    <h2>Encaminhamento Cirúrgico</h2>
+    <form class="sessao d-flex align-items-center justify-content-center flex-wrap" [formGroup]="eCirurgias">
+      <div class="row d-flex flex-column align-items-center justify-content-evenly flex-wrap">
+        <div class="d-flex align-items-center justify-content-center">
+          <mat-form-field class="example-full-width">
+            <mat-label>Cirurgia</mat-label>
+            <input matInput placeholder="Ex. Hemograma" [formControl]="cirurgias"
+            [matAutocomplete]="autoCir" formControlName="cirurgia">
+            <mat-autocomplete #autoCir="matAutocomplete">
+              <mat-option *ngFor="let cir of filteredOptionsCir | async" [value]="cir.cir_nome">
+                {{cir.cir_nome}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="col d-flex justify-content-center" style="max-width: 60%;">
+          <h3><i class="fa-solid fa-plus" (click)="addCirurgia();"></i></h3>
+        </div>
+        <div class="row d-flex align-items-center justify-content-center flex-wrap" id="ex" *ngFor="let cir of pcir; let i = index">
+          <div class="col">
+            <h6>{{cir.cirurgia}}</h6>
+          </div>
+          <div class="col d-flex justify-content-center align-items-center" (click)="removeArray(pcir, i)">
+            <h3><i class="fa-regular fa-rectangle-xmark" style="color: rgb(112, 18, 18);"></i></h3>
+          </div>
+        </div>
+      </div>
+    </form>
+    <h2 style="text-align: center;">Ecaminhamento para Especialista</h2>
+    <form class="sessao d-flex align-items-center justify-content-center flex-wrap" [formGroup]="eEspecialistas">
+      <div class="row d-flex flex-column align-items-center justify-content-evenly flex-wrap">
+        <div class="d-flex align-items-center justify-content-center">
+          <mat-form-field class="example-full-width">
+            <mat-label>Especialista</mat-label>
+            <input matInput placeholder="Ex. Hemograma" [formControl]="especialistas"
+            [matAutocomplete]="autoEsp" formControlName="especialista">
+            <mat-autocomplete #autoEsp="matAutocomplete">
+              <mat-option *ngFor="let esp of filteredOptionsEsp | async" [value]="esp.esp_nome">
+                {{esp.esp_nome}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="col d-flex justify-content-center" style="max-width: 60%;">
+          <h3><i class="fa-solid fa-plus" (click)="addEncaminhamento();"></i></h3>
+        </div>
+        <div class="row d-flex align-items-center justify-content-center flex-wrap" id="ex" *ngFor="let esp of pesp; let i = index ">
+          <div class="col">
+            <h6>{{esp.especialista}}</h6>
+          </div>
+          <div class="col d-flex justify-content-center align-items-center">
+            <h3><i class="fa-regular fa-rectangle-xmark" style="color: rgb(112, 18, 18);" (click)="removeArray(pesp, i)"></i></h3>
+          </div>
+        </div>
+      </div>
+    </form>
+  </form>
+  <div>
+    <button class="btn btn-primary" type="button" (click)="registraInformacoes();" id="registra">Registrar Informações</button>
+  </div>
+  <div class="ok d-flex justify-content-center align-items-center" *ngIf="resolve !== ''">
+    <h5>{{ resolve }}</h5>
+  </div>
+
+
+
+  <div class="restrito d-flex justify-content-center align-items-center">
+
+  </div>
+</div>

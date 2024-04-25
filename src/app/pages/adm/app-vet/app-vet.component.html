@@ -1,0 +1,59 @@
+<div class="body-animal-page d-flex flex-wrap">
+  <app-adm-navbar class="nav-menu"></app-adm-navbar>
+  <div class="animais d-flex flex-column align-items-center" >
+    <app-header></app-header>
+    <h1>Fila Aguardando Atendimento</h1>
+    <div class="fila d-flex flex-column align-items-center justify-content-center" *ngIf="vetValidate?.length > 0">
+      <div class="aguard-card d-flex flex-column justify-content-evenly">
+        <div class="container tab-agd" id="agd-tab">
+          <div class="row d-flex justify-content-evenly align-items-center" [id]="validado.agd_tipo_agendamento" *ngFor="let validado of validados; let i for index">
+            <div class="col">
+              <h6>{{ validado.ani_nome }}</h6>
+            </div>
+            <div class="col">
+              <h6>{{ formatDateForm(validado.agd_data_hora) }}</h6>
+            </div>
+            <div class="col">
+              <h6>{{ formatHourMinutes(validado.agd_data_hora) }}</h6>
+            </div>
+            <div class="col">
+              <h6>{{ validado.agd_tipo_agendamento }}</h6>
+            </div>
+            <div class="col d-flex justify-content-center align-items-center">
+              <button class="btn btn-primary" type="button" id="btnOk">
+                <p style="color: aliceblue; text-align: center; margin: 0;" (click)="iniciaAtendimento(validado.ani_id, i)">Iniciar Atendimento</p>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+        <h1>Exames Aguardando Realização</h1>
+        <div class="aguard-card d-flex align-items-center justify-content-start">
+          <div class="container tab-agd justify-content-start" id="agd-tab">
+            <div class="row d-flex justify-content-between align-items-center" *ngFor="let ex of pex">
+              <div class="col">
+                <h6>{{ formatDateForm(ex.pex_data_pedido) }}</h6>
+              </div>
+              <div class="col">
+                <h6>{{ ex.exm_nome }}</h6>
+              </div>
+              <div class="col">
+                <h6>{{ ex.ani_nome }}</h6>
+              </div>
+              <div class="col">
+                <h6>{{ ex.pex_amostra }}</h6>
+              </div>
+              <div class="col d-flex justify-content-center align-items-center">
+                <button class="btn btn-primary" type="button" id="btnOk">
+                  <p style="color: aliceblue; text-align: center; margin: 0;">Inserir Laudo</p>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  <div class="restrito d-flex justify-content-center align-items-center" *ngIf="msgError">
+    <h2 style="color: rgb(133, 50, 50);"><i class="fa-solid fa-circle-exclamation" style="color: rgb(133, 50, 50);"></i> {{msgError}}</h2>
+  </div>
+</div>
+
