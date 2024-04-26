@@ -27,6 +27,7 @@ import { AppAtendimentoComponent } from './pages/adm/app-atendimento/app-atendim
 import { ReceituarioComponent } from './pages/adm/receituario/receituario.component';
 import { AdmClientesComponent } from './pages/adm/adm-clientes/adm-clientes.component';
 import { AdmBuscaAnimalComponent } from './pages/adm/adm-busca-animal/adm-busca-animal.component';
+import { AtualizaTutorComponent } from './pages/adm/atualiza-tutor/atualiza-tutor.component';
 
 const routes: Routes = [
   {
@@ -138,12 +139,19 @@ const routes: Routes = [
   {
     path: 'clientes',
     component: AdmClientesComponent,
-    //canActivate: [AuthGuardADMService]
+    canActivate: [AuthGuardADMService]
   },
   {
     path: 'animais',
-    component: AdmBuscaAnimalComponent
+    component: AdmBuscaAnimalComponent,
+    canActivate: [AuthGuardADMService]
+  },
+  {
+    path: 'atualizaTutor',
+    component: AtualizaTutorComponent,
+    canActivate: [AuthGuardADMService]
   }
+
 ];
 
 @NgModule({

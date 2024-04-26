@@ -127,7 +127,7 @@ input .tratatamento {
 @media screen and (min-width: 451px) {
   .nav-menu {
     min-width:25%;
-    background-color: #0478A1;
+    background-color: #67a4ba;
   }
 
   .header-card {
@@ -243,7 +243,7 @@ h5 {
 @media screen and (min-width: 451px) {
   .nav-menu {
     min-width:25%;
-    background-color: #0478A1;
+    background-color: #67a4ba;
     min-height: 100vh;
   }
 }

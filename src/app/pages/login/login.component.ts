@@ -35,10 +35,9 @@ export class LoginComponent implements OnInit {
       })
       .subscribe ({
         next: ((res)=> {
-          console.log(res);
-          console.log(this.msgError);
-          this.msgError=res.message;
           this.router.navigate(['/animais']);
+          this.msgError=res.message;
+
         }),
         error: (err)=> (this.msgError = err)
       })

@@ -1,5 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { AnimaisAppService } from 'src/app/services/animais-app.service';
 
 @Component({
@@ -35,7 +36,7 @@ export class AnimalPageComponent implements OnInit {
   };
 
 
-  constructor( private appAnimal: AnimaisAppService) {
+  constructor( private appAnimal: AnimaisAppService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -84,7 +85,9 @@ export class AnimalPageComponent implements OnInit {
     return `${anos} anos e ${meses} mês(es)`;
   }
 
-
+  atualizaTutor () {
+    this.router.navigate(['atualizaTutor']);
+  }
 
 
   formatDate(dateString:any) {

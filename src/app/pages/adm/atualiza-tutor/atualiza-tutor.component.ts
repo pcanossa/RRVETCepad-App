@@ -157,6 +157,7 @@ export class AtualizaTutorComponent {
   }
 
   retornaCPF() {
+    console.log(typeof(this.dadosPessoa.value.cpf));
     this.validarCPF(this.cpf);
 
   }

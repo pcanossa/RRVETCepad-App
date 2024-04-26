@@ -11,7 +11,7 @@
 
 .nav-menu {
   min-width:100%;
-  background-color: #0478A1;
+  background-color: #67a4ba;
   height: auto;
 }
 
@@ -162,7 +162,7 @@ select {
 @media screen and (min-width: 451px) {
   .nav-menu {
     min-width:25%;
-    background-color: #0478A1;
+    background-color: #67a4ba;
     min-height: 100vh;
   }
 
@@ -182,7 +182,7 @@ select {
   margin-top: 30px;
   width: 200px;
   color: white;
-  background-color: #0478A1;
+  background-color: #67a4ba;
   border: none;
   margin-bottom: 15px;
 }

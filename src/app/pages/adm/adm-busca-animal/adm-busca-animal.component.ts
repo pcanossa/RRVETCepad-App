@@ -162,7 +162,7 @@ export class AdmBuscaAnimalComponent {
       })
   }
 
-  enviarID (id:any, nome:any, especie:any, raca:any, cor:any, sexo:any, idade:any, particularidades:any, rga:any, urlfoto:any, tutor:any, telefone:any, rua:any, numero:any, bairro:any, cidade:any, cpf:any, tipo:any) {
+  enviarID (id:any, nome:any, especie:any, raca:any, cor:any, sexo:any, idade:any, particularidades:any, rga:any, urlfoto:any, tutor:any, telefone:any, rua:any, numero:any, bairro:any, cidade:any, cpf:any, tipo:any, cep:any) {
     localStorage.setItem('animalDates', JSON.stringify({
       id: id,
       nome: nome,
@@ -181,7 +181,8 @@ export class AdmBuscaAnimalComponent {
       bairro: bairro,
       cidade: cidade,
       cpf: cpf,
-      tipo: tipo
+      tipo: tipo,
+      cep: cep
     }))
   }
 
