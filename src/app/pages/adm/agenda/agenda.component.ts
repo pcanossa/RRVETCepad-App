@@ -50,13 +50,17 @@ export class AgendaComponent implements OnInit {
   agendaNovo:boolean =  false;
   collapsed:boolean = false;
   veterinarios: any;
-
+  succes: any;
+  dia: any;
+  marcador: any;
+  agendamentosDia: any[] = [];
+  agendaHora: any[] = [];
   agendamento: FormGroup = this.formBuilder.group({
     id: [0, Validators.required],
   })
 
   public dadoAgendamento: FormGroup = this.formBuilder.group({
-    unidade: ['', Validators.required],
+    veterinario: ['', Validators.required],
     mes: ['', Validators.required],
     tipo: ['', Validators.required],
     dataHora: ['', Validators.required],
@@ -104,6 +108,7 @@ export class AgendaComponent implements OnInit {
 
 
   tipoAtendimento = [
+    'Consulta',
     'Encaixe',
     'Cirurgia',
     'Retorno',
@@ -125,11 +130,78 @@ export class AgendaComponent implements OnInit {
   constructor(private app:FuncionarioService, private AdmApp: FuncionarioService, private formBuilder: FormBuilder, private animalApp: AnimaisAppService) { }
 
   async ngOnInit(): Promise<void> {
-    this.pegaSemana();
-    this.pegaVets();
+    await this.pegaVets();
+
+    try {
+      await this.pegaSemana();
+      this.iterador = 0;
+      console.log('pegouSemana');
+
+      try {
+        for (let semana of this.outra) {
+          const data = new Date (semana.hora)
+          const dia = String(data.getDate()).padStart(2, '0');
+          const mes = String(data.getMonth()+1).padStart(2, '0');
+          const ano = String(data.getFullYear());
+          this.dia=`${ano}-${mes}-${dia}`;
+          console.log('Data:', this.dia);
+          console.log('Iterador:', this.iterador);
+          await this.agenda();
+          console.log('Marcador:', this.marcador); // Adicionado este log para verificar se há dados em 'this.marcador'
+          this.agendamentosDia[this.iterador] = this.marcador.sort((a: any, b: any) => {
+            const horaA = a.agd_horario.split(':').join(''); // Remove os dois pontos da string
+            const horaB = b.agd_horario.split(':').join(''); // Remove os dois pontos da string
+            return horaA.localeCompare(horaB); // Compara as horas formatadas
+          });
+          console.log('Agendamentos do dia:', this.agendamentosDia[this.iterador]); // Adicionado este log para verificar se os dados estão sendo atribuídos corretamente
+          this.iterador++;
+        }
+
+        console.log('Agendamentos da semana:', this.agendamentosDia);
+      } catch (err) {
+        console.log(err);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+
   }
 
+  async ngDoCheck() {
+    this.agendamentosDia = [];
+    try {
+      for (let semana of this.outra) {
+        const data = new Date (semana.hora)
+        const dia = String(data.getDate()).padStart(2, '0');
+        const mes = String(data.getMonth()+1).padStart(2, '0');
+        const ano = String(data.getFullYear());
+        this.dia=`${ano}-${mes}-${dia}`;
+        console.log('Data:', this.dia);
+        console.log('Iterador:', this.iterador);
+        await this.agenda();
+        console.log('Marcador:', this.marcador); // Adicionado este log para verificar se há dados em 'this.marcador'
+        this.agendamentosDia[this.iterador] = this.marcador.sort((a: any, b: any) => {
+          const horaA = a.agd_horario.split(':').join(''); // Remove os dois pontos da string
+          const horaB = b.agd_horario.split(':').join(''); // Remove os dois pontos da string
+          return horaA.localeCompare(horaB); // Compara as horas formatadas
+        });
+        console.log('Agendamentos do dia:', this.agendamentosDia[this.iterador]); // Adicionado este log para verificar se os dados estão sendo atribuídos corretamente
+        this.iterador++;
+      }
+
+      console.log('Agendamentos da semana:', this.agendamentosDia);
+    } catch (err) {
+      console.log(err);
+    }
+  } catch (err:any) {
+    console.log(err);
+  }
+
+
   collapseAtend () {
+    this.animalDates = null;
+    this.succes = null;
     if (this.collapsed === false) {
       this.collapsed = true;
     } else {
@@ -197,16 +269,24 @@ export class AgendaComponent implements OnInit {
   adicionaAgenda() {
     this.app.agendaNovo(
       {
-        data: this.pegaDiaHorario()[0],
-        horario: this.pegaDiaHorario()[1],
+        data: this.formatDateAg(this.dadoAgendamento.value.dataHora),
+        horario: this.formatHour(this.dadoAgendamento.value.dataHora),
         pedido: this.dadoAgendamento.value.pedido,
         conclusao: 'Agendado',
         tipo: this.dadoAgendamento.value.tipo,
-        rga: this.animalDates.animalId,
-        veterinário: this.dadoAgendamento.value.veterinário
+        rga: this.animalDates.ani_id,
+        veterinário: this.dadoAgendamento.value.veterinario
       },
       this.httpOptions
-    )
+    ).subscribe({
+      next: ((res)=>{
+        this.succes = res.message;
+      }),
+      error: ((err)=>{
+        console.log(this.animalDates)
+        console.log(err)
+      })
+    })
   }
 
   consultaVets () {
@@ -366,6 +446,28 @@ export class AgendaComponent implements OnInit {
     return `(${ddd}) ${parte1}-${parte2}`;
   }
 
+  async agenda () : Promise<any> {
+    try {
+      const res = await this.app.pgaAgenda({ data: this.dia }, this.httpOptions).toPromise();
+      console.log('Resposta da agenda:', res); // Adicionado este log para verificar a resposta do servidor
+      this.marcador = res;
+      console.log('Marcador:', this.marcador); // Adicionado este log para verificar se 'this.marcador' está sendo atribuído corretamente
+      return this.marcador; // Retorna os dados recebidos do servidor
+    } catch (error) {
+      console.error("Erro ao obter dados da agenda:", error);
+      throw error; // Lança o erro para que possa ser tratado no método ngOnInit()
+    }
+  }
+
+  async ordenaHorarios(array: any[]) {
+    array.sort((a: any, b: any) => {
+      const horaA = new Date(a.agd_horario).getTime(); // Obtém o tempo em milissegundos do horário do agendamento 'a'
+      const horaB = new Date(b.agd_horario).getTime(); // Obtém o tempo em milissegundos do horário do agendamento 'b'
+      return horaA - horaB; // Compara os horários e retorna o resultado da comparação
+    });
+  }
+
+
 
 
 
@@ -452,17 +554,30 @@ export class AgendaComponent implements OnInit {
 
 formatDate(dateString:any) {
   const date = new Date(dateString);
-  const day = String(date.getUTCDate()).padStart(2, '0');
-  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-  const year = date.getUTCFullYear();
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
   return `${day}/${month}/${year}`;
 }
 
-formatHour(hour:string) {
-  const hora = String(new Date(hour).getUTCHours()).padStart(2, '0');
+formatDateAg(dateString:any) {
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${year}-${month}-${day}`;
+}
+
+formatHour(hour:any) {
+  console.log(hour)
+  const hora = String(new Date(hour).getHours()).padStart(2, '0');
   console.log(hora);
-  const minutos = String(new Date(hour).getUTCMinutes()).padStart(2, '0');
+  const minutos = String(new Date(hour).getMinutes()).padStart(2, '0');
   return `${hora}:${minutos}`
+}
+
+formataHora (hora:any) {
+  return hora.slice(0, -3);
 }
 
 async somaIterador () {

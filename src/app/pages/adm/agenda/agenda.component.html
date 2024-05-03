@@ -17,11 +17,13 @@
           <div class="Seteh d-flex flex-column align-items-center justify-content-center">
             <div class="hora d-flex align-items-start justify-content-center">
             </div>
-              <div *ngFor="let agendamento of dadosAgenda">
-                <div [class]="agendamento.agd_tipo_agendamento+' d-flex flex-column align-items-center justify-content-center'" id='ag' *ngIf="formatDate(agendamento.agd_data_hora)=== formatDate(datas.hora)">
-                  <p style="color:rgb(0, 156, 218)">{{agendamento.ani_nome}}</p>
-                  <p style="color:#6b4103">{{agendamento.cli_nome}}</p>
-                  <p>{{formatHour(agendamento.agd_data_hora)}}</p>
+              <div *ngFor="let agendamento of agendamentosDia">
+                <div *ngFor="let agenda of agendamento">
+                  <div [class]="agenda.agd_tipo+' d-flex flex-column align-items-center justify-content-center'" id='ag' *ngIf="formatDate(agenda.agd_data)=== formatDate(datas.hora)">
+                    <p style="color:rgb(0, 156, 218)">{{agenda.ani_nome}}</p>
+                    <p style="color:#6b4103">{{agenda.tut_nome}}</p>
+                    <p>{{formataHora(agenda.agd_horario)}}</p>
+                  </div>
                 </div>
               </div>
           </div>
@@ -51,8 +53,8 @@
         <form *ngIf="animalDates && masgError==null && agendaNovo" class="dados d-flex align-items-center justify-content-evenly flex-wrap" [formGroup]="dadoAgendamento">
           <div>
             <label for="sexo">Selecione o Veterinário*</label>
-            <select class="form-select form-select-lg"  name="unidade" id="unidade" aria-label=".form-select-lg example" formControlName="unidade" required>
-              <option *ngFor="let veterinario of veterinarios" value={{veterinario.vet_id}}>M.V. {{veterinario.col_nome}}</option>
+            <select class="form-select form-select-lg"  name="unidade" id="unidade" aria-label=".form-select-lg example" formControlName="veterinario" required>
+              <option *ngFor="let veterinario of veterinarios" [value]="veterinario.vet_id">M.V. {{veterinario.col_nome}}</option>
             </select>
           </div>
           <div>
@@ -71,6 +73,12 @@
           <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">Pedido por:</span>
             <input type="text" class="form-control" placeholder="Inserir se houver pedido" aria-label="pedido" aria-describedby="addon-wrapping" required formControlName="pedido">
+          </div>
+          <button type="button" class="btn btn-info" (click)="adicionaAgenda()" >Agendar</button>
+          <div *ngIf="succes" class="d-flex flex-row align-items-center justify-content-center" >
+            <h5 style="color: rgb(53, 140, 207);">
+              <i class="fa-solid fa-check" style="color: rgb(53, 140, 207);"></i> {{succes}}
+            </h5>
           </div>
         </form>
 
