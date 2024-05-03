@@ -9,7 +9,7 @@
           <button class="btn btn-outline-secondary" (click)="consultaAnimais(httpOptions)" id="button-addon2">Consultar</button>
         </form>
 
-        <div class="cards d-flex flex-wrap align-items-evenly justify-content-center" *ngIf="animalDates">
+        <div class="cards d-flex flex-wrap align-items-evenly justify-content-center" *ngIf="animalDates && masgError==null">
           <div class="animal-card d-flex justify-content-start align-items-center" style="background-color: rgb(172, 247, 222);">
             <div class="topo-card d-flex justify-content-center">
               <div class="header d-flex flex-column align-items-center">
@@ -27,12 +27,12 @@
             </div>
           </div>
         </div>
-          <div class="animal-card" *ngIf="animalDates">
+          <div class="animal-card" *ngIf="animalDates && masgError==null">
             <h1><i class="fa-solid fa-dog" *ngIf="animalDates.ani_especie === 'Canina'"></i></h1>
             <h1><i class="fa-solid fa-cat" *ngIf="animalDates.ani_especie === 'Felina'"></i></h1>
             <div class="card-content">
               <a href="/animalPage" (click)="enviarID(
-                animalDates.ani_id,
+                animalDates.tut_id,
                 animalDates.ani_nome,
                 animalDates.ani_especie,
                 animalDates.ani_raca,
@@ -50,12 +50,18 @@
                 animalDates.tut_cidade,
                 animalDates.tut_cpf,
                 animalDates.tut_tipo,
-                animalDates.tut_cep
+                animalDates.tut_cep,
+                animalDates.ani_porte
                 )"><h5>{{animalDates.ani_nome}}</h5></a>
               <h6>{{animalDates.ani_raca}}</h6>
             </div>
           <h4><i style="color: rgb(250, 183, 231); margin-left: 10px;" class="fa-solid fa-venus" *ngIf="animalDates.ani_sexo === 'F'"></i></h4>
           <h4><i style="color: rgb(106, 212, 212); margin-left: 10px;" class="fa-solid fa-mars" *ngIf="animalDates.ani_sexo === 'M'"></i></h4>
       </div>
+    </div>
+    <div *ngIf="masgError" class="d-flex flex-row align-items-center justify-content-center" >
+      <h5 style="color: rgb(207, 53, 53);">
+        <i class="fa-regular fa-face-frown"></i> RGA não cadastrado no sistema
+      </h5>
     </div>
   </div>

@@ -1,5 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AnimaisAppService } from 'src/app/services/animais-app.service';
 
@@ -10,6 +11,28 @@ import { AnimaisAppService } from 'src/app/services/animais-app.service';
 })
 export class AnimalPageComponent implements OnInit {
 
+
+
+
+  dadoAgendamento: FormGroup | any;
+  agendamento: FormGroup | any;
+
+  meses = {
+    Janeiro: '01',
+    Fevereiro:'02',
+    Março: '03',
+    Abril: '04',
+    Maio: '05',
+    Junho: '06',
+    Julho: '07',
+    Agosto: '08',
+    Setembro: '09',
+    Outubro: '10',
+    Novembro: '11',
+    Dezembro: '12'
+  };
+
+
   animalDates = JSON.parse(localStorage.getItem('animalDates') ?? '{}');
   dadosCarteirinha: any;
   vacinas:any;
@@ -17,6 +40,7 @@ export class AnimalPageComponent implements OnInit {
   atraso:boolean = true;
   atendimentos:any;
   anexos: any[] = [];
+  collapsed:boolean = false;
   tamanho= {
     aplicacoes: 0,
     cirurgias: 0,
@@ -24,6 +48,12 @@ export class AnimalPageComponent implements OnInit {
     exames: 0,
     receituarios: 0
   };
+  tipoAtendimento: any;
+
+
+  public veterinarios = [
+    'M.V. Aaaaa Aaaaa'
+   ];
 
 
   token = JSON.parse(localStorage.getItem('token') ?? '{}');
@@ -36,11 +66,31 @@ export class AnimalPageComponent implements OnInit {
   };
 
 
-  constructor( private appAnimal: AnimaisAppService, private router: Router) {
+  constructor( private appAnimal: AnimaisAppService, private router: Router, private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
-    console.log(this.animalDates)
+    console.log(this.tipoAtendimento);
+    console.log('ngOnInit() chamado!');
+
+    this.dadoAgendamento = this.formBuilder.group({
+      unidade: ['', Validators.required],
+      mes: ['', Validators.required],
+      tipo: ['', Validators.required],
+      dataHora: ['', Validators.required]
+    });
+
+    this.agendamento = this.formBuilder.group({
+      id: [0, Validators.required],
+    });
+
+    this.tipoAtendimento = [
+      'Encaixe',
+      'Cirurgia',
+      'Retorno',
+      'Especialista',
+      'Exames',
+    ];
   }
 
 
@@ -87,6 +137,18 @@ export class AnimalPageComponent implements OnInit {
 
   atualizaTutor () {
     this.router.navigate(['atualizaTutor']);
+  }
+
+  atualizaAnimal () {
+    this.router.navigate(['atualizaAnimal']);
+  }
+
+  collapseAtend () {
+    if (this.collapsed === false) {
+      this.collapsed = true;
+    } else {
+      this.collapsed = false;
+    }
   }
 
 

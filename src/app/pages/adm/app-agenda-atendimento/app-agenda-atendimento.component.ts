@@ -73,9 +73,11 @@ export class AppAgendaAtendimentoComponent implements OnInit {
   objetosPorDia:any [] = [];
   dias: any[] = [];
   agd: any;
+  veterinarios: any;
   agendamentoComum: boolean = false;
   agendamentoExtra: boolean = false;
   Validacao: boolean = false;
+  animalDates: any;
 
 
   token = JSON.parse(localStorage.getItem('token') ?? '{}');
@@ -114,6 +116,7 @@ export class AppAgendaAtendimentoComponent implements OnInit {
   constructor(private app: FuncionarioService, private formBuilder: FormBuilder, private animalApp: AnimaisAppService) { }
 
   ngOnInit(): void {
+    this.pegaVets();
   }
 
   public async consultaAgenda(header:any) {
@@ -156,6 +159,85 @@ export class AppAgendaAtendimentoComponent implements OnInit {
         })
       })
   }
+
+  public async consultaAnimais() {
+    this.animalApp.consultaAnimais({
+      rga: this.carteirinha.value.numero,
+    }, this.httpOptions)
+    .subscribe ({
+      next: ((res)=> {
+        this.animalDates = res[0];
+        if (this.animalDates.lenght !== 0) {
+          this.valid = true;
+        }
+        this.enviarID(
+          this.animalDates.tut_id,
+          this.animalDates.ani_nome,
+          this.animalDates.ani_especie,
+          this.animalDates.ani_raca,
+          this.animalDates.ani_cor,
+          this.animalDates.ani_sexo,
+          this.animalDates.ani_nascimento,
+          this.animalDates.ani_particularidades,
+          this.animalDates.ani_rga,
+          this.animalDates.ani_urlfoto,
+          this.animalDates.tut_nome,
+          this.animalDates.tut_telefone,
+          this.animalDates.tut_rua,
+          this.animalDates.tut_numero,
+          this.animalDates.tut_bairro,
+          this.animalDates.tut_cidade,
+          this.animalDates.tut_cpf,
+          this.animalDates.tut_tipo,
+          this.animalDates.tut_cep,
+          this.animalDates.ani_porte
+        )
+        console.log(this.animalDates);
+        this.nsgError = undefined;
+      }),
+      error: ((err)=> {
+        this.nsgError = err;
+        this.animais = [];
+        ;})
+    })
+}
+
+pegaVets() {
+  this.app.getVets(this.httpOptions).subscribe({
+    next: ((res)=> {
+      this.veterinarios = res[0];
+    }),
+    error: ((err)=> {
+      console.log(err);
+    })
+  }
+  )
+}
+
+enviarID (id:any, nome:any, especie:any, raca:any, cor:any, sexo:any, idade:any, particularidades:any, rga:any, urlfoto:any, tutor:any, telefone:any, rua:any, numero:any, bairro:any, cidade:any, cpf:any, tipo:any, cep:any, porte:any) {
+  localStorage.setItem('animalDates', JSON.stringify({
+    id: id,
+    nome: nome,
+    raca: raca,
+    especie: especie,
+    cor: cor,
+    sexo: sexo,
+    idade: idade,
+    particularidades: particularidades,
+    rga: rga,
+    urlfoto: urlfoto,
+    tutor: tutor,
+    telefone: telefone,
+    rua: rua,
+    numero: numero,
+    bairro: bairro,
+    cidade: cidade,
+    cpf: cpf,
+    tipo: tipo,
+    cep: cep,
+    porte: porte
+  }))
+}
 
   public async realizaAgendamento() {
     this.animalApp.realizaAgebdamento({

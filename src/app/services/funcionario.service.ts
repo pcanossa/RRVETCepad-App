@@ -13,6 +13,10 @@ export class FuncionarioService {
   private new: string = '/novoAcesso';
   private cadastro: string = '/novoUser';
   private tutores: string = '/novoTutor';
+  private alteraTutor: string = '/alteraTutor';
+  private alteraAnimal: string = '/alteraAnimal';
+  private realizaAgendamento: string = '/agendamento';
+  private vets: string = '/vets';
   private cadastroColaborador: string = '/cadastroColaborador';
   private recuperaSenha: string = '/registraNovaSenhaCol';
   private mail: string = '/perdeuSenhaCol';
@@ -139,6 +143,56 @@ export class FuncionarioService {
     )
   }
 
+  public alteraTut(payload: {
+    nome: string,
+    cpf: string,
+    cep: string,
+    rua: string,
+    bairro:string,
+    numero: number,
+    cidade: string,
+    estado: string,
+    telefone: string,
+    tipo: string,
+    id: number
+  }, header:any): Observable<any> {
+    return this.httpClient.post(this.app.url+this.alteraTutor, payload, header).pipe(
+      map((response)=> {
+        return response
+      }),
+      catchError((error)=> {
+        if (error.error.message) {
+          return throwError(() => error.error.message)};
+
+        return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
+      })
+    )
+  };
+
+  public altAnimal (payload: {
+    nome: string,
+    especie: string,
+    raca: string,
+    cor: string,
+    sexo: string,
+    rga: string,
+    particularidade: string,
+    porte: string
+  }, header:any) {
+    return this.httpClient.post(this.app.url+this.alteraAnimal, payload, header).pipe(
+      map((response:any)=> {
+        return response
+      }),
+      catchError((e) => {
+        if (e.error.message) {
+          return throwError(() => e.error.message)};
+
+        return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
+      })
+    )
+
+  }
+
   public registraColaborador (payload: {
     nome: string,
     cpf: string,
@@ -163,6 +217,19 @@ export class FuncionarioService {
     )
   }
 
+  public getVets(header:any): Observable<any> {
+    return this.httpClient.get(this.app.url+this.vets, header).pipe(
+      map((response)=> {
+        return response
+      }),
+      catchError((error)=> {
+        if (error.error.message) {
+          return throwError(() => error.error.message)};
+
+        return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
+      })
+    )
+  };
 
 
   public registraNovaSenha(payload: {cpf: string, senha: string}): Observable<any> {
@@ -191,6 +258,29 @@ export class FuncionarioService {
         return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
       })
     )
+  }
+
+  public agendaNovo (payload: {
+    data: any,
+    horario: any,
+    pedido: any,
+    conclusao: any,
+    tipo: any,
+    rga: number,
+    veterinário: number
+  }, header:any): Observable<any> {
+    return this.httpClient.post(this.app.url+this.realizaAgendamento, payload, header).pipe(
+      map((response:any)=> {
+        return response
+      }),
+      catchError((e) => {
+        if (e.error.message) {
+          return throwError(() => e.error.message)};
+
+        return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
+      })
+
+    );
   }
 
   public consultaPlanos (header:any): Observable<any> {

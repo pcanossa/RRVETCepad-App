@@ -157,7 +157,7 @@ export class AtualizaTutorComponent {
   }
 
   retornaCPF() {
-    console.log(typeof(this.dadosPessoa.value.cpf));
+    console.log(this.dadosPessoa.value.cpf);
     this.validarCPF(this.cpf);
 
   }
@@ -248,10 +248,10 @@ export class AtualizaTutorComponent {
     return dataHoraFormatada;
   }
 
-  public async cadastraCliente() {
+  public async alteraTutor() {
     return new Promise(async (resolve, reject) => {
     const dataHora = this.getDateHours();
-    this.app.registraCliente({
+    this.app.alteraTut({
       nome: this.dadosPessoa.value.nome,
       cpf: this.dadosPessoa.value.cpf,
       cep: this.dadosPessoa.value.cep,
@@ -260,9 +260,9 @@ export class AtualizaTutorComponent {
       numero: this.dadosPessoa.value.numero,
       cidade: this.dadosPessoa.value.cidade,
       estado: this.dadosPessoa.value.estado,
-      data_nascimento: this.getBirthDate(),
       telefone: this.dadosPessoa.value.telefone,
-      tipo: this.dadosPessoa.value.tipo
+      tipo: this.dadosPessoa.value.tipo,
+      id: this.animalDates.id
     }, this.httpOptions)
     .subscribe(
       {
@@ -280,94 +280,6 @@ export class AtualizaTutorComponent {
     });
   }
 
-  public async geraCobrancaVista(): Promise<any> {
-    return new Promise(async (resolve, reject)=> {
-      try {
-        await this.app.catchToken().subscribe({
-          next: ((res)=> {
-            console.log(res.accessToken);
-            this.LyToken = new HttpHeaders({
-              'Authorization': `Bearer ${res.accessToken}`
-            });
-            console.log(this.LyToken);
-            this.httpToken = {
-              headers: this.LyToken
-            }
-            console.log(this.httpToken);
-          }),
-          error: ((err)=> {
-            this.msgError = err;
-            reject(err);
-          })
-        })
-        try {
-          const payload = {
-          client: {
-            type: 'pf',
-            name: this.dadosPessoa.value.nome,
-            treatmentPronoun: 'you',
-            cpfCnpj: this.dadosPessoa.value.cpf,
-            email: this.dadosPessoa.value.email,
-            cellphone: this.dadosPessoa.value.telefone,
-            address: {
-              street: this.dadosPessoa.value.rua,
-              zone: this.dadosPessoa.value.bairro,
-              city: this.dadosPessoa.value.cidade,
-              state: this.dadosPessoa.value.estado,
-              number: this.dadosPessoa.value.numero,
-              zip: this.dadosPessoa.value.cep,
-              complement: this.dadosPessoa.value.complemento
-            }
-          },
-          items: [
-            {
-              name: "Plano Valor à Vista",
-              quantity: this.dadosAquisicao.value.quantidade,
-              value: 20000
-            }
-          ],
-          dueDate: this.getDateHours(),
-          paymentMethods: {
-            pix: {
-                enable: true
-            },
-            boleto: {
-                enable: true,
-                dueDateDays: 15
-            },
-            creditCard: {
-                enable: false,
-                maxParcels: 1
-            }
-          },
-          _billingRuleId: "648ef3f685d0ca000b63faba",
-          cancelOverdue: true
-        };
-          await this.app.invoices(payload, this.httpToken).subscribe({
-            next: ((res)=> {
-              this.urlId = res._id;
-              resolve(this.urlId)
-            }),
-            error: ((err)=> {
-              this.msgError = err
-            })
-          })
-        } catch (err: any) {
-          reject(this.msgError)
-        }
-
-      } catch {
-        reject(this.msgError);
-      }
-    })
-  }
-
-  calculaParcelas(quantidade: number) {
-    const valor = (238.80 * quantidade);
-    const valorFormatado = Math.round(valor * 100);
-    return valorFormatado;
-  }
-
 
   calculaDataVencimento() {
     const date = new Date();
@@ -378,120 +290,9 @@ export class AtualizaTutorComponent {
     return dataHoraFormatada
 
   }
-  public async catchToken () {
-    return new Promise(async (resolve, reject) => {
-      await this.app.catchToken().subscribe({
-        next: ((res)=> {
-          this.LyToken = new HttpHeaders({
-            'Authorization': `Bearer ${res.accessToken}`
-          });
-          this.httpToken = {
-            headers: this.LyToken
-          }
 
-          resolve(this.httpToken)
-        }),
-        error: ((err)=> {
-          this.msgError = err;
-          reject(err);
-        })
-      })
-    })
-  }
 
-  public async geraCarne () {
-    return new Promise(async (resolve, reject)=> {
-          const payload = {
-            client: {
-              type: 'pf',
-              name: this.dadosPessoa.value.nome,
-              treatmentPronoun: 'you',
-              cpfCnpj: this.dadosPessoa.value.cpf,
-              email: this.dadosPessoa.value.email,
-              cellphone: this.dadosPessoa.value.telefone,
-              address: {
-                street: this.dadosPessoa.value.rua,
-                zone: this.dadosPessoa.value.bairro,
-                city: this.dadosPessoa.value.cidade,
-                state: this.dadosPessoa.value.estado,
-                number: this.dadosPessoa.value.numero,
-                zip: this.dadosPessoa.value.cep,
-                complement: this.dadosPessoa.value.complemento
-              }
-            },
-            totalValue: this.calculaParcelas(this.dadosAquisicao.value.quantidade),
-            startAt: this.calculaDataVencimento(),
-            description: `Plano Parcelado 12x - Quantidade: ${this.dadosAquisicao.value.quantidade}`,
-            paymentMethods: {
-              pix: {
-                  enable: true
-              },
-              boleto: {
-                  enable: true
-              },
-              creditCard: {
-                  enable: false
-              }
-            },
-            mulctAndInterest: {
-              enable: true,
-              mulct: {
-              type: "percentage",
-              value: 2
-              },
-              interest: {
-              type: "percentage",
-              value: 0.033
-              }
-            },
-            parcels: 12,
-            _billingRuleId: "648ef3f685d0ca000b63faba"
-          };
-          await this.app.installment(payload, this.httpToken).subscribe({
-            next: ((res)=> {
-              this.urlId = res._id;
-              resolve(this.urlId)
-            }),
-            error: ((err)=> {
-              this.msgError = err;
-              reject(this.msgError);
-            })
-          });
-      })
-  }
 
-  async criaCobranca () {
-    this.retornaEndereco();
-    if (this.dadosPessoa.valid) {
-      this.carregando= true;
-      try {
-        await this.cadastraCliente();
-
-        this.carregando = false;
-
-      } catch (err) {
-        this.carregando = false;
-        return console.error(err);
-      }
-    } else {
-      this.msgError = 'Todos os campos com * são obrigatórios'
-    }
-    }
-
-    retornaEndereco() {
-      if (this.end.rua != '' && this.end.bairro != '') {
-        this.dadosPessoa.value.rua = this.end.rua;
-        this.dadosPessoa.value.bairro = this.end.bairro;
-      }
-      this.dadosPessoa.value. cidade = this.end.cidade;
-      this.dadosPessoa.value.estado = this.end.uf;
-    }
-
-    teste() {
-      this.retornaEndereco();
-      console.log(this.dadosPessoa.value);
-      console.log(this.end);
-    }
 
 }
 

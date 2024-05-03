@@ -22,6 +22,33 @@ export class AdmBuscaAnimalComponent {
   users: any;
   animalDates: any;
 
+  agendamento: FormGroup = this.formBuilder.group({
+    id: [0, Validators.required],
+  })
+
+  public dadoAgendamento: FormGroup = this.formBuilder.group({
+    unidade: ['', Validators.required],
+    mes: ['', Validators.required],
+    tipo: ['', Validators.required],
+    dataHora: ['', Validators.required]
+  })
+
+  meses = {
+    Janeiro: '01',
+    Fevereiro:'02',
+    Março: '03',
+    Abril: '04',
+    Maio: '05',
+    Junho: '06',
+    Julho: '07',
+    Agosto: '08',
+    Setembro: '09',
+    Outubro: '10',
+    Novembro: '11',
+    Dezembro: '12'
+  };
+
+
   animal: FormGroup = this.formBuilder.group({
     rga: ['', Validators.required]
   });
@@ -151,6 +178,7 @@ export class AdmBuscaAnimalComponent {
         next: ((res)=> {
           console.log('oi');
           this.animalDates = res[0];
+          this.masgError = null;
 
           console.log(this.animalDates);
           this.masgError = undefined;
@@ -162,7 +190,7 @@ export class AdmBuscaAnimalComponent {
       })
   }
 
-  enviarID (id:any, nome:any, especie:any, raca:any, cor:any, sexo:any, idade:any, particularidades:any, rga:any, urlfoto:any, tutor:any, telefone:any, rua:any, numero:any, bairro:any, cidade:any, cpf:any, tipo:any, cep:any) {
+  enviarID (id:any, nome:any, especie:any, raca:any, cor:any, sexo:any, idade:any, particularidades:any, rga:any, urlfoto:any, tutor:any, telefone:any, rua:any, numero:any, bairro:any, cidade:any, cpf:any, tipo:any, cep:any, porte:any) {
     localStorage.setItem('animalDates', JSON.stringify({
       id: id,
       nome: nome,
@@ -182,7 +210,8 @@ export class AdmBuscaAnimalComponent {
       cidade: cidade,
       cpf: cpf,
       tipo: tipo,
-      cep: cep
+      cep: cep,
+      porte: porte
     }))
   }
 

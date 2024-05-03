@@ -1,1 +1,84 @@
-<p>atualiza-animal works!</p>
+<div class="body-animal-page d-flex flex-wrap">
+  <app-adm-navbar class="nav-menu"></app-adm-navbar>
+  <div class="animais d-flex flex-column align-items-center">
+    <app-header></app-header>
+    <div class="h1">
+      <h1>Atualizar Dados Animal</h1>
+    </div>
+    <form [formGroup]="dadosAnimal">
+      <div class="form d-flex align-items-center justify-content-evenly flex-wrap">
+        <div class="col-md-4">
+          <label for="validationCustom01" class="form-label">Nome do Animal*</label>
+          <input type="text" class="form-control" id="validationCustom01" id="nome" formControlName="nome" required [(ngModel)]="animalDates.nome">
+        </div>
+        <div>
+          <label for="especie">Espécie*</label>
+        <select class="form-select form-select-lg" id="especie"  name="especie" aria-label=".form-select-lg example" (blur)="analisaEspecie();" formControlName="especie" [(ngModel)]="animalDates.especie">
+          <option selected hidden [value]="animalDates.especie">{{animalDates.especie}}</option>
+          <option *ngFor="let especie of especies.sort();" (value)="especie">{{especie}}</option>
+        </select>
+        </div>
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <div>
+            <label for="raca">Raça*</label>
+          <select class="form-select form-select-lg" id="raca" name="raca" aria-label=".form-select-lg example" *ngIf="cao" (blur)="acionaOutro('raca', 'outraRaca')" formControlName="raca" [(ngModel)]="animalDates.raca">
+            <option selected [value]="aniRaca">{{aniRaca}}</option>
+            <option  *ngFor="let raca of racasCao.sort();"  (value)="raca">{{raca}}</option>
+          </select>
+          </div>
+          <div>
+          <select class="form-select form-select-lg" id="raca" name="raca" aria-label=".form-select-lg example" *ngIf="gato" (blur)="acionaOutro('raca', 'outraRaca')" formControlName="raca" [(ngModel)]="animalDates.raca">
+            <option selected [value]="aniRaca">{{aniRaca}}</option>
+            <option  *ngFor="let raca of racasGato.sort();"  (value)="raca">{{raca}}</option>
+          </select>
+          <div class="col-md-4" class="outro-raca" *ngIf="acionaOutro('raca', 'outraRaca')">
+            <label for="validationCustom01" class="form-label">Outra Raça</label>
+            <input type="text" class="form-control" id="validationCustom01" id="outraRaca" formControlName="raca" [(ngModel)]="animalDates.raca">
+          </div>
+        </div>
+        </div>
+        <div>
+          <label for="cor">Cor*</label>
+        <select class="form-select form-select-lg"  name="cor" id="cor" aria-label=".form-select-lg example" (blur)="acionaOutro('raca', 'outraCor')" formControlName="cor" [(ngModel)]="animalDates.cor">
+          <option selected hidden [value]="animalDates.cor">{{animalDates.cor}}</option>
+          <option  *ngFor="let cor of cores.sort();"  (value)="cor">{{cor}}</option>
+        </select>
+        <div class="col-md-4" class="outro-cor" *ngIf="acionaOutro('cor', 'outraCor')">
+          <label for="validationCustom01" class="form-label">Outra Cor</label>
+          <input type="text" class="form-control" id="validationCustom01" id="outraCor" formControlName="cor" [(ngModel)]="animalDates.cor">
+        </div>
+        </div>
+        <div>
+          <label for="sexo">Sexo*</label>
+          <select class="form-select form-select-lg"  name="sexo" id="sexo" aria-label=".form-select-lg example" formControlName="sexo" required [(ngModel)]="animalDates.sexo">
+            <option selected hidden [value]="aniSexo">{{aniSexo}}</option>
+            <option  select value='F'>Fêmea</option>
+            <option  select value='M'>Macho</option>
+          </select>
+        </div>
+        <div>
+          <label for="sexo">Porte*</label>
+          <select  class="form-select form-select-lg"  name="porte" id="porte" aria-label=".form-select-lg example" formControlName="porte" required [(ngModel)]="animalDates.porte">
+            <option selected hidden [value]="animalDates.porte">{{animalDates.porte}}</option>
+            <option  *ngFor="let portes of porte" (value)="portes">{{portes}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="d-flex flex-column align-items-center justify-content-center">
+        <div class="form-floating">
+          <textarea class="form-control" cols="40" placeholder="Particularidades" id="floatingTextarea2" style="height: 200px;" formControlName="particularidades" [(ngModel)]="animalDates.particularidades"></textarea>
+          <label for="floatingTextarea2">Particularidades</label>
+        </div>
+      </div>
+      <div class="button d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary" (click)="submit();">Registrar</button>
+      </div>
+      <div class="erros d-flex justify-content-center align-items-center" *ngIf="dadosAnimal.errors?.['erro'] || cliente.errors?.['erro']">
+        <h5>Os campos com * são obrigatórios</h5>s
+      </div>
+      <div class="ok d-flex justify-content-center align-items-center">
+        <h5>{{ msgOK?.message }}</h5>
+      </div>
+    </form>
+  </div>
+</div>

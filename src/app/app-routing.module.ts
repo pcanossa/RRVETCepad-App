@@ -28,6 +28,7 @@ import { ReceituarioComponent } from './pages/adm/receituario/receituario.compon
 import { AdmClientesComponent } from './pages/adm/adm-clientes/adm-clientes.component';
 import { AdmBuscaAnimalComponent } from './pages/adm/adm-busca-animal/adm-busca-animal.component';
 import { AtualizaTutorComponent } from './pages/adm/atualiza-tutor/atualiza-tutor.component';
+import { AtualizaAnimalComponent } from './pages/adm/atualiza-animal/atualiza-animal.component';
 
 const routes: Routes = [
   {
@@ -106,7 +107,7 @@ const routes: Routes = [
   {
     path: 'agendamentoconsulta',
     component: AgendamentoComponent,
-    canActivate: [AuthGuardService]
+    canActivate: [AuthGuardADMService]
   },
   {
     path: 'app-agenda',
@@ -149,6 +150,11 @@ const routes: Routes = [
   {
     path: 'atualizaTutor',
     component: AtualizaTutorComponent,
+    canActivate: [AuthGuardADMService]
+  },
+  {
+    path: 'atualizaAnimal',
+    component: AtualizaAnimalComponent,
     canActivate: [AuthGuardADMService]
   }
 

@@ -40,8 +40,96 @@
     <h5 class="Vacina">Eletrocardiograma</h5>
   </div>
     <div class="novo-agendamento">
-      <a href="/app-agendaAtendimento"><button class="btn btn-primary" style="color: #f8e5ac;" type="button">Novo Agendamento</button></a>
+      <button class="btn btn-primary" style="color: #f8e5ac;" type="button" (click)="novoAgenda(); collapseAtend();">Novo Agendamento</button>
     </div>
+    <div class="animais d-flex flex-column align-items-center">
+      <div class="carteirinha d-flex flex-column align-items-center justify-content-center" >
+        <form class="input-group mb-3" [formGroup]="animal" *ngIf="agendaNovo">
+          <input type="text" class="form-control" placeholder="RGA" aria-label="RGA" name="rga" aria-describedby="button-addon2" formControlName="rga">
+          <button class="btn btn-outline-secondary" (click)="consultaAnimais(httpOptions)" id="button-addon2">Consultar</button>
+        </form>
+        <form *ngIf="animalDates && masgError==null && agendaNovo" class="dados d-flex align-items-center justify-content-evenly flex-wrap" [formGroup]="dadoAgendamento">
+          <div>
+            <label for="sexo">Selecione o Veterinário*</label>
+            <select class="form-select form-select-lg"  name="unidade" id="unidade" aria-label=".form-select-lg example" formControlName="unidade" required>
+              <option *ngFor="let veterinario of veterinarios" value={{veterinario.vet_id}}>M.V. {{veterinario.col_nome}}</option>
+            </select>
+          </div>
+          <div>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="data">Data / Hora</label>
+              <input type="datetime-local" class="form-control" placeholder="" aria-label="Example text with button addon" id="data" formControlName="dataHora">
+            </div>
+          </div>
+          <div>
+            <label for="tipos">Tipo de Atendimento*</label>
+            <select class="form-select form-select-lg" name="tipo" aria-label=".form-select-lg example" formControlName="tipo" required>
+              <option selected hidden>Tipo de Atendimento</option>
+              <option *ngFor="let tipo of tipoAtendimento" [value]="tipo">{{ tipo }}</option>
+            </select>
+          </div>
+          <div class="input-group flex-nowrap">
+            <span class="input-group-text" id="addon-wrapping">Pedido por:</span>
+            <input type="text" class="form-control" placeholder="Inserir se houver pedido" aria-label="pedido" aria-describedby="addon-wrapping" required formControlName="pedido">
+          </div>
+        </form>
 
+        <div class="cards d-flex flex-wrap align-items-evenly justify-content-center" *ngIf="animalDates && masgError==null && agendaNovo">
+          <div class="animal-card d-flex justify-content-start align-items-center" style="background-color: rgb(172, 247, 222);">
+            <div class="topo-card d-flex justify-content-center">
+              <div class="header d-flex flex-column align-items-center">
+                <h1><i class="fa-solid fa-user"></i></h1>
+                <div class="infos d-flex flex-column align-items-start">
+                  <h6>Nome:  {{animalDates.tut_nome}}</h6>
+                  <h6>CPF: {{animalDates.tut_cpf}}</h6>
+                  <h6>Telefone: {{formatarTelefone(animalDates.tut_telefone)}}</h6>
+                  <h6>Endereço:  {{animalDates.tut_rua}}, {{animalDates.tut_numero}} - {{animalDates.tut_bairro}} - {{animalDates.tut_cidade}}</h6>
+                  <h5>Tipo: {{animalDates.tut_tipo}}</h5>
+                  <div class="dropdown">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div class="animal-card" *ngIf="animalDates && masgError==null && agendaNovo">
+            <h1><i class="fa-solid fa-dog" *ngIf="animalDates.ani_especie === 'Canina'"></i></h1>
+            <h1><i class="fa-solid fa-cat" *ngIf="animalDates.ani_especie === 'Felina'"></i></h1>
+            <div class="card-content">
+              <a href="/animalPage" (click)="enviarID(
+                animalDates.tut_id,
+                animalDates.ani_nome,
+                animalDates.ani_especie,
+                animalDates.ani_raca,
+                animalDates.ani_cor,
+                animalDates.ani_sexo,
+                animalDates.ani_nascimento,
+                animalDates.ani_particularidades,
+                animalDates.ani_rga,
+                animalDates.ani_urlfoto,
+                animalDates.tut_nome,
+                animalDates.tut_telefone,
+                animalDates.tut_rua,
+                animalDates.tut_numero,
+                animalDates.tut_bairro,
+                animalDates.tut_cidade,
+                animalDates.tut_cpf,
+                animalDates.tut_tipo,
+                animalDates.tut_cep,
+                animalDates.ani_porte,
+                animalDates.ani_id
+                )"><h5>{{animalDates.ani_nome}}</h5></a>
+              <h6>{{animalDates.ani_raca}}</h6>
+            </div>
+          <h4><i style="color: rgb(250, 183, 231); margin-left: 10px;" class="fa-solid fa-venus" *ngIf="animalDates.ani_sexo === 'F'"></i></h4>
+          <h4><i style="color: rgb(106, 212, 212); margin-left: 10px;" class="fa-solid fa-mars" *ngIf="animalDates.ani_sexo === 'M'"></i></h4>
+      </div>
+    </div>
+    <div *ngIf="masgError" class="d-flex flex-row align-items-center justify-content-center" >
+      <h5 style="color: rgb(207, 53, 53);">
+        <i class="fa-regular fa-face-frown"></i> RGA não cadastrado no sistema
+      </h5>
+    </div>
   </div>
+
 </div>

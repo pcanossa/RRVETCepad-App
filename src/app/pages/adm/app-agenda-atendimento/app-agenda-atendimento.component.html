@@ -4,31 +4,31 @@
     <app-header></app-header>
     <h1>Atendimento / Agendamento</h1>
     <div class="carteirinha d-flex flex-column align-items-center justify-content-center" >
-      <form class="input-group mb-3" [formGroup]="carteirinha" (ngSubmit)="consultaCart(carteirinha.value?.numero);">
-        <input type="text" class="form-control" placeholder="Número da carteirinha" aria-label="Número da carteirinha" name="carteirinha" aria-describedby="button-addon2" formControlName="numero">
+      <form class="input-group mb-3" [formGroup]="carteirinha" (ngSubmit)="consultaAnimais();">
+        <input type="text" class="form-control" placeholder="RGA" aria-label="RGA" name="carteirinha" aria-describedby="button-addon2" formControlName="numero">
         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Consultar</button>
       </form>
       <div class="cards d-flex flex-wrap align-items-center justify-content-center" *ngIf="valid">
         <div class="animal-card d-flex justify-content-start align-items-center" >
           <div class="topo-card d-flex justify-content-center">
             <div class="header d-flex flex-column align-items-center">
-              <h1>{{animal[0].ani_nome}}</h1>
+              <h1>{{animalDates.ani_nome}}</h1>
               <div class="infos d-flex flex-column align-items-start">
-                <h6>Espécie:  {{animal[0].ani_especie}}</h6>
-                <h6>Raça: {{animal[0].ani_raca}}</h6>
-                <h6>Cor: {{animal[0].ani_cor}}</h6>
-                <h6>Sexo: {{animal[0].ani_sexo}}</h6>
-                <h6>Idade: {{calcIdade(animal[0].ani_nascimento)}}</h6>
-                <h5>Microchip: {{animal[0].ani_microchip}}</h5>
+                <h6>Espécie:  {{animalDates.ani_especie}}</h6>
+                <h6>Raça: {{animalDates.ani_raca}}</h6>
+                <h6>Cor: {{animalDates.ani_cor}}</h6>
+                <h6>Sexo: {{animalDates.ani_sexo}}</h6>
+                <h6>Idade: {{calcIdade(animalDates.ani_nascimento)}}</h6>
+                <h5>RGA: {{animalDates.ani_rga}}</h5>
                 <h6>Particularidades:</h6>
               </div>
             </div>
             <div class="identificacoes d-flex flex-column align-items-center">
-              <img [src]="animal[0].ani_urlfoto" alt="" id="foto-animal" src="../../../../assets/fotos/">
+              <img [src]="animalDates.ani_urlfoto" alt="" id="foto-animal" src="../../../../assets/fotos/">
             </div>
           </div>
           <div class="particularidades d-flex flex-column align-items-start">
-            <h6>{{animal[0].ani_particularidades}}</h6>
+            <h6>{{animalDates.ani_particularidades}}</h6>
           </div>
         </div>
         <div class="animal-card d-flex justify-content-start align-items-center" style="background-color: rgb(172, 247, 222);">
@@ -36,12 +36,12 @@
             <div class="header d-flex flex-column align-items-center">
               <h1><i class="fa-solid fa-user"></i></h1>
               <div class="infos d-flex flex-column align-items-start">
-                <h6>Tutor:  {{animal[0].cli_nome}}</h6>
-                <h6>CPF: {{animal[0].cli_cpf}}</h6>
-                <h6>Telefone: {{animal[0].cli_telefone}}</h6>
-                <h6>Endereço: {{animal[0].cli_rua}}, {{animal[0].cli_numero}} </h6>
-                <h6>{{animal[0].cli_bairro}} - {{animal[0].cli_cidade}}</h6>
-                <h6>Email: {{animal[0].cli_email}}</h6>
+                <h6>Tutor:  {{animalDates.tut_nome}}</h6>
+                <h6>CPF: {{animalDates.tut_cpf}}</h6>
+                <h6>Telefone: {{animalDates.tut_telefone}}</h6>
+                <h6>Endereço: {{animalDates.tut_rua}}, {{animalDates.tut_numero}} </h6>
+                <h6>{{animalDates.tut_bairro}} - {{animalDates.tut_cidade}}</h6>
+                <h6>Tipo: {{animalDates.tut_tipo}}</h6>
               </div>
             </div>
           </div>
@@ -57,7 +57,7 @@
         {{ scanner.isStart ? 'Parar' : 'Iniciar' }}
       </button>
     </div>
-    <div class="seleciona-tipo d-flex align-items-center justify-content-evenly flex-wrap" *ngIf="animal">
+    <div class="seleciona-tipo d-flex align-items-center justify-content-evenly flex-wrap" *ngIf="animalDates">
       <div class="form-check">
         <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" (change)="consultaHorariosDisponiveis();">
         <label class="form-check-label" for="flexRadioDefault2">
