@@ -36,6 +36,7 @@ export class AgendaComponent implements OnInit {
   dadosAgenda: any;
   dadosArray:any [] = [];
   iteradorDia:number = 6;
+  iteradorA: number = 0;
   unidade: any;
   unidSelected: any;
   tutor: any;
@@ -132,9 +133,16 @@ export class AgendaComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.pegaVets();
 
+    await this.pegaSemana();
+
+    await this.atualizaAgenda();
+
+
+  }
+
+  async atualizaAgenda () {
     try {
-      await this.pegaSemana();
-      this.iterador = 0;
+      this.iteradorA = 0;
       console.log('pegouSemana');
 
       try {
@@ -145,16 +153,16 @@ export class AgendaComponent implements OnInit {
           const ano = String(data.getFullYear());
           this.dia=`${ano}-${mes}-${dia}`;
           console.log('Data:', this.dia);
-          console.log('Iterador:', this.iterador);
+          console.log('Iterador:', this.iteradorA);
           await this.agenda();
           console.log('Marcador:', this.marcador); // Adicionado este log para verificar se há dados em 'this.marcador'
-          this.agendamentosDia[this.iterador] = this.marcador.sort((a: any, b: any) => {
+          this.agendamentosDia[this.iteradorA] = this.marcador.sort((a: any, b: any) => {
             const horaA = a.agd_horario.split(':').join(''); // Remove os dois pontos da string
             const horaB = b.agd_horario.split(':').join(''); // Remove os dois pontos da string
             return horaA.localeCompare(horaB); // Compara as horas formatadas
           });
-          console.log('Agendamentos do dia:', this.agendamentosDia[this.iterador]); // Adicionado este log para verificar se os dados estão sendo atribuídos corretamente
-          this.iterador++;
+          console.log('Agendamentos do dia:', this.agendamentosDia[this.iteradorA]); // Adicionado este log para verificar se os dados estão sendo atribuídos corretamente
+          this.iteradorA++;
         }
 
         console.log('Agendamentos da semana:', this.agendamentosDia);
@@ -165,38 +173,8 @@ export class AgendaComponent implements OnInit {
       console.log(err);
     }
 
-
   }
 
-  async ngDoCheck() {
-    this.agendamentosDia = [];
-    try {
-      for (let semana of this.outra) {
-        const data = new Date (semana.hora)
-        const dia = String(data.getDate()).padStart(2, '0');
-        const mes = String(data.getMonth()+1).padStart(2, '0');
-        const ano = String(data.getFullYear());
-        this.dia=`${ano}-${mes}-${dia}`;
-        console.log('Data:', this.dia);
-        console.log('Iterador:', this.iterador);
-        await this.agenda();
-        console.log('Marcador:', this.marcador); // Adicionado este log para verificar se há dados em 'this.marcador'
-        this.agendamentosDia[this.iterador] = this.marcador.sort((a: any, b: any) => {
-          const horaA = a.agd_horario.split(':').join(''); // Remove os dois pontos da string
-          const horaB = b.agd_horario.split(':').join(''); // Remove os dois pontos da string
-          return horaA.localeCompare(horaB); // Compara as horas formatadas
-        });
-        console.log('Agendamentos do dia:', this.agendamentosDia[this.iterador]); // Adicionado este log para verificar se os dados estão sendo atribuídos corretamente
-        this.iterador++;
-      }
-
-      console.log('Agendamentos da semana:', this.agendamentosDia);
-    } catch (err) {
-      console.log(err);
-    }
-  } catch (err:any) {
-    console.log(err);
-  }
 
 
   collapseAtend () {
@@ -523,7 +501,8 @@ export class AgendaComponent implements OnInit {
   }
 
 
-  pegaSemana() {
+  async pegaSemana() {
+    console.log(`Iterador da semana ${this.iterador}`)
     const dates = [];
   const currentDate = new Date();
   const currentDayOfWeek = currentDate.getDay(); // 0 (domingo) a 6 (sábado)
@@ -546,6 +525,9 @@ export class AgendaComponent implements OnInit {
     semaninhaArray.push(semaninha);
   }
 
+
+  semaninhaArray.shift();
+  semaninhaArray.pop();
   console.log(semaninhaArray);
 
   return this.outra = semaninhaArray;
@@ -554,9 +536,9 @@ export class AgendaComponent implements OnInit {
 
 formatDate(dateString:any) {
   const date = new Date(dateString);
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const year = date.getFullYear();
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const year = date.getUTCFullYear();
   return `${day}/${month}/${year}`;
 }
 
@@ -584,13 +566,14 @@ async somaIterador () {
 
     this.dadosArray.splice(0, this.dadosArray.length);
 
-    this.iterador+=7;
+    this.iterador += 7;
 
     console.log('talvez'+this.iterador);
 
-    this.pegaSemana();
+    await this.pegaSemana();
+
     try {
-      this.pegaAgenda();
+      await this.atualizaAgenda();
     } catch (err) {
       console.log(err);
     }
@@ -604,17 +587,25 @@ async diminuiIterador () {
 
   this.dadosArray.splice(0, this.dadosArray.length);
 
+  try {
+    this.iterador -=7;
+    console.log(`Iterados do menos: ${this.iterador}`)
 
-    this.iterador-=7;
+    await this.pegaSemana();
+    console.log('Message'+this.outra);
 
   console.log(this.iterador)
+    try {
+      await this.atualizaAgenda();
+    } catch (err) {
+      console.log(err);
+    }
 
-  this.pegaSemana();
-  try {
-    this.pegaAgenda();
   } catch (err) {
     console.log(err);
   }
+
+
 }
 
 }
