@@ -23,6 +23,7 @@
                     <p style="color:rgb(0, 156, 218)">{{agenda.ani_nome}}</p>
                     <p style="color:#6b4103">{{agenda.tut_nome}}</p>
                     <p>{{formataHora(agenda.agd_horario)}}</p>
+                    <p>M.V. {{agenda.col_nome}}</p>
                   </div>
                 </div>
               </div>
@@ -52,9 +53,17 @@
         </form>
         <form *ngIf="animalDates && masgError==null && agendaNovo" class="dados d-flex align-items-center justify-content-evenly flex-wrap" [formGroup]="dadoAgendamento">
           <div>
-            <label for="sexo">Selecione o Veterinário*</label>
-            <select class="form-select form-select-lg"  name="unidade" id="unidade" aria-label=".form-select-lg example" formControlName="veterinario" required>
-              <option *ngFor="let veterinario of veterinarios" [value]="veterinario.vet_id">M.V. {{veterinario.col_nome}}</option>
+            <label for="tipos">Tipo de Atendimento*</label>
+            <select class="form-select form-select-lg" name="tipo" aria-label=".form-select-lg example" formControlName="tipo" required>
+              <option selected hidden>Tipo de Atendimento</option>
+              <option *ngFor="let tipo of tipoAtendimento" [value]="tipo">{{ tipo }}</option>
+            </select>
+          </div>
+          <div *ngIf="dadoAgendamento.value.tipo == 'Especialista'">
+            <label for="tipos">Especialidade*</label>
+            <select class="form-select form-select-lg" name="tipo" aria-label=".form-select-lg example" formControlName="tipo" required>
+              <option selected hidden>Especialidade</option>
+              <option *ngFor="let tipo of especialidades" [value]="tipo.esp_id">{{ tipo.esp_nome }}</option>
             </select>
           </div>
           <div>
@@ -64,10 +73,9 @@
             </div>
           </div>
           <div>
-            <label for="tipos">Tipo de Atendimento*</label>
-            <select class="form-select form-select-lg" name="tipo" aria-label=".form-select-lg example" formControlName="tipo" required>
-              <option selected hidden>Tipo de Atendimento</option>
-              <option *ngFor="let tipo of tipoAtendimento" [value]="tipo">{{ tipo }}</option>
+            <label for="sexo">Selecione o Veterinário*</label>
+            <select class="form-select form-select-lg"  name="unidade" id="unidade" aria-label=".form-select-lg example" formControlName="veterinario" required>
+              <option *ngFor="let veterinario of veterinarios" [value]="veterinario.vet_id">M.V. {{veterinario.col_nome}}</option>
             </select>
           </div>
           <div class="input-group flex-nowrap">

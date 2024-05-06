@@ -47,6 +47,7 @@ export class AgendaComponent implements OnInit {
   formaAquisicao: any;
   masgError: any;
   users: any;
+  especialidades: any;
   animalDates: any;
   agendaNovo:boolean =  false;
   collapsed:boolean = false;
@@ -132,6 +133,8 @@ export class AgendaComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.pegaVets();
+
+    await this.pegaEspecialidades();
 
     await this.pegaSemana();
 
@@ -445,7 +448,17 @@ export class AgendaComponent implements OnInit {
     });
   }
 
+  async pegaEspecialidades () {
 
+      this.app.getEspecialidades(this.httpOptions).subscribe({
+        next: ((res)=> {
+          this.especialidades = res;
+          return this.especialidades
+        }),
+        error: ((err)=> console.log(err))
+
+    })
+  }
 
 
 
