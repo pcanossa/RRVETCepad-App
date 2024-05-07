@@ -18,12 +18,13 @@
             <div class="hora d-flex align-items-start justify-content-center">
             </div>
               <div *ngFor="let agendamento of agendamentosDia">
-                <div *ngFor="let agenda of agendamento">
+                <div *ngFor="let agenda of agendamento" (click)="pegaDadosAgendamento(agenda.ani_rga, agenda.agd_tipo, agenda.col_nome,formatDate(agenda.agd_data),formataHora(agenda.agd_horario), agenda.agd_id, agenda.agd_conclusao)">
                   <div [class]="agenda.agd_tipo+' d-flex flex-column align-items-center justify-content-center'" id='ag' *ngIf="formatDate(agenda.agd_data)=== formatDate(datas.hora)">
                     <p style="color:rgb(0, 156, 218)">{{agenda.ani_nome}}</p>
                     <p style="color:#6b4103">{{agenda.tut_nome}}</p>
                     <p>{{formataHora(agenda.agd_horario)}}</p>
                     <p>M.V. {{agenda.col_nome}}</p>
+                    <h5 *ngIf="agenda.agd_conclusao == 'Validado'"><i style="color: rgb(10, 197, 47);" class="fa-solid fa-check"></i></h5>
                   </div>
                 </div>
               </div>
@@ -37,11 +38,33 @@
     <h5 class="Emergencia">Emergência</h5>
     <h5 class="Retorno">Retorno</h5>
     <h5 class="Encaixe">Encaixe</h5>
-    <h5 class="Cirurgia">Avaliação Cirurgica</h5>
+    <h5 class="Especialista">Especialista</h5>
     <h5 class="Home">Ultrassonografia</h5>
     <h5 class="Coleta-Exame">Coleta de Exame</h5>
     <h5 class="Vacina">Eletrocardiograma</h5>
   </div>
+  <form class="legenda d-flex align-items-center justify-content-evenly flex-wrap" [formGroup]="dadoBusca">
+    <div>
+      <label for="tipos">Tipo de Agenda*</label>
+      <select class="form-select form-select-lg" name="tipo" aria-label=".form-select-lg example" formControlName="tipo" (blur)="atualizaAgenda()" required>
+        <option selected hidden>Tipo de Atendimento</option>
+        <option *ngFor="let tipo of tipoBusca" [value]="tipo">{{ tipo }}</option>
+      </select>
+    </div>
+    <div *ngIf="dadoBusca.value.tipo=='Tipo Atendimento'">
+      <label for="tipos">Tipo de Atendimento*</label>
+      <select class="form-select form-select-lg" name="tipo" aria-label=".form-select-lg example" (blur)="atualizaAgendaEsp()" formControlName="referencia" required>
+        <option selected hidden>Tipo de Atendimento</option>
+        <option *ngFor="let tipo of tipoAtendimento" [value]="tipo">{{ tipo }}</option>
+      </select>
+    </div>
+    <div *ngIf="dadoBusca.value.tipo=='Veterinário'">
+      <label for="sexo">Selecione o Veterinário*</label>
+      <select class="form-select form-select-lg"  name="unidade" id="unidade" aria-label=".form-select-lg example" formControlName="referencia" (blur)="atualizaAgendaEsp()" required>
+        <option  *ngFor="let veterinario of veterinarios" value={{veterinario.vet_id}}>M.V. {{veterinario.col_nome}}</option>
+      </select>
+    </div>
+  </form>
     <div class="novo-agendamento">
       <button class="btn btn-primary" style="color: #f8e5ac;" type="button" (click)="novoAgenda(); collapseAtend();">Novo Agendamento</button>
     </div>
@@ -61,9 +84,16 @@
           </div>
           <div *ngIf="dadoAgendamento.value.tipo == 'Especialista'">
             <label for="tipos">Especialidade*</label>
-            <select class="form-select form-select-lg" name="tipo" aria-label=".form-select-lg example" formControlName="tipo" required>
+            <select class="form-select form-select-lg" name="tipo" aria-label=".form-select-lg example" formControlName="especialidade" (blur)="pegaEspecialistas();" required>
               <option selected hidden>Especialidade</option>
               <option *ngFor="let tipo of especialidades" [value]="tipo.esp_id">{{ tipo.esp_nome }}</option>
+            </select>
+          </div>
+          <div *ngIf="dadoAgendamento.value.tipo == 'Exames'">
+            <label for="tipos">Exame*</label>
+            <select class="form-select form-select-lg" name="tipo" aria-label=".form-select-lg example" formControlName="especialidade" (blur)="pegaRealizadores();" required>
+              <option selected hidden>Exame</option>
+              <option *ngFor="let exame of exames" [value]="exame.exm_id">{{ exame.exm_exame}}</option>
             </select>
           </div>
           <div>
@@ -72,17 +102,24 @@
               <input type="datetime-local" class="form-control" placeholder="" aria-label="Example text with button addon" id="data" formControlName="dataHora">
             </div>
           </div>
-          <div>
+          <div *ngIf="dadoAgendamento.value.tipo != 'Especialista' && dadoAgendamento.value.tipo != 'Exames'">
             <label for="sexo">Selecione o Veterinário*</label>
             <select class="form-select form-select-lg"  name="unidade" id="unidade" aria-label=".form-select-lg example" formControlName="veterinario" required>
-              <option *ngFor="let veterinario of veterinarios" [value]="veterinario.vet_id">M.V. {{veterinario.col_nome}}</option>
+              <option  *ngFor="let veterinario of veterinarios" [value]="veterinario.vet_id">M.V. {{veterinario.col_nome}}</option>
+            </select>
+          </div>
+          <div *ngIf="dadoAgendamento.value.tipo == 'Exames' || dadoAgendamento.value.tipo == 'Especialista'">
+            <label for="sexo">Selecione o Veterinário*</label>
+            <select  class="form-select form-select-lg"  name="unidade" id="unidade" aria-label=".form-select-lg example" formControlName="veterinario" required>
+              <option  *ngFor="let veterinario of especialistas" [value]="veterinario.vet_id">M.V. {{veterinario.col_nome}}</option>
             </select>
           </div>
           <div class="input-group flex-nowrap">
             <span class="input-group-text" id="addon-wrapping">Pedido por:</span>
             <input type="text" class="form-control" placeholder="Inserir se houver pedido" aria-label="pedido" aria-describedby="addon-wrapping" required formControlName="pedido">
           </div>
-          <button type="button" class="btn btn-info" (click)="adicionaAgenda()" >Agendar</button>
+          <button *ngIf="dadosGerais" type="button" class="btn btn-info" (click)="atuaalizaAgenda()" >Modificar Agendamento</button>
+          <button *ngIf="!dadosGerais && masgError==null" type="button" class="btn btn-info" (click)="adicionaAgenda()" >Agendar</button>
           <div *ngIf="succes" class="d-flex flex-row align-items-center justify-content-center" >
             <h5 style="color: rgb(53, 140, 207);">
               <i class="fa-solid fa-check" style="color: rgb(53, 140, 207);"></i> {{succes}}
@@ -90,7 +127,7 @@
           </div>
         </form>
 
-        <div class="cards d-flex flex-wrap align-items-evenly justify-content-center" *ngIf="animalDates && masgError==null && agendaNovo">
+        <div class="cards d-flex flex-wrap align-items-evenly justify-content-center" *ngIf="(animalDates && masgError==null && agendaNovo) || (animalDates && masgError==null && dadoAgenda)">
           <div class="animal-card d-flex justify-content-start align-items-center" style="background-color: rgb(172, 247, 222);">
             <div class="topo-card d-flex justify-content-center">
               <div class="header d-flex flex-column align-items-center">
@@ -108,7 +145,17 @@
             </div>
           </div>
         </div>
-          <div class="animal-card" *ngIf="animalDates && masgError==null && agendaNovo">
+        <div class="dadoAgenda d-flex flex-column align-items-center justify-content-center" *ngIf="animalDates && masgError==null && dadoAgenda">
+          <div class="dadoAgenda d-flex flex-column align-items-center justify-content-center">
+            <h6>Tipo e Atendimento: {{dadosGerais.tipo}}</h6>
+            <h6>Médico Veterinário: {{dadosGerais.mv}}</h6>
+            <h6>Data de Agendamento: {{dadosGerais.data}}</h6>
+            <h6>Horário Agendado: {{dadosGerais.horario}} </h6>
+            <h6 *ngIf="dadosGerais.conclusao == 'Validado'"><i style="color: rgb(10, 197, 47);" class="fa-solid fa-check"></i> Agendamento Validado</h6>
+          </div>
+          <button *ngIf="dadosGerais.conclusao == 'Agendado'" type="button" class="btn btn-info" (click)="validaAgendamento(dadosGerais.id)">Validar Agendamento</button>
+        </div>
+          <div class="animal-card" *ngIf="(animalDates && masgError==null && agendaNovo) || (animalDates && masgError==null && dadoAgenda)">
             <h1><i class="fa-solid fa-dog" *ngIf="animalDates.ani_especie === 'Canina'"></i></h1>
             <h1><i class="fa-solid fa-cat" *ngIf="animalDates.ani_especie === 'Felina'"></i></h1>
             <div class="card-content">
@@ -136,6 +183,7 @@
                 animalDates.ani_id
                 )"><h5>{{animalDates.ani_nome}}</h5></a>
               <h6>{{animalDates.ani_raca}}</h6>
+              <h6>{{animalDates.ani_rga}}</h6>
             </div>
           <h4><i style="color: rgb(250, 183, 231); margin-left: 10px;" class="fa-solid fa-venus" *ngIf="animalDates.ani_sexo === 'F'"></i></h4>
           <h4><i style="color: rgb(106, 212, 212); margin-left: 10px;" class="fa-solid fa-mars" *ngIf="animalDates.ani_sexo === 'M'"></i></h4>

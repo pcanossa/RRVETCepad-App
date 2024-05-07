@@ -31,6 +31,7 @@ export class AgendaComponent implements OnInit {
 
 
   iterador: number = 0;
+  dadosGerais: any;
   agendaSemana: any;
   datasSemana: any;
   dadosAgenda: any;
@@ -39,6 +40,8 @@ export class AgendaComponent implements OnInit {
   iteradorA: number = 0;
   unidade: any;
   unidSelected: any;
+  exames: any;
+  busca: any;
   tutor: any;
   animais: any;
   tokenLy: any;
@@ -48,12 +51,14 @@ export class AgendaComponent implements OnInit {
   masgError: any;
   users: any;
   especialidades: any;
+  especialistas: any;
   animalDates: any;
   agendaNovo:boolean =  false;
   collapsed:boolean = false;
   veterinarios: any;
   succes: any;
   dia: any;
+  dadoAgenda: boolean = false;
   marcador: any;
   agendamentosDia: any[] = [];
   agendaHora: any[] = [];
@@ -66,7 +71,14 @@ export class AgendaComponent implements OnInit {
     mes: ['', Validators.required],
     tipo: ['', Validators.required],
     dataHora: ['', Validators.required],
-    pedido: [null]
+    pedido: [null],
+    especialidade: [''],
+    exame: ['']
+  });
+
+  public dadoBusca: FormGroup = this.formBuilder.group({
+    tipo: [''],
+    referencia: [''],
   })
 
   meses = {
@@ -118,6 +130,12 @@ export class AgendaComponent implements OnInit {
     'Exames',
   ];
 
+  tipoBusca = [
+    'Todos',
+    'Tipo Atendimento',
+    'Veterinário'
+  ]
+
   outra: any[]=[];
 
   token = JSON.parse(localStorage.getItem('token') ?? '{}');
@@ -135,6 +153,8 @@ export class AgendaComponent implements OnInit {
     await this.pegaVets();
 
     await this.pegaEspecialidades();
+
+    await this.pegaExames();
 
     await this.pegaSemana();
 
@@ -178,7 +198,71 @@ export class AgendaComponent implements OnInit {
 
   }
 
+  async atualizaAgendaEsp () {
+    try {
+      this.iteradorA = 0;
+      await this.pegaSemana();
+      console.log('pegouSemana');
 
+      try {
+        for (let semana of this.outra) {
+          const data = new Date (semana.hora)
+          const dia = String(data.getDate()).padStart(2, '0');
+          const mes = String(data.getMonth()+1).padStart(2, '0');
+          const ano = String(data.getFullYear());
+          this.dia=`${ano}-${mes}-${dia}`;
+          console.log('Data:', this.dia);
+          console.log('Iterador:', this.iteradorA);
+          await this.agendaEsp();
+          console.log('Marcador:', this.marcador); // Adicionado este log para verificar se há dados em 'this.marcador'
+          this.agendamentosDia[this.iteradorA] = this.marcador.sort((a: any, b: any) => {
+            const horaA = a.agd_horario.split(':').join(''); // Remove os dois pontos da string
+            const horaB = b.agd_horario.split(':').join(''); // Remove os dois pontos da string
+            return horaA.localeCompare(horaB); // Compara as horas formatadas
+          });
+          console.log('Agendamentos do dia:', this.agendamentosDia[this.iteradorA]); // Adicionado este log para verificar se os dados estão sendo atribuídos corretamente
+          this.iteradorA++;
+        }
+
+        console.log('Agendamentos da semana:', this.agendamentosDia);
+      } catch (err) {
+        console.log(err);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+  }
+
+
+
+  pegaEspecialistas() {
+    this.app.getEspecialistas({espID: this.dadoAgendamento.value.especialidade}, this.httpOptions)
+    .subscribe({
+      next: ((res:any)=> {
+        console.log(this.dadoAgendamento.value.especialidade);
+        this.especialistas = res;
+        console.log(this.especialistas);
+      }),
+      error: ((err:any)=> {
+        console.log(err.message);
+      })
+    })
+  }
+
+  pegaRealizadores() {
+    this.app.getRealizadores({exmID: this.dadoAgendamento.value.especialidade}, this.httpOptions)
+    .subscribe({
+      next: ((res:any)=> {
+        console.log(this.dadoAgendamento.value.exame);
+        this.especialistas = res;
+        console.log(this.especialistas);
+      }),
+      error: ((err:any)=> {
+        console.log(err.message);
+      })
+    })
+  }
 
   collapseAtend () {
     this.animalDates = null;
@@ -230,6 +314,7 @@ export class AgendaComponent implements OnInit {
   }
 
   novoAgenda () {
+    this.dadoAgenda = false;
     if (this.agendaNovo) {
       this.agendaNovo = false;
     } else {
@@ -256,15 +341,41 @@ export class AgendaComponent implements OnInit {
         conclusao: 'Agendado',
         tipo: this.dadoAgendamento.value.tipo,
         rga: this.animalDates.ani_id,
-        veterinário: this.dadoAgendamento.value.veterinario
+        veterinário: this.dadoAgendamento.value.veterinario,
+        descTipo: String(this.dadoAgendamento.value.especialidade)
+      },
+      this.httpOptions
+    ).subscribe({
+      next: ((res)=>{
+        console.log(this.dadoAgendamento.value.especialidade);
+        this.succes = res.message;
+        this.atualizaAgenda();
+      }),
+      error: ((err)=>{
+        console.log(this.animalDates)
+        console.log(err)
+      })
+    })
+  }
+
+  atuaalizaAgenda() {
+    this.app.atualizaAgenda(
+      {
+        data: this.formatDateAg(this.dadoAgendamento.value.dataHora),
+        horario: this.formatHour(this.dadoAgendamento.value.dataHora),
+        pedido: this.dadoAgendamento.value.pedido,
+        tipo: this.dadoAgendamento.value.tipo,
+        descricao: String(this.dadoAgendamento.value.especialidade),
+        vetID: this.dadoAgendamento.value.veterinario,
+        agdID: this.dadosGerais.id
       },
       this.httpOptions
     ).subscribe({
       next: ((res)=>{
         this.succes = res.message;
+        this.atualizaAgenda();
       }),
       error: ((err)=>{
-        console.log(this.animalDates)
         console.log(err)
       })
     })
@@ -360,6 +471,43 @@ export class AgendaComponent implements OnInit {
       })
   }
 
+  public async pegaDadosAgendamento(
+    animalID: number,
+    tipoConsulta: string,
+    mv: string,
+    data: any,
+    horario: any,
+    id: number,
+    conclusao: string
+  ) {
+    this.dadoAgenda = true;
+    this.dadosGerais = {
+      tipo: tipoConsulta,
+      mv: mv,
+      data: data,
+      horario: horario,
+      id: id,
+      conclusao: conclusao
+    }
+    this.animalApp.consultaAnimais({
+      rga: animalID
+    }, this.httpOptions)
+    .subscribe ({
+      next: ((res)=> {
+        console.log('oi');
+        this.animalDates = res[0];
+        this.masgError = null;
+
+        console.log(this.animalDates);
+        this.masgError = undefined;
+      }),
+      error: ((err)=> {
+        this.masgError = err;
+        this.animais = [];
+        ;})
+    })
+  }
+
   enviarID (id:any, nome:any, especie:any, raca:any, cor:any, sexo:any, idade:any, particularidades:any, rga:any, urlfoto:any, tutor:any, telefone:any, rua:any, numero:any, bairro:any, cidade:any, cpf:any, tipo:any, cep:any, porte:any, animalId: any) {
     localStorage.setItem('animalDates', JSON.stringify({
       id: id,
@@ -397,6 +545,19 @@ export class AgendaComponent implements OnInit {
         })
       })
     })
+  }
+
+  public async validaAgendamento (id: number) {
+      this.app.validaAgenda({agdID: id},this.httpOptions).subscribe({
+        next: (async (res)=> {
+          this.dadosGerais = null;
+          this.atualizaAgenda();
+         return res
+        }),
+        error: ((err)=> {
+          console.log(err);
+        })
+      })
   }
 
   formatDateForm(dateString:any) {
@@ -440,6 +601,25 @@ export class AgendaComponent implements OnInit {
     }
   }
 
+  async agendaEsp () : Promise<any> {
+    if (this.dadoBusca.value.tipo == 'Tipo Atendimento') {
+      this.busca = 'agd_tipo';
+    } else {
+      this.busca = 'agd_veterinario_vet_id';
+    }
+    try {
+      const res = await this.app.getAgendaEspecial({ dia: this.dia, tipo: this.busca, referencia: this.dadoBusca.value.referencia}, this.httpOptions).toPromise();
+      console.log('Resposta da agenda:', res); // Adicionado este log para verificar a resposta do servidor
+      this.marcador = res;
+      console.log('Marcador:', this.marcador); // Adicionado este log para verificar se 'this.marcador' está sendo atribuído corretamente
+      return this.marcador; // Retorna os dados recebidos do servidor
+    } catch (error) {
+      console.error("Erro ao obter dados da agenda:", error);
+      throw error; // Lança o erro para que possa ser tratado no método ngOnInit()
+    }
+  }
+
+
   async ordenaHorarios(array: any[]) {
     array.sort((a: any, b: any) => {
       const horaA = new Date(a.agd_horario).getTime(); // Obtém o tempo em milissegundos do horário do agendamento 'a'
@@ -453,12 +633,26 @@ export class AgendaComponent implements OnInit {
       this.app.getEspecialidades(this.httpOptions).subscribe({
         next: ((res)=> {
           this.especialidades = res;
+          console.log(`Especialidades: ${this.especialidades}`)
           return this.especialidades
         }),
         error: ((err)=> console.log(err))
 
     })
-  }
+  };
+
+  async pegaExames () {
+
+    this.app.getExames(this.httpOptions).subscribe({
+      next: ((res)=> {
+        this.exames = res;
+        console.log(`Exames: ${this.exames}`);
+        return this.exames
+      }),
+      error: ((err)=> console.log(err))
+
+  })
+}
 
 
 
