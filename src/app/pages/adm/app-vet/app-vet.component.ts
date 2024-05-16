@@ -20,33 +20,39 @@ export class AppVetComponent {
   msgError: any;
   vetValidate: any;
   pex: any;
+  atendimentos: any;
 
   httpOptions = {
     headers: this.headers
   };
 
   validados: any[] = [];
+  vet: any;
 
   constructor(private app: FuncionarioService, private router: Router) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     try {
-      this.consultaVeterinario();
-        try {
-        this.getValidados();
-        } catch (err) {
-        console.log(err);
-        }
+      await this.validaVeterinario();
+      console.log(this.vet)
+
+      try {
+        await this.getAtendimentoVet();
+      } catch {
+
+      }
+
     } catch (err:any) {
 
     }
 
     try {
-      this.consultaExames();
-    } catch (err) {
+      console.log('entrou');
+
+      this.getAtendimentoVet();
+    } catch (err:any) {
 
     }
-
     console.log(this.funcDates)
   }
 
@@ -64,6 +70,22 @@ export class AppVetComponent {
         error: (err)=> reject (err)
       })
     })
+  }
+
+  async getAtendimentoVet () {
+    console.log(this.vet)
+      this.app.getAtdVet(this.vet[0].vet_id, this.httpOptions)
+      .subscribe({
+        next: ((res)=> {
+          console.log(res);
+          this.atendimentos = res.agenda;
+          this.msgError = res.message;
+
+        }),
+        error: ((err)=>(this.msgError = err.message))
+
+      })
+
   }
 
   getSQLDateHourForm() {
@@ -109,6 +131,25 @@ export class AppVetComponent {
         })
       })
     })
+  }
+
+  async validaVeterinario () {
+    try {
+      await this.app.validaVet({id: this.funcDates.id}, this.httpOptions)
+      .subscribe({
+        next: ((res)=> {
+          this.vet = res;
+          this.msgError = res.message;
+          console.log(this.vet);
+
+        }),
+        error: ((err)=>(this.msgError = err.message))
+
+      })
+    } catch (err) {
+      this.msgError = err
+      return this.msgError
+    }
   }
 
   async consultaExames (): Promise<any> {

@@ -24,7 +24,10 @@ export class FuncionarioService {
   private especialistas: string = '/getEspecialistas';
   private getEspecalidades: string = '/getEspecialidades';
   private getAgenda: string = '/getAgenda';
-  private getAgendAEsp: string = '/AgendAEsp';
+  private getAgendAEsp: string = '/AgendaEsp';
+  private getAgendaExm: string = '/AgendaExm';
+  private validaVeterinario: string = '/validaVet';
+  private getAtendimentosVet: string = '/atendimentoVet';
   private cadastroColaborador: string = '/cadastroColaborador';
   private recuperaSenha: string = '/registraNovaSenhaCol';
   private mail: string = '/perdeuSenhaCol';
@@ -83,7 +86,8 @@ export class FuncionarioService {
     return this.httpClient.post(this.app.url+this.auth, payload).pipe(
       map((response: any) => {
         this.isAuthenticated=true;
-        localStorage.setItem('funcDates', JSON.stringify({ id: response.user[0].col_id, idVet: response.user[0].col_id, nivelAcesso: response.user[0].col_funcao_cfn_id}))
+        console.log(response);
+        localStorage.setItem('funcDates', JSON.stringify({ id: response.user[0].usr_colaborador_col_id, idVet: response.user[0].col_id, nivelAcesso: response.user[0].col_funcao_cfn_id}))
         localStorage.setItem('isADMAuthenticated', JSON.stringify('true'));
         localStorage.setItem('token', JSON.stringify(response.token));
         }),
@@ -220,6 +224,25 @@ export class FuncionarioService {
 
   }
 
+  public getAtdVet (payload: {
+    id: any
+  }, header:any) {
+    return this.httpClient.post(this.app.url+this.getAtendimentosVet, payload, header).pipe(
+      map((response:any)=> {
+        return response
+      }),
+      catchError((e) => {
+        if (e.error.message) {
+          return throwError(() => e.error.message)};
+
+        return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
+      })
+    )
+
+  }
+
+
+
   public registraColaborador (payload: {
     nome: string,
     cpf: string,
@@ -257,6 +280,20 @@ export class FuncionarioService {
       })
     )
   };
+
+  public validaVet (payload: {id: number}, header:any): Observable<any> {
+    return this.httpClient.post(this.app.url+this.validaVeterinario, payload, header).pipe(
+      map((response)=> {
+        return response
+      }),
+      catchError((error)=> {
+        if (error.error.message) {
+          return throwError(() => error.error.message)};
+
+        return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
+      })
+    )
+  }
 
   public getEspecialidades(header:any): Observable<any> {
     return this.httpClient.get(this.app.url+this.getEspecalidades, header).pipe(
@@ -836,6 +873,7 @@ export class FuncionarioService {
         })
       )
     }
+
 
     public getUsers (headers: any) {
       return this.httpClient.get(this.app.url+this.users, headers).pipe(
