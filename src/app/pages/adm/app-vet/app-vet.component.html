@@ -6,22 +6,25 @@
     <div class="fila d-flex flex-column align-items-center justify-content-center" *ngIf="vet?.length > 0">
       <div class="aguard-card d-flex flex-column justify-content-evenly">
         <div class="container tab-agd" id="agd-tab">
-          <div class="row d-flex justify-content-evenly align-items-center" [id]="atendimento.agd_tipo" *ngFor="let atendimento of atendimentos; let i for index">
+          <div class="row d-flex justify-content-evenly align-items-center" [id]="atendimento.agd_tipo" *ngFor="let atendimento of atendimentos">
             <div class="col">
               <h6>{{ atendimento.ani_nome }}</h6>
+            </div>
+            <div class="col">
+              <h6>{{ atendimento.tut_nome }}</h6>
             </div>
             <div class="col">
               <h6>{{ formatDateForm(atendimento.agd_data) }}</h6>
             </div>
             <div class="col">
-              <h6>{{ formatHourMinutes(atendimento.agd_hora) }}</h6>
+              <h6>{{ formataHora(atendimento.agd_horario) }}</h6>
             </div>
             <div class="col">
               <h6>{{ atendimento.agd_tipo }}</h6>
             </div>
             <div class="col d-flex justify-content-center align-items-center">
               <button class="btn btn-primary" type="button" id="btnOk">
-                <p style="color: aliceblue; text-align: center; margin: 0;" (click)="iniciaAtendimento(atendimento.ani_id, i)">Iniciar Atendimento</p>
+                <p style="color: aliceblue; text-align: center; margin: 0;">Iniciar Atendimento</p>
               </button>
             </div>
           </div>

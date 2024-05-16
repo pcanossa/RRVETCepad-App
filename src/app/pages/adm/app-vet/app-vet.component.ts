@@ -33,28 +33,22 @@ export class AppVetComponent {
 
   async ngOnInit() {
     try {
-      await this.validaVeterinario();
-      console.log(this.vet)
+        await this.validaVeterinario();
+        console.log('Dados Vet da validação, no OnInit:' + this.vet);
 
-      try {
-        await this.getAtendimentoVet();
-      } catch {
+        try {
+            await this.getAtendimentoVet();
 
-      }
+        } catch (error) {
+            // Lida com erros em getAtendimentoVet()
+        }
 
-    } catch (err:any) {
-
+    } catch (error) {
+        // Lida com erros em validaVeterinario()
     }
+    console.log(this.atendimentos);
+}
 
-    try {
-      console.log('entrou');
-
-      this.getAtendimentoVet();
-    } catch (err:any) {
-
-    }
-    console.log(this.funcDates)
-  }
 
   async getValidados (): Promise<any> {
     return new Promise<any>(async (resolve, reject) => {
@@ -73,19 +67,24 @@ export class AppVetComponent {
   }
 
   async getAtendimentoVet () {
-    console.log(this.vet)
-      this.app.getAtdVet(this.vet[0].vet_id, this.httpOptions)
+    console.log('Dados vet pego da validação:'+this.vet)
+      this.app.getAtdVet({id: this.vet[0].vet_id}, this.httpOptions)
       .subscribe({
         next: ((res)=> {
           console.log(res);
-          this.atendimentos = res.agenda;
+          this.atendimentos = res;
           this.msgError = res.message;
+          console.log(this.atendimentos);
 
         }),
         error: ((err)=>(this.msgError = err.message))
 
       })
 
+  }
+
+  formataHora (hora:any) {
+    return hora.slice(0, -3);
   }
 
   getSQLDateHourForm() {
@@ -133,22 +132,16 @@ export class AppVetComponent {
     })
   }
 
-  async validaVeterinario () {
+  async validaVeterinario() {
     try {
-      await this.app.validaVet({id: this.funcDates.id}, this.httpOptions)
-      .subscribe({
-        next: ((res)=> {
-          this.vet = res;
-          this.msgError = res.message;
-          console.log(this.vet);
-
-        }),
-        error: ((err)=>(this.msgError = err.message))
-
-      })
-    } catch (err) {
-      this.msgError = err
-      return this.msgError
+      const response = await this.app.validaVet({ id: this.funcDates.id }, this.httpOptions).toPromise(); // Convertendo Observable para Promise
+      this.vet = response; // Atribuindo a resposta a this.vet
+      this.msgError = response.message; // Definindo a mensagem de erro, se houver
+      console.log('Dados Vet:', this.vet); // Verificando se os dados de vet estão corretos
+    } catch (error) {
+      this.msgError = error; // Lidando com erros
+      console.error('Erro ao validar veterinário:', error);
+      throw error; // Lançando o erro novamente para tratamento posterior
     }
   }
 

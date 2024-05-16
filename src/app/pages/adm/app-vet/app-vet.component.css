@@ -5,7 +5,7 @@
 
 .nav-menu {
   min-width:100%;
-  background-color: #0478A1;
+  background-color: #67a4ba;;
   min-height: 100%;
 }
 
@@ -115,20 +115,48 @@
   border-radius: 15px;
 }
 
-#Cirurgia {
+#Especialista {
   background-color: #a5f3ef;
   padding: 2px;
   border-radius: 15px;
 }
 
-#Pet-Home {
+.Ultrassonografia {
   background-color: #c5cccc;
   padding: 2px;
   border-radius: 15px;
 }
 
-#Coleta-Exame {
+.Exames {
   background-color: #ffdffa;
+  padding: 2px;
+  border-radius: 15px;
+}
+
+.legenda h5 {
+  margin: 15px;
+}
+
+.Vacina {
+  background-color: #f8d094;
+  padding: 2px;
+  border-radius: 15px;
+}
+
+.Retorno {
+  background-color: #bef3a5;
+  padding: 2px;
+  border-radius: 15px;
+}
+
+.Emergencia {
+  background-color: #f3aaa5;
+  padding: 2px;
+  border-radius: 15px;
+}
+
+.Encaixe {
+  background-color: #eef3a5;
   padding: 2px;
   border-radius: 15px;
 }
@@ -234,7 +262,7 @@
 @media screen and (min-width: 451px) {
   .nav-menu {
     min-width:25%;
-    background-color: #0478A1;
+    background-color: #67a4ba;;
     min-height: 100vh;
   }
 
