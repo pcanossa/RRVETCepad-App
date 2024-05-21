@@ -167,7 +167,7 @@ export class AppVetComponent {
       await this.app.iniciaAtendimento({
         dataHora: this.getSQLDateHourForm(),
         aniId: aniId,
-        vetId: this.vetValidate[0].vet_id
+        vetId: this.vet[0].vet_id
        }, this.httpOptions).subscribe({
         next: ((res)=> {
           localStorage.setItem('atdDates', JSON.stringify({id: res, agdDates: i}));
