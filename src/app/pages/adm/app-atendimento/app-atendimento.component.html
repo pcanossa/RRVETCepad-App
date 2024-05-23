@@ -511,8 +511,8 @@
             <input matInput placeholder="Ex. Gastroenterite" [formControl]="dncAnteriores"
             [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let doenca of filteredOptionsDncAnteriores | async" [value]="doenca.dnc_nome">
-                {{doenca.dnc_nome}}
+              <mat-option *ngFor="let doenca of filteredOptionsDncAnteriores | async" [value]="doenca.dnc_doenca">
+                {{doenca.dnc_doenca}}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -536,8 +536,8 @@
             <input matInput placeholder="Ex. Gastroenterite" [formControl]="diagnosticos"
             [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let doenca of filteredOptionsDiag | async" [value]="doenca.dnc_nome">
-                {{doenca.dnc_nome}}
+              <mat-option *ngFor="let doenca of filteredOptionsDiag | async" [value]="doenca.dnc_doenca">
+                {{doenca.dnc_doenca}}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -561,8 +561,8 @@
             <input matInput placeholder="Ex. Metronidazol" [formControl]="medicacoes"
             [matAutocomplete]="autoMed" formControlName="medicacao">
             <mat-autocomplete #autoMed="matAutocomplete">
-              <mat-option *ngFor="let med of filteredOptionsMed | async" [value]="med.med_principio">
-                {{med.med_principio}}
+              <mat-option *ngFor="let med of filteredOptionsMed | async" [value]="med.med_nome">
+                {{med.med_nome}}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -742,84 +742,6 @@
       </form>
       <a href="/receita" target="_blank"><button class="btn btn-primary" type="button" style="margin-bottom: 10px;" (click)="mostraReceita()">Ver Receita</button></a>
     </div>
-    <h2>Aplicação de Vacinas</h2>
-    <form class="sessao d-flex align-items-center justify-content-center flex-wrap" [formGroup]="apliVacina">
-      <div class="row d-flex flex-column align-items-center justify-content-evenly flex-wrap">
-        <div class="d-flex align-items-center justify-content-center">
-          <mat-form-field class="example-full-width">
-            <mat-label>Vacina</mat-label>
-            <input matInput placeholder="Ex. V10" [formControl]="vacinas"
-            [matAutocomplete]="autoVac">
-            <mat-autocomplete #autoVac="matAutocomplete" (optionSelected)="onVacineSelected($event)">
-              <mat-option *ngFor="let vacT of filteredOptionsVac | async; let i = index" [value]="vacT.vac_tipo">
-                {{vacT.vac_tipo}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
-        <div class="d-flex align-items-center justify-content-center">
-          <mat-form-field class="example-full-width">
-            <mat-label>Marca</mat-label>
-            <input matInput placeholder="Ex. Nobivac Canine" [formControl]="vacMarca"
-            [matAutocomplete]="autoVacMarca">
-            <mat-autocomplete #autoVacMarca="matAutocomplete">
-              <mat-option *ngFor="let vac of filteredOptionsVacMarca | async" [value]="vac.vac_marca">
-                {{vac.vac_marca}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
-        <div class="d-flex align-items-center justify-content-center">
-          <mat-form-field class="example-full-width">
-            <mat-label>Lote</mat-label>
-            <input matInput placeholder="Ex. 012/23" formControlName="lote">
-          </mat-form-field>
-        </div>
-        <div class="input-group mb-3">
-          <mat-form-field>
-            <input matInput [matDatepicker]="picker" placeholder="Data de Vencimento" formControlName="validade">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-            <div class="erros" >
-              <p></p>
-            </div>
-          </mat-form-field>
-        </div>
-        <div class="input-group mb-3">
-          <mat-form-field>
-            <input matInput [matDatepicker]="pickerR" placeholder="Data de Reforço" formControlName="reforco">
-            <mat-datepicker-toggle matSuffix [for]="pickerR"></mat-datepicker-toggle>
-            <mat-datepicker #pickerR></mat-datepicker>
-            <div class="erros" >
-              <p></p>
-            </div>
-          </mat-form-field>
-        </div>
-        <div class="col d-flex justify-content-center" style="max-width: 60%;">
-          <h3><i class="fa-solid fa-plus" (click)="addVac();"></i></h3>
-        </div>
-        <div class="row d-flex align-items-center justify-content-center flex-wrap" id="ex" *ngFor="let vac of tvac; let i = index">
-          <div class="col">
-            <h6>{{vac.vacina}} {{vac.id}}</h6>
-          </div>
-          <div class="col">
-            <h6>{{vac.marca}}</h6>
-          </div>
-          <div class="col">
-            <h6>Lote: {{vac.lote}}</h6>
-          </div>
-          <div class="col">
-            <h6>Vencimento: {{formatDate(vac.validade)}}</h6>
-          </div>
-          <div class="col">
-            <h6>Reforço: {{formatDate(vac.reforco)}}</h6>
-          </div>
-          <div class="col d-flex justify-content-center align-items-center" (click)="removeArray(tvac, i)">
-            <h3><i class="fa-regular fa-rectangle-xmark" style="color: rgb(112, 18, 18);"></i></h3>
-          </div>
-        </div>
-      </div>
-    </form>
     <h2>Exames</h2>
     <form class="sessao d-flex align-items-center justify-content-center flex-wrap" [formGroup]="pExames">
       <div class="row d-flex align-items-center justify-content-center flex-wrap">
@@ -829,8 +751,8 @@
             <input matInput placeholder="Ex. Hemograma" [formControl]="exames"
             [matAutocomplete]="autoExm" formControlName="exame">
             <mat-autocomplete #autoExm="matAutocomplete">
-              <mat-option *ngFor="let exm of filteredOptionsExm | async" [value]="exm.exm_nome">
-                {{exm.exm_nome}}
+              <mat-option *ngFor="let exm of filteredOptionsExm | async" [value]="exm.exm_exame">
+                {{exm.exm_exame}}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -931,7 +853,7 @@
     </form>
   </form>
   <div>
-    <button class="btn btn-primary" type="button" (click)="registraInformacoes();" id="registra">Registrar Informações</button>
+    <button class="btn btn-primary" type="button" (click)="verDados();" id="registra">Registrar Informações</button>
   </div>
   <div class="ok d-flex justify-content-center align-items-center" *ngIf="resolve !== ''">
     <h5>{{ resolve }}</h5>

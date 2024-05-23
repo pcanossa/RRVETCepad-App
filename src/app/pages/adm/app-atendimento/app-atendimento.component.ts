@@ -283,8 +283,7 @@ export class AppAtendimentoComponent implements OnInit{
 
   anm_agua =[
     'torneira',
-    'filtrada',
-    'galão'
+    'filtrada'
   ];
 
   anm_diurese = [
@@ -392,15 +391,6 @@ export class AppAtendimentoComponent implements OnInit{
     'misto'
   ];
 
-  anr_tipo_racao = [
-    'saco 1kg',
-    'saco 3kg',
-    'saco 7kg',
-    'saco 15kg',
-    'saco 20kg',
-    'granel'
-  ];
-
   anr_frequencia_racao = [
     '1x ao dia',
     '2x ao dia',
@@ -426,12 +416,6 @@ export class AppAtendimentoComponent implements OnInit{
     'pastosa'
   ];
 
-  anr_motivo_banho = [
-    'estético',
-    'terapêutico',
-    'coceira',
-    'ectoparasitas'
-  ];
 
   anp_motivo_recusa =[
     'ganho de peso',
@@ -449,14 +433,6 @@ export class AppAtendimentoComponent implements OnInit{
     'suplementação óssea',
     'melhora de saúde'
   ];
-
-  and_frequencia_banhos =[
-    'diariamente',
-    'semanal',
-    'quinzenal',
-    'mensal',
-    'período maior que 1 mês'
-  ]
 
   anp_ectoparasiticida = [
     'pipeta',
@@ -563,7 +539,7 @@ export class AppAtendimentoComponent implements OnInit{
 
   constructor(private app: FuncionarioService, private formBuilder: FormBuilder, private router: Router) { }
 
-  async ngOnInit()/*: Promise<void>*/ {/*
+  async ngOnInit(): Promise<void> {
     try {
       await this.pegaIndicesAutoCoomplete();
       console.log(this.med);
@@ -606,31 +582,21 @@ export class AppAtendimentoComponent implements OnInit{
       startWith(''),
       map(value => this._filterEsp(value))
     );
-    this.filteredOptionsVac = this.vacinas.valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._filterVac(value))
-    );
-    this.filteredOptionsVacMarca = this.vacMarca.valueChanges
-    .pipe(
-      startWith(''),
-      map(value => this._filterVacMarca(value))
-    );
   }
 
 
-  private _filterDnc(value: string): { dnc_nome: string }[] {
+  private _filterDnc(value: string): { dnc_doenca: string }[] {
     const filterValue = value.toLowerCase();
-    return this.dnc.filter((option: { dnc_nome: string }) => option.dnc_nome.toLowerCase().includes(filterValue));
+    return this.dnc.filter((option: { dnc_doenca: string }) => option.dnc_doenca.toLowerCase().includes(filterValue));
   }
 
-  private _filterMed(value: string): { med_principio: string }[] {
+  private _filterMed(value: string): { med_nome: string }[] {
     const filterValue = value.toLowerCase();
-    return this.med.filter((option: { med_principio: string }) => option.med_principio.toLowerCase().includes(filterValue));
+    return this.med.filter((option: { med_nome: string }) => option.med_nome.toLowerCase().includes(filterValue));
   }
-  private _filterExm(value: string): { exm_nome: string }[] {
+  private _filterExm(value: string): { exm_exame: string }[] {
     const filterValue = value.toLowerCase();
-    return this.exm.filter((option: { exm_nome: string }) => option.exm_nome.toLowerCase().includes(filterValue));
+    return this.exm.filter((option: { exm_exame: string }) => option.exm_exame.toLowerCase().includes(filterValue));
   }
   private _filterAmo(value: string): { exm_tipo_amostra: string }[] {
     const filterValue = value.toLowerCase();
@@ -646,14 +612,7 @@ export class AppAtendimentoComponent implements OnInit{
     const filterValue = value.toLowerCase();
     return this.esp.filter((option: { esp_nome: string }) => option.esp_nome.toLowerCase().includes(filterValue));
   }
-  private _filterVac(value: string): {vac_tipo: string }[] {
-    const filterValue = value.toLowerCase();
-    return this.vac.filter((option: { vac_tipo: string }) => option.vac_tipo.toLowerCase().includes(filterValue));
-  }
-  private _filterVacMarca(value: string): {vac_marca: string }[] {
-    const filterValue = value.toLowerCase();
-    return this.vac.filter((option: { vac_marca: string }) => option.vac_marca.toLowerCase().includes(filterValue));
-  }
+
 
 
 
@@ -686,7 +645,7 @@ export class AppAtendimentoComponent implements OnInit{
         }),
         error: (err)=> reject(err)
       });
-    });*/
+    });
   }
 
 
@@ -1198,6 +1157,103 @@ export class AppAtendimentoComponent implements OnInit{
     }
   }
 
+  verDados() {
+    console.log( {atdId: this.atdDates.id,
+      temperatura: this.parametros.value.temperatura,
+      mucosas: this.parametros.value.mucosas,
+      respiratorio: this.parametros.value.mpm,
+      cardiaco: this.parametros.value.bpm,
+      ausResp: this.parametros.value.ausResp,
+      ausCard: this.parametros.value.ausCard,
+      linfonodos: `${this.parametros.value.linfP}/${this.parametros.value.linfI}/${this.parametros.value.LinfPe}/${this.parametros.value.linfM}/${this.parametros.value.linfA}`,
+      pa: this.oParametros.value.pa,
+      peso: this.parametros.value.peso,
+      sistResp: this.exameFisico.value.respiratorio,
+      sistOrtopedico: this.exameFisico.value.ortopedico,
+      sistCardiovascular: this.exameFisico.value.cardiovascular,
+      sistEndocrino: this.exameFisico.value.endocrino,
+      sistGastrointestinal: this.exameFisico.value.gastrointestinal,
+      sisteUrinario: this.exameFisico.value.urinario,
+      sistReprodutivo: this.exameFisico.value.reprodutivo,
+      dermatologico: this.exameFisico.value.dermatologico,
+      oftalmico: this.exameFisico.value.oftalmico,
+      odontologico: this.exameFisico.value.odontologico,
+      neurologico: this.exameFisico.value.neurologico,
+acesso: this.anamnese.value.ambiente,
+      ingestaoHidrica: this.anamnese.value.ingHidrica,
+      agua: this.anamnese.value.tipoAgua,
+      diurese: this.anamnese.value.diurese,
+      urina: this.anamnese.value.aspectoUrina,
+      freqUrina: this.anamnese.value.freqMiccao,
+      pesoCorporal: this.anamnese.value.pesoCorporal,
+      escore: this.anamnese.value.escoreCorporal,
+      prurido: this.anamnese.value.prurido,
+      freqPrurido: this.anamnese.value.freqPrurido,
+      inicioPrurido: this.anamnese.value.inicioPrurido,
+      localPrurido: this.anamnese.value.localPrurido,
+      vomito: this.anamnese.value.vomito,
+      freqVomito: this.anamnese.value.freqVomito,
+      inicioVomito: this.anamnese.value.inicioVomito,
+      regurgitacao: this.anamnese.value.regurgitacao,
+      freqRegurgitacao: this.anamnese.value.freqRegurgitacao,
+      inicioRegurgitacao: this.anamnese.value.inicioRegurgitacao,
+      comportamento: this.anamnese.value.comportamento,
+      tipoComportamento: this.anamnese.value.tipoComportamento,
+      inicioComportamento: this.anamnese.value.inicioComportamento,
+      sono: this.anamnese.value.sono,
+      vocalizacao: this.anamnese.value.vocalizacao,
+      periodoVocalizacao: this.anamnese.value.periodoVocalizacao,
+      inicioVocalizacao: this.anamnese.value.inicioVocalizacao,
+      sincope: this.anamnese.value.sincope,
+      inicioSincope: this.anamnese.value.inicioSincope,
+      momentoSincope: this.anamnese.value.momentoSincope,
+      freqSincope: this.anamnese.value.freqSincope,
+      incoordencao: this.anamnese.value.incoordenacao,
+      inicioIncoordencao: this.anamnese.value.inicioIncoordenacao,
+      momentoIncoordenacao: this.anamnese.value.momentoIncoordenacao,
+      tosse: this.anamnese.value.tosse,
+      freqTosse: this.anamnese.value.freqTosse,
+      inicioTosse: this.anamnese.value.inicioTosse,
+      epiletica: this.anamnese.value.crise,
+      freqEpiletica: this.anamnese.value.freqCrise,
+      inicioEpiletica: this.anamnese.value.inicioCrise,
+      momentoEpiletica: this.anamnese.value.momentoCrise,
+      lambedura: this.anamnese.value.lambedura,
+      freqLambedura: this.anamnese.value.freqLambedura,
+      inicioLambedura: this.anamnese.value.inicioLambedura,
+      momentoLambedura: this.anamnese.value.momentoLambedura,
+      carrapatos: this.anamnese.value.carrapatos,
+      pulgas: this.anamnese.value.pulgas,
+      vermes: this.anamnese.value.vermes,
+      outros: this.anamnese.value.outras,
+tipo: this.anamnese.value.tipoAlimentacao,
+      adquirido: this.anamnese.value.marcaRacao,
+      freqOfertada: this.anamnese.value.freqAlimentar,
+      duracao: this.anamnese.value.tamRacao,
+      motivoComida: this.anamnese.value.motivoComida,
+      aspectoFezes: this.anamnese.value.aspectoFezes,
+      freqFezes: this.anamnese.value.freqDefeccao,
+antirabica: this.anamnese.value.antirrabica,
+      polivalente: this.anamnese.value.polivalente,
+      castracao: this.anamnese.value.castracao,
+      recusa: this.anamnese.value.motivoCastracao,
+      vermifugacao: this.anamnese.value.vermifugo,
+      ectoparasiticida: this.anamnese.value.ectoparasiticida,
+      tipoParasiticida: this.anamnese.value.tipoEcto,
+suplemento: this.anamnese.value.suplemento,
+      motivo: this.anamnese.value.motivoSuplemento,
+      inicio: this.anamnese.value.inicioSuplemento,
+doenca: this.doencas,
+medic: this.rec,
+APLIC: this.apli,
+data: this.formatDateBD(),
+        exame: this.pexms,
+cirurgia: this.pcir,
+especialista: this.pesp,
+evolucao: this.tipoAtendimento.value.evolucao,
+          detalhes: this.tipoAtendimento.value.detalhes
+});
+  }
 
 
 
