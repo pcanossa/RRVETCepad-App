@@ -112,6 +112,12 @@
   border-radius: 15px;
 }
 
+.Pos-Cirurgico {
+  background-color: #c5cccc;
+  padding: 2px;
+  border-radius: 15px;
+}
+
 .Especialista {
   background-color: #a5f3ef;
   padding: 2px;
@@ -124,7 +130,7 @@
   border-radius: 15px;
 }
 
-.Exames {
+.Coleta-Exame {
   background-color: #ffdffa;
   padding: 2px;
   border-radius: 15px;
@@ -134,7 +140,7 @@
   margin: 15px;
 }
 
-.Vacina {
+.Ultrassonografia {
   background-color: #f8d094;
   padding: 2px;
   border-radius: 15px;
@@ -146,7 +152,7 @@
   border-radius: 15px;
 }
 
-.Emergencia {
+.Eletrocardiograma {
   background-color: #f3aaa5;
   padding: 2px;
   border-radius: 15px;

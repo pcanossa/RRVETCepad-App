@@ -127,13 +127,19 @@
   border-radius: 15px;
 }
 
-#Cirurgia {
+#Pos-Cirurgico {
+  background-color: #c5cccc;
+  padding: 2px;
+  border-radius: 15px;
+}
+
+#Especialista {
   background-color: #a5f3ef;
   padding: 2px;
   border-radius: 15px;
 }
 
-#Pet-Home {
+#Ultrassonografia {
   background-color: #c5cccc;
   padding: 2px;
   border-radius: 15px;
@@ -145,8 +151,10 @@
   border-radius: 15px;
 }
 
-.legenda h5 {
-  margin: 15px;
+#Ultrassonografia {
+  background-color: #f8d094;
+  padding: 2px;
+  border-radius: 15px;
 }
 
 #Retorno {
@@ -155,7 +163,7 @@
   border-radius: 15px;
 }
 
-#Emergencia {
+#Eletrocardiograma {
   background-color: #f3aaa5;
   padding: 2px;
   border-radius: 15px;
