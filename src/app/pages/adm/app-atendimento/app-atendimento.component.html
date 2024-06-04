@@ -622,6 +622,30 @@
         </div>
       </div>
     </form>
+    <h2>Procedimentos Realizados</h2>
+    <form class="sessao d-flex align-items-center justify-content-center flex-wrap" [formGroup]="procedimentoAtd">
+      <div class="row d-flex flex-column align-items-center justify-content-evenly flex-wrap">
+        <div class="d-flex align-items-center justify-content-center">
+          <div class=" form-floating mb-8">
+            <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="procedimento">
+              <option *ngFor="let procedimento of procedimentos.sort()" [value]="procedimento.prc_procedimento">{{procedimento.prc_procedimento}}</option>
+            </select>
+            <label for="floatingSelect">Apresentação</label>
+          </div>
+        </div>
+        <div class="col d-flex justify-content-center" style="max-width: 60%;">
+          <h3><i class="fa-solid fa-plus" (click)="addArray(procs, procedimentoAtd);"></i></h3>
+        </div>
+        <div class="row d-flex align-items-center justify-content-center flex-wrap" id="ex" *ngFor="let prc of procs; let i = index">
+          <div class="col">
+            <h6>{{prc.procedimento}}</h6>
+          </div>
+          <div class="col d-flex justify-content-center align-items-center" (click)="removeArray(procs, i)">
+            <h3><i class="fa-regular fa-rectangle-xmark" style="color: rgb(112, 18, 18);"></i></h3>
+          </div>
+        </div>
+      </div>
+    </form>
     <h2>Receituário</h2>
     <div class="sec d-flex align-items-center justify-content-center flex-wrap">
       <form class="sessao flex-column d-flex align-items-center justify-content-evenly flex-wrap" [formGroup]="receituario">

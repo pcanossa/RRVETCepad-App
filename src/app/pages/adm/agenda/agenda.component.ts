@@ -73,7 +73,8 @@ export class AgendaComponent implements OnInit {
     dataHora: ['', Validators.required],
     pedido: [null],
     especialidade: [''],
-    exame: ['']
+    exame: [''],
+    triagem: [''],
   });
 
   public dadoBusca: FormGroup = this.formBuilder.group({
@@ -128,6 +129,7 @@ export class AgendaComponent implements OnInit {
     'Retorno',
     'Especialista',
     'Exames',
+    'Internação'
   ];
 
   tipoBusca = [
@@ -136,6 +138,15 @@ export class AgendaComponent implements OnInit {
     'Veterinário'
   ]
 
+  tiposTriagem =
+    {
+    naoUrgente: 'Não Urgente',
+    poucoUrgente: 'Pouco Urgente',
+    urgente: 'Urgente',
+    muitoUrgente: 'Muito Urgente',
+    emergencia: 'Emergência',
+    nãoSeAplica: 'Não se Aplica',
+  };
   outra: any[]=[];
 
   token = JSON.parse(localStorage.getItem('token') ?? '{}');
@@ -342,7 +353,8 @@ export class AgendaComponent implements OnInit {
         tipo: this.dadoAgendamento.value.tipo,
         rga: this.animalDates.ani_id,
         veterinário: this.dadoAgendamento.value.veterinario,
-        descTipo: String(this.dadoAgendamento.value.especialidade)
+        descTipo: String(this.dadoAgendamento.value.especialidade),
+        triagem: this.dadoAgendamento.value.triagem
       },
       this.httpOptions
     ).subscribe({

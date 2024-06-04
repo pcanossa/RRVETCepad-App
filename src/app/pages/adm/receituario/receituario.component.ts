@@ -107,6 +107,9 @@ export class ReceituarioComponent implements OnInit {
       Colírio: 'colírio'
     }
 
+    msgError: any;
+    vet: any;
+
   token = JSON.parse(localStorage.getItem('token') ?? '{}');
   headers = new HttpHeaders({
     'Authorization': `${this.token}`
@@ -122,11 +125,12 @@ export class ReceituarioComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      await this.consultaVeterinario();
-      console.log(this.atdDates);
-      console.log(this.vetValidate);
+      console.log(this.funcDates)
+      await this.validaVeterinario();
+      //console.log(this.atdDates);
+      console.log(this.vet);
       console.log(this.recDates.receita);
-      await this.getAtend();
+      //await this.getAtend();
       console.log(this.atd);
       await this.separaVias();
     } catch (err) {
@@ -189,7 +193,7 @@ export class ReceituarioComponent implements OnInit {
   async consultaVeterinario(): Promise<any> {
     console.log(this.funcDates.id);
     return new Promise(async (resolve, reject) => {
-      await this.app.consultaVet({codFunc: this.funcDates.id}, this.httpOptions)
+      await this.app.validaVet({id: this.funcDates.idVet}, this.httpOptions)
       .subscribe ({
         next: ((res)=>{
           this.vetValidate = res.vet;
@@ -201,6 +205,19 @@ export class ReceituarioComponent implements OnInit {
         })
       })
     })
+  }
+
+  async validaVeterinario() {
+    try {
+      const response = await this.app.validaVet({ id: this.funcDates.id }, this.httpOptions).toPromise(); // Convertendo Observable para Promise
+      this.vet = response; // Atribuindo a resposta a this.vet
+      this.msgError = response.message; // Definindo a mensagem de erro, se houver
+      console.log('Dados Vet:', this.vet); // Verificando se os dados de vet estão corretos
+    } catch (error) {
+      this.msgError = error; // Lidando com erros
+      console.error('Erro ao validar veterinário:', error);
+      throw error; // Lançando o erro novamente para tratamento posterior
+    }
   }
 
   async getAtend () {

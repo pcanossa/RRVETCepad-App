@@ -259,6 +259,30 @@
  padding: 40px 20px;
 }
 
+#naoUrgente {
+  color:rgb(47, 19, 205)
+}
+
+#urgente {
+  color:rgb(226, 226, 18)
+}
+
+#muitoUrgente{
+  color:rgb(254, 157, 12)
+}
+
+#emergencia {
+  color:rgb(217, 8, 8)
+}
+
+#nãoSeAplica {
+  color:rgb(255, 255, 255)
+}
+
+#poucoUrgente{
+  color:rgb(56, 206, 14)
+}
+
 @media screen and (min-width: 451px) {
   .nav-menu {
     min-width:25%;

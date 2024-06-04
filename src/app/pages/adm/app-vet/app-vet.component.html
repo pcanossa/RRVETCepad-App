@@ -20,7 +20,7 @@
               <h6>{{ formataHora(atendimento.agd_horario) }}</h6>
             </div>
             <div class="col">
-              <h6>{{ atendimento.agd_tipo }}</h6>
+              <h6>{{ atendimento.agd_tipo }} <i [id]="atendimento.agd_triagem" class="fa-solid fa-circle"></i></h6>
             </div>
             <div class="col d-flex justify-content-center align-items-center">
               <button class="btn btn-primary" type="button" id="btnOk">

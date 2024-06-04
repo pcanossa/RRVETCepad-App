@@ -26,6 +26,7 @@ export class FuncionarioService {
   private getAgenda: string = '/getAgenda';
   private getAgendAEsp: string = '/AgendaEsp';
   private getAgendaExm: string = '/AgendaExm';
+  private getProcedimentos = '/procedimentos';
   private validaVeterinario: string = '/validaVet';
   private getAtendimentosVet: string = '/atendimentoVet';
   private cadastroColaborador: string = '/cadastroColaborador';
@@ -127,6 +128,21 @@ export class FuncionarioService {
         return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
       })
     )
+  }
+
+  public pegaProcedimentos (headers: any) {
+    return this.httpClient.get(this.app.url+this.getProcedimentos, headers).pipe(
+      map((response:any)=> {
+          console.log(response);
+          return response;
+        }),
+        catchError((e) => {
+          if (e.error.message) {
+            return throwError(() => e.error.message)};
+
+          return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
+        })
+      )
   }
 
   public registraCliente (payload: {
@@ -410,7 +426,8 @@ export class FuncionarioService {
     tipo: any,
     rga: number,
     veterinário: number,
-    descTipo: any
+    descTipo: any,
+    triagem: any
   }, header:any): Observable<any> {
     return this.httpClient.post(this.app.url+this.realizaAgendamento, payload, header).pipe(
       map((response:any)=> {
@@ -425,6 +442,8 @@ export class FuncionarioService {
 
     );
   }
+
+
 
   public consultaPlanos (header:any): Observable<any> {
     return this.httpClient.get(this.app.url+this.pln, header).pipe(

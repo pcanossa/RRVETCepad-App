@@ -164,6 +164,12 @@
   border-radius: 15px;
 }
 
+.Internação {
+  background-color: #ae7cea;
+  padding: 2px;
+  border-radius: 15px;
+}
+
 .animais h1 {
   font-family: 'Amatic SC', cursive;
   text-shadow: 0px 4px 4px #00000040;

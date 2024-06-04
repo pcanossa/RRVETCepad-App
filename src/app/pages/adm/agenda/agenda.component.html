@@ -42,6 +42,7 @@
     <h5 class="Coleta-Exame">Coleta de Exame</h5>
     <h5 class="Eletrocardiograma">Eletrocardiograma</h5>
     <h5 class="Pos-Cirurgico">Pós Cirúrgico</h5>
+    <h5 class="Internação">Internação</h5>
   </div>
   <form class="legenda d-flex align-items-center justify-content-evenly flex-wrap" [formGroup]="dadoBusca">
     <div>
@@ -75,6 +76,13 @@
           <button class="btn btn-outline-secondary" (click)="consultaAnimais(httpOptions)" id="button-addon2">Consultar</button>
         </form>
         <form *ngIf="animalDates && masgError==null && agendaNovo" class="dados d-flex align-items-center justify-content-evenly flex-wrap" [formGroup]="dadoAgendamento">
+          <div>
+            <label for="tipos">Triagem</label>
+            <select class="form-select form-select-lg" name="tipo" aria-label=".form-select-lg example" formControlName="triagem" required>
+              <option selected hidden>Triagem</option>
+              <option *ngFor="let tipo of tiposTriagem | keyvalue" [value]="tipo.key">{{ tipo.value }}</option>
+            </select>
+          </div>
           <div>
             <label for="tipos">Tipo de Atendimento*</label>
             <select class="form-select form-select-lg" name="tipo" aria-label=".form-select-lg example" formControlName="tipo" required>

@@ -55,78 +55,78 @@ export class AppAtendimentoComponent implements OnInit{
   });
 
   anamnese: FormGroup = this.formBuilder.group({
-    ambiente: ['', Validators.required],
-    ingHidrica: ['', Validators.required],
-    tipoAgua: ['', Validators.required],
-    diurese: ['', Validators.required],
-    aspectoUrina: ['', Validators.required],
-    freqMiccao: ['', Validators.required],
-    pesoCorporal: ['', Validators.required],
-    escoreCorporal: ['', Validators.required],
-    prurido: ['', Validators.required],
+    ambiente: [''],
+    ingHidrica: [''],
+    tipoAgua: [''],
+    diurese: [''],
+    aspectoUrina: [''],
+    freqMiccao: [''],
+    pesoCorporal: [''],
+    escoreCorporal: [''],
+    prurido: [''],
     freqPrurido: [''],
     inicioPrurido: [''],
     localPrurido: [''],
-    vomito: ['', Validators.required],
+    vomito: [''],
     freqVomito: [''],
     inicioVomito: [''],
-    regurgitacao: ['', Validators.required],
+    regurgitacao: [''],
     freqRegurgitacao: [''],
     inicioRegurgitacao: [''],
-    comportamento: ['', Validators.required],
+    comportamento: [''],
     tipoComportamento: [''],
     inicioComportamento: [''],
-    sono: ['', Validators.required],
-    vocalizacao: ['', Validators.required],
+    sono: [''],
+    vocalizacao: [''],
     periodoVocalizacao: [''],
     inicioVocalizacao: [''],
-    incoordenacao: ['', Validators.required],
+    incoordenacao: [''],
     freqIncoordenacao: [''],
     inicioIncoordenacao: [''],
     momentoIncoordenacao: [''],
-    sincope: ['', Validators.required],
+    sincope: [''],
     freqSincope: [''],
     inicioSincope: [''],
     momentoSincope: [''],
-    tosse: ['', Validators.required],
+    tosse: [''],
     freqTosse: [''],
     inicioTosse: [''],
     momentoTosse: [''],
-    crise: ['', Validators.required],
+    crise: [''],
     freqCrise: [''],
     inicioCrise: [''],
     momentoCrise: [''],
-    lambedura: ['', Validators.required],
+    lambedura: [''],
     freqLambedura: [''],
     inicioLambedura: [''],
     momentoLambedura: [''],
-    carrapatos: ['', Validators.required],
-    pulgas: ['', Validators.required],
-    vermes: ['', Validators.required],
+    carrapatos: [''],
+    pulgas: [''],
+    vermes: [''],
     outras: ['NDN'],
-    tipoAlimentacao: ['', Validators.required],
+    tipoAlimentacao: [''],
     marcaRacao: [''],
     tamRacao: [''],
-    freqAlimentar: ['', Validators.required],
+    freqAlimentar: [''],
     motivoComida: [''],
-    aspectoFezes: ['', Validators.required],
-    freqDefeccao: ['', Validators.required],
-    suplemento: ['', Validators.required],
+    aspectoFezes: [''],
+    freqDefeccao: [''],
+    suplemento: [''],
     motivoSuplemento: [''],
     inicioSuplemento: [''],
-    banho: ['',Validators.required],
+    banho: [''],
     freqBanho: [''],
     inicioBanho: [''],
     motivoBanho: [''],
-    arrancamentoPelo: ['', Validators.required],
-    antirrabica: ['', Validators.required],
-    polivalente: ['', Validators.required],
-    vermifugo: ['', Validators.required],
-    ectoparasiticida: ['', Validators.required],
-    tipoEcto: ['', Validators.required],
-    castracao: ['', Validators.required],
+    arrancamentoPelo: [''],
+    antirrabica: [''],
+    polivalente: [''],
+    vermifugo: [''],
+    ectoparasiticida: [''],
+    tipoEcto: [''],
+    castracao: [''],
     motivoCastracao: [''],
-    petiscos: ['', Validators.required],
+    petiscos: ['',],
     freqPetiscos: [''],
     inicioPestiscos: ['']
   })
@@ -139,6 +139,10 @@ export class AppAtendimentoComponent implements OnInit{
     marca: ['', Validators.required],
     id: ['']
   });
+
+  procedimentoAtd: FormGroup = this.formBuilder.group({
+    procedimento: ['']
+  })
 
 
   aplicacoes: FormGroup = this.formBuilder.group({
@@ -231,6 +235,7 @@ export class AppAtendimentoComponent implements OnInit{
   tvac: any[] = [];
   orientacoes: any[] = [];
   doencasAnteriores: any[] = [];
+  procs: any[] = [];
   dnc_nome: any;
   resolve = '';
   erro: any;
@@ -498,6 +503,9 @@ export class AppAtendimentoComponent implements OnInit{
     }
 
 
+  procedimentos: any;
+
+
 
   apresentacoes = [
     'Comprimido',
@@ -543,6 +551,14 @@ export class AppAtendimentoComponent implements OnInit{
     try {
       await this.pegaIndicesAutoCoomplete();
       console.log(this.med);
+
+    } catch (err) {
+
+    }
+
+    try {
+      await this.pegaProcedimentos();
+      console.log(this.procedimentos);
 
     } catch (err) {
 
@@ -627,6 +643,22 @@ export class AppAtendimentoComponent implements OnInit{
       .join('\n');
   }
 
+  public async pegaProcedimentos(): Promise<any>{
+    try {
+      this.app.pegaProcedimentos(this.httpOptions)
+      .subscribe({
+        next: ((res)=> {
+          this.procedimentos = res;
+          console.log(this.procedimentos);
+
+        }),
+        error: (err)=> {console.log(err.message)}
+      });
+    } catch (err) {
+      console.log('erro de pegar procedimentos');
+    }
+  }
+
   public async pegaIndicesAutoCoomplete(): Promise<any> {
     return new Promise<any>(async (resolve, reject) => {
       this.app.buscaIndiceAutoComplete(this.httpOptions)
@@ -696,6 +728,7 @@ export class AppAtendimentoComponent implements OnInit{
     this.pExames.value.amostra = this.amostra.value;
     this.pexms.push({exame: this.exames.value, amostra: this.amostra.value, citologia: this.pExames.value.citologia});
   }
+
   addCirurgia() {
     this.eCirurgias.value.cirurgia = this.cirurgias.value;
     this.pcir.push({cirurgia: this.cirurgias.value});
@@ -1206,6 +1239,7 @@ export class AppAtendimentoComponent implements OnInit{
       sisteUrinario: this.exameFisico.value.urinario,
       doencasAnteriores: this.doencasAnteriores,
       aplicacao: this.apli,
+      procedimentos: this.procs,
       receitado: this.rec,
       examesSolicitados: this.pexms,
       cirurgias: this.pcir,
