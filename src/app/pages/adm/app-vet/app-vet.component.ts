@@ -162,15 +162,13 @@ export class AppVetComponent {
     localStorage.setItem('agdDates', JSON.stringify({id: idAgd}));
   }
 
-  async iniciaAtendimento (aniId: number, i:number) {
+  async iniciaAtendimento (id: number) {
     return new Promise(async (resolve, reject) => {
-      await this.app.iniciaAtendimento({
-        dataHora: this.getSQLDateHourForm(),
-        aniId: aniId,
-        vetId: this.vet[0].vet_id
+      await this.app.pegaAgendamento({
+        id: id
        }, this.httpOptions).subscribe({
         next: ((res)=> {
-          localStorage.setItem('atdDates', JSON.stringify({id: res, agdDates: i}));
+          localStorage.setItem('atdDates', JSON.stringify(res));
           resolve(this.router.navigate(['/app-atendimento']))
         }),
         error: ((err)=> reject(err))

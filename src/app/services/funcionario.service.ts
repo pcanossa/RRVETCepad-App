@@ -25,6 +25,7 @@ export class FuncionarioService {
   private getEspecalidades: string = '/getEspecialidades';
   private getAgenda: string = '/getAgenda';
   private getAgendAEsp: string = '/AgendaEsp';
+  private getAgendamento: string = '/verificaAgendamento';
   private getAgendaExm: string = '/AgendaExm';
   private getProcedimentos = '/procedimentos';
   private validaVeterinario: string = '/validaVet';
@@ -165,6 +166,20 @@ export class FuncionarioService {
       catchError((error)=> {
         if (error.error.message) {
           return throwError(() => error.error.message)};
+
+        return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
+      })
+    )
+  };
+
+  public pegaAgendamento (payload: {id: any}, header: any): Observable<any> {
+    return this.httpClient.post(this.app.url+this.getAgendamento, payload, header).pipe(
+      map((response)=> {
+        return response
+      }),
+      catchError((error)=> {
+        if (error) {
+          return throwError(() => error)};
 
         return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
       })

@@ -548,6 +548,7 @@ export class AppAtendimentoComponent implements OnInit{
   constructor(private app: FuncionarioService, private formBuilder: FormBuilder, private router: Router) { }
 
   async ngOnInit(): Promise<void> {
+    console.log(`dados agendamento: ${this.atdDates[0].col_nome}`);
     try {
       await this.pegaIndicesAutoCoomplete();
       console.log(this.med);
