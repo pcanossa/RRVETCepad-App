@@ -286,3 +286,4 @@ evolucao: this.tipoAtendimento.value.evolucao,
     "detalhes": ""
 }
 
+atd_id, atd_tutor_outro, atd_telefone_tutor_outro, atd_agenda_agd_id, atd_veterinario_vet_id, atd_especialidade_esp_id, atd_hora, atd_peso, atd_fc, atd_fr, atd_temperatura, atd_linfonodos, atd_respiracao, atd_cardiaco, atd_mucosas, atd_tpc, atd_pa, atd_anambiente, atd_aningestaoh, atd_andiurese, atd_anpeso, atd_anprurido, atd_anvomito, atd_anregurgitacao, atd_ancomportamento, atd_ansono, atd_anvocalizacao, atd_anincoordenacao, atd_ansincope, atd_antosse, atd_anepilepsia, atd_anlambedura, atd_anparasitos, atd_analimentacao, atd_andefeccao, atd_ansuplementacao, atd_anvacinacao, atd_anvermifugacao, atd_anectoparasiticida, atd_ancastracao, atd_outras, atd_retorno, exf_cardiovascular, exf_dermatologico, exf_endocrino, exf_gastrointestinal, exf_neurologico, exf_ondontologico, exf_oftalmico, exf_ortopedico, exf_reprodutivo, exf_respiratorio, exf_urinario, atd_data, atd_tipo

@@ -27,8 +27,12 @@ export class FuncionarioService {
   private getAgendAEsp: string = '/AgendaEsp';
   private getAgendamento: string = '/verificaAgendamento';
   private getColaborador: string = '/colaborador';
+  private getEspecialidadeVeto: string = '/especialidadeVet';
+  private getAtendimentos: string = '/atendimentosAnteriores';
   private getAgendaExm: string = '/AgendaExm';
   private getProcedimentos = '/procedimentos';
+  private getAnexos = '/getAnexos';
+  private getVetAtendimento: string = '/vetAtendimento';
   private validaVeterinario: string = '/validaVet';
   private getAtendimentosVet: string = '/atendimentoVet';
   private cadastroColaborador: string = '/cadastroColaborador';
@@ -132,6 +136,22 @@ export class FuncionarioService {
     )
   }
 
+  public pegaAnexos (payload: {id: number}, header:any): Observable<any> {
+    return this.httpClient.post(this.app.url+this.getAnexos, payload, header).pipe(
+    map((response:any)=> {
+        console.log(response);
+        return response;
+      }),
+      catchError((e) => {
+        if (e.error.message) {
+          return throwError(() => e.error.message)};
+
+        return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
+      })
+    )
+  }
+
+
   public colaborador (payload: {id: any}, header: any): Observable<any> {
     return this.httpClient.post(this.app.url+this.getColaborador, payload, header).pipe(
     map((response:any)=> {
@@ -144,6 +164,34 @@ export class FuncionarioService {
         return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
       })
     )
+  };
+
+  public pegaEspecialidadeVet(payload: {vetId: any}, header: any): Observable<any> {
+    return this.httpClient.post(this.app.url+this.getEspecialidadeVeto, payload, header).pipe(
+      map((response:any)=> {
+          return response;
+        }),
+        catchError((e) => {
+          if (e.error.message) {
+            return throwError(() => e.error.message)};
+
+          return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
+        })
+      )
+  }
+
+  public pegaAtendimentos(payload: {idAnimal: any}, header: any): Observable<any> {
+    return this.httpClient.post(this.app.url+this.getAtendimentos, payload, header).pipe(
+      map((response:any)=> {
+          return response;
+        }),
+        catchError((e) => {
+          if (e.error.message) {
+            return throwError(() => e.error.message)};
+
+          return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
+        })
+      )
   }
 
   public pegaProcedimentos (headers: any) {
@@ -270,6 +318,20 @@ export class FuncionarioService {
 
   }
 
+  public getVetResponsavel (payload: {id: any}, header:any) {
+    return this.httpClient.post(this.app.url+this.getVetAtendimento, payload, header).pipe(
+      map((response:any)=> {
+        return response
+      }),
+      catchError((e) => {
+        if (e.error.message) {
+          return throwError(() => e.error.message)};
+
+        return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
+      })
+    )
+  }
+
   public getAtdVet (payload: {
     id: any
   }, header:any) {
@@ -339,7 +401,9 @@ export class FuncionarioService {
         return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
       })
     )
-  }
+  };
+
+
 
   public getEspecialidades(header:any): Observable<any> {
     return this.httpClient.get(this.app.url+this.getEspecalidades, header).pipe(
@@ -1391,7 +1455,6 @@ export class FuncionarioService {
         })
       )
     }
-
 
 
 

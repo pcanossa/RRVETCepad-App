@@ -126,13 +126,6 @@
     </form>
     <form class="dados d-flex align-items-center justify-content-evenly flex-wrap" [formGroup]="dadoAgendamento" *ngIf="agendamentoExtra">
       <div>
-        <label for="sexo">Selecione uma Unidade*</label>
-        <select class="form-select form-select-lg"  name="unidade" id="unidade" aria-label=".form-select-lg example" formControlName="unidade" required>
-          <option  selected value="São Carlos">São Carlos</option>
-          <option  value="Ibaté">Ibaté</option>
-        </select>
-      </div>
-      <div>
         <div class="input-group mb-3">
           <label class="input-group-text" for="data">Data / Hora</label>
           <input type="datetime-local" class="form-control" placeholder="" aria-label="Example text with button addon" id="data" formControlName="dataHora">

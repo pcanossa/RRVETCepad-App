@@ -7,7 +7,7 @@
         <div class="info-animal d-flex flex-column">
           <div class="cab-info-animal d-flex align-items-center justify-content-start" >
             <img [src]="atdDates.ani_urlfoto" alt="" class="foto-animal">
-            <h1>{{atdDates.ani_nome}}</h1>
+            <h1>{{atdDates[0].ani_nome}}</h1>
           </div>
           <div class="d-flex flex-column align-items-start justify-content-center">
             <h6>Espécia: {{atdDates[0].ani_especie}}</h6>
@@ -26,6 +26,234 @@
           <h6>Tipo: {{atdDates[0].tut_tipo}}</h6>
         </div>
       </div>
+      <div class="carteira-virtual d-flex flex-column align-items-center">
+        <hr><br>
+        <h1>Atendimentos</h1>
+        <div class="drop-itens d-flex flex-column justify-content-center" >
+          <div class="accordion accordion-flush" id="accordionFlushExample" *ngFor="let atendimento of atendimentos.atendimentos; getAnexos(atendimento.atd_id)">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                  <h4><i class="fa-solid fa-stethoscope"></i></h4>
+                  <h4>ATENDIMENTO {{formatDate(atendimento.agd_data)}}</h4>
+                </button>
+              </h2>
+              <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                  <div href="/app-novoCliente" class="item-menu d-flex flex-row">
+                    <h5 style="color: rgb(201, 80, 0);"><i class="fa-solid fa-user-doctor"></i> MV Responsável: Dr. {{getResponsavel(atendimento.agd_veterinario_vet_id)}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h4>Suspeitas Diagnósticas: </h4>
+                      <h5 *ngFor="let suspeita of anexos[0].suspeitas">{{suspeita.dnc_doenca}}</h5>
+                  </div>
+                  <div href="/incluirAnimal" class="session item-menu d-flex flex-row">
+                    <h4 style="color: rgb(201, 80, 0);"><i class="fa-solid fa-notes-medical"></i> Parâmetros Observados</h4>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Peso: {{atendimento.atd_peso}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Temperatura: {{atendimento.atd_temperatura}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Mucosas: {{atendimento.atd_mucosas}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Linfonodos: {{atendimento.atd_linfonodos}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>FC: {{atendimento.atd_fc}} BPM</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>FR: {{atendimento.atd_fr}} MPM</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Sons Respiratórios: {{atendimento.respiratorio}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Sons Cardíacos: {{atendimento.atd_cardiaco}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Pressão Arterial: {{atendimento.atd_pa}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="session item-menu d-flex flex-row">
+                    <h4 style="color: rgb(201, 80, 0);"><i class="fa-solid fa-staff-snake"></i> Anamnese </h4>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Ambiente: {{atendimento.atd_anambiente}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Ingestão Hídrica: {{atendimento.atd_aningestaoh}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Alimentação: {{atendimento.atd_analimentacao}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Suplementação:{{atendimento.atd_ansuplementacao}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Peso Corporal:{{atendimento.atd_peso}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Vacinação:{{atendimento.atd_anvacinacao}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Vermifugação:{{atendimento.atd_anvermifugacao}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Ectoparasiticida:{{atendimento.atd_anvermifugacao}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Castração:{{atendimento.atd_ancastracao}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Diurese: {{atendimento.atd_andiurese}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Defecção: {{atendimento.atd_defeccao}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Parasitos: {{atendimento.anparasitos}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Prurido: {{atendimento.atd_anprurido}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Vômito: {{atendimento.atd_anvomito}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Regurgitação: {{atendimento.atd_anregurgitacao}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Comportamento: {{atendimento.atd_ancomprotamento}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Sono: {{atendimento.atd_sono}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Vocalização: {{atendimento.atd_anvocalizacao}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Incoordenação: {{atendimento.atdanincoordenacao}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Crise Epilética: {{atendimento.atd_anepilepsia}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Síncope: {{atendimento.atd_ansincope}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Tosse: {{atendimento.atd_antosse}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Lambedura: {{atendimento.atdlambedura}}</h5>
+                  </div>
+                <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                  <div href="/buscarCliente" class="session item-menu d-flex flex-row">
+                    <h4 style="color: rgb(201, 80, 0);"><i class="fa-solid fa-staff-snake"></i> Exame Físico </h4>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Sistema Respiratório: {{atendimento.exf_respiratorio}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Sistema Cardiovascular: {{atendimento.exf_cardiovascular}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Sistema Gastrointestinal: {{atendimento.exf_gastrointestinal}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Sistema Endócrino: {{atendimento.exf_endocrino}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Sistema Urinário: {{atendimento.exf_urinario}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Sistema Reprodutor: {{atendimento.exf_reprodutivo}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Sistema Respiratório: {{atendimento.exf_respiratorio}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Dermatológico: {{atendimento.exf_dermatologico}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Oftálmico: {{atendimento.exf_oftalmico}} </h5>
+                  </div>
+                  <div href="/buscarCliente" class="item-menu d-flex flex-row">
+                    <h5>Ondontológico: {{atendimento.exf_odontologico}}</h5>
+                  </div>
+                  <div href="/buscarCliente" class="session item-menu d-flex flex-column">
+                    <h5 style="color: rgb(201, 80, 0);"><i class="fa-solid fa-syringe"></i> Aplicações</h5>
+                    <div class="" *ngFor="let aplicacao of atendimentos; getAnexos(aplicacao.atd_id)">
+                    <div class="exames d-flex flex-column justify-content-start align-items-start" *ngFor="let aplicacao of anexos.aplicacoes">
+                      <h5>Medicação: {{aplicacao.med_medicacao}} </h5>
+                      <h5>Apresentação: {{aplicacao.med_apresentacao}}</h5>
+                      <h5>Concentração: {{aplicacao.med_concentracao}}</h5>
+                      <h5>Dose: {{aplicacao.apl_dose}} </h5>
+                      <h5>Via: {{aplicacao.apl_via}}</h5>
+                    </div>
+                  </div>
+                  <div *ngIf="anexos.aplicacoes.lenght === 0">
+                    <h5>Nenhuma aplicação realizada</h5>
+                  </div>
+                  </div>
+                  <div href="/buscarCliente" class="session item-menu d-flex flex-column">
+                    <h5 style="color: rgb(201, 80, 0);"><i class="fa-solid fa-pills"></i> Receituário</h5>
+                    <div *ngFor="let receituarios of anexos[0].receita">
+                      <div class="exames d-flex flex-column justify-content-start align-items-start" *ngFor="let aplicacao of receituarios.receita">
+                        <h5>Medicação: {{aplicacao.med_medicacao}} </h5>
+                        <h5>Apresentação: {{aplicacao.med_apresentacao}}</h5>
+                        <h5>Concentração: {{aplicacao.med_concentracao}}</h5>
+                        <h5>Dose: {{aplicacao.rec_dose}} </h5>
+                        <h5>Duração: {{aplicacao.rec_duracao}}</h5>
+                        <h5>Via: {{aplicacao.rec_via}}</h5>
+                      </div>
+                  </div>
+                  <div *ngIf="anexos[0].receita.lenght === 0">
+                    <h5>Nenhum receituário emitido realizada</h5>
+                  </div>
+                  </div>
+                  <div href="/buscarCliente" class="session item-menu d-flex flex-column">
+                    <h5 style="color: rgb(201, 80, 0);"><i class="fa-solid fa-vial-circle-check"></i> Exames Solicitados</h5>
+                    <div *ngFor="let exames of anexos">
+                    <div class="exames d-flex flex-column justify-content-start align-items-start" *ngFor="let exame of exames.exames">
+                        <h5 style="color:rgb(206, 126, 72)">Exame: {{exame.exm_nome}}</h5>
+                        <h5>Data de Solicitação: {{formatDate(exame.pex_data_pedido)}}</h5>
+                        <h5>Status: {{exame.pex_realizacao}}</h5>
+                        <h5>Laudo: Não disponível</h5>
+                    </div>
+                  </div>
+                  <div *ngIf="anexos[0].exames === 0">
+                    <h5>Nenhum exame solicitado</h5>
+                  </div>
+                  </div>
+                  <div href="/buscarCliente" class="session item-menu d-flex flex-column">
+                    <h5 style="color: rgb(201, 80, 0);"><i class="fa-solid fa-heart-pulse"></i> Encaminhamento Cirúrgico</h5>
+                    <div *ngFor="let cirurgias of anexos">
+                    <div class="exames d-flex flex-column justify-content-start align-items-start" *ngFor="let cirurgia of cirurgias.cirurgias">
+                        <h5>Cirurgia: {{cirurgia.cir_nome}}</h5>
+                    </div>
+                  </div>
+                  <div *ngIf="anexos[0].cirurgias.length === 0">
+                    <h5>Nenhuma encaminhamento cirúrgico solicitado</h5>
+                  </div>
+                  </div>
+                  <div href="/buscarCliente" class="session item-menu d-flex flex-column">
+                    <h5 style="color: rgb(201, 80, 0);"><i class="fa-solid fa-hand-holding-medical"></i> Encaminhamentos</h5>
+                    <div *ngFor="let encaminhamentos of anexos">
+                    <div class="exames d-flex flex-column justify-content-start align-items-start" *ngFor="let encaminhamento of encaminhamentos.especialidades">
+                        <h5>Especialidade: {{encaminhamento.esp_especialidade}}</h5>
+                    </div>
+                  </div>
+                  <div *ngIf="anexos[0].especialidades.length === 0">
+                    <h5>Nenhum encaminhamento solicitado</h5>
+                  </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+    </div>
     <form class="sessao d-flex flex-column align-items-center justify-content-center" [formGroup]="parametros">
       <h2>Parâmetros no Animal</h2>
       <div class="d-flex align-items-center justify-content-evenly">
@@ -92,11 +320,19 @@
     <form class="sec d-flex flex-column align-items-center justify-content-center" [formGroup]="tipoAtendimento">
       <div class="sessao d-flex  flex-column align-items-center justify-content-evenly flex-wrap">
         <h1>Tipo Atendimento</h1>
-        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" formControlName="tipo">
-          <mat-button-toggle value="C">Consulta</mat-button-toggle>
-          <mat-button-toggle value="R">Retorno</mat-button-toggle>
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" (change)="onToggleChange($event)" formControlName="tipo">
+          <mat-button-toggle value="Consulta">Consulta</mat-button-toggle>
+          <mat-button-toggle value="Retorno">Retorno</mat-button-toggle>
+          <mat-button-toggle value="Exame">Exame</mat-button-toggle>
+          <mat-button-toggle value="Especialidade">Especialidade</mat-button-toggle>
         </mat-button-toggle-group>
-        <div class="form-floating" *ngIf="tipoAtendimento.value?.tipo === 'R'">
+        <div *ngIf="tipoAtendimento.value.tipo == 'Especialidade'">
+          <label for="sexo">Selecione a Especialidade*</label>
+          <select  class="form-select form-select-lg"  name="unidade" id="unidade" aria-label=".form-select-lg example" formControlName="especialidade" required>
+            <option  *ngFor="let esp of especialidade" [value]="esp.esp_id">{{esp.esp_nome}}</option>
+          </select>
+        </div>
+        <div class="form-floating" *ngIf="tipoAtendimento.value?.tipo === 'Retorno' || tipoAtendimento.value?.tipo === 'Exame'">
           <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="evolucao">
             <option value="meohora">Melhora do Quadro</option>
             <option value="piora">Piora do Quadro</option>
@@ -109,7 +345,7 @@
           </h4>
           </div>
         </div>
-        <div class="mb-2" *ngIf="tipoAtendimento.value?.tipo === 'retorno'" >
+        <div class="mb-2" *ngIf="tipoAtendimento.value?.tipo === 'Retorno' || tipoAtendimento.value?.tipo === 'Exame'" >
           <label for="exampleFormControlTextarea1" class="form-label" >Detalhes sobre Evolução Clínica</label>
           <h4>
           <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" cols="50" style="font-size: large;" formControlName="detalhes" ></textarea>
@@ -824,6 +1060,12 @@
             </textarea>
           </h4>
           </div>
+        </div>
+        <div class="d-flex flex-column align-items-center justify-content-center" >
+          <mat-button-toggle-group name="fontStyle" aria-label="Font Style" (change)="onToggleChangeDois($event)" formControlName="urgencia">
+            <mat-button-toggle value="N">Não Urgente</mat-button-toggle>
+            <mat-button-toggle value="S">Urgente</mat-button-toggle>
+          </mat-button-toggle-group>
         </div>
         <div class="row d-flex flex-column flex-wrap" style="max-width: 50%;" >
           <div class="col d-flex justify-content-center" style="background-color: rgb(109, 252, 204); border-radius: 10px;" (click)="addExame();">
