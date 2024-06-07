@@ -2,7 +2,30 @@
   <app-adm-navbar class="nav-menu"></app-adm-navbar>
   <div class="animais d-flex flex-column align-items-center" >
     <app-header></app-header>
-
+    <div class="animais d-flex flex-column align-items-center" >
+      <div class="infos d-flex align-items-start justify-content-evenly">
+        <div class="info-animal d-flex flex-column">
+          <div class="cab-info-animal d-flex align-items-center justify-content-start" >
+            <img [src]="atdDates.ani_urlfoto" alt="" class="foto-animal">
+            <h1>{{atdDates.ani_nome}}</h1>
+          </div>
+          <div class="d-flex flex-column align-items-start justify-content-center">
+            <h6>Espécia: {{atdDates[0].ani_especie}}</h6>
+            <h6>Idade: {{calcIdade(atdDates[0].ani_nascimento)}}</h6>
+            <h6>Raça: {{atdDates[0].ani_raca}}</h6>
+            <h6>Cor: {{atdDates[0].ani_cor}}</h6>
+            <h6>RGA: {{atdDates[0].ani_rga}}</h6>
+            <h6 *ngIf="atdDates[0].ani_particularidades != undefined || atdDates[0].ani_particularidades != null">Particularidades: {{atdDates[0].ani_particularidades}}</h6>
+          </div>
+        </div>
+        <div class="tutor flex-column align-items-start justify-content-center">
+          <h1>{{atdDates[0].tut_nome}}</h1>
+          <h6>Telefone: {{formatarTelefone(atdDates[0].tut_telefone)}}</h6>
+          <h6>Endereço: {{atdDates[0].tut_rua}}, {{atdDates[0].tut_numero}} - {{atdDates[0].tut_bairro}}</h6>
+          <h6>{{atdDates[0].tut_cidade}}</h6>
+          <h6>Tipo: {{atdDates[0].tut_tipo}}</h6>
+        </div>
+      </div>
     <form class="sessao d-flex flex-column align-items-center justify-content-center" [formGroup]="parametros">
       <h2>Parâmetros no Animal</h2>
       <div class="d-flex align-items-center justify-content-evenly">

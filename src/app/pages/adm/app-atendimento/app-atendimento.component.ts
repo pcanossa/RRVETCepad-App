@@ -1238,6 +1238,7 @@ export class AppAtendimentoComponent implements OnInit{
       sistReprodutivo: this.exameFisico.value.reprodutivo,
       sistResp: this.exameFisico.value.respiratorio,
       sisteUrinario: this.exameFisico.value.urinario,
+      suspeitas: this.doencas,
       doencasAnteriores: this.doencasAnteriores,
       aplicacao: this.apli,
       procedimentos: this.procs,

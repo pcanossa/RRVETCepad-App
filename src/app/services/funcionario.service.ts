@@ -26,6 +26,7 @@ export class FuncionarioService {
   private getAgenda: string = '/getAgenda';
   private getAgendAEsp: string = '/AgendaEsp';
   private getAgendamento: string = '/verificaAgendamento';
+  private getColaborador: string = '/colaborador';
   private getAgendaExm: string = '/AgendaExm';
   private getProcedimentos = '/procedimentos';
   private validaVeterinario: string = '/validaVet';
@@ -121,6 +122,20 @@ export class FuncionarioService {
     map((response:any)=> {
         console.log(response);
         return response.codigoVerificador;
+      }),
+      catchError((e) => {
+        if (e.error.message) {
+          return throwError(() => e.error.message)};
+
+        return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
+      })
+    )
+  }
+
+  public colaborador (payload: {id: any}, header: any): Observable<any> {
+    return this.httpClient.post(this.app.url+this.getColaborador, payload, header).pipe(
+    map((response:any)=> {
+        return response;
       }),
       catchError((e) => {
         if (e.error.message) {
