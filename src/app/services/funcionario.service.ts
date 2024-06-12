@@ -180,18 +180,18 @@ export class FuncionarioService {
       )
   }
 
-  public pegaAtendimentos(payload: {idAnimal: any}, header: any): Observable<any> {
-    return this.httpClient.post(this.app.url+this.getAtendimentos, payload, header).pipe(
-      map((response:any)=> {
-          return response;
-        }),
-        catchError((e) => {
-          if (e.error.message) {
-            return throwError(() => e.error.message)};
-
-          return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
-        })
-      )
+  pegaAtendimentos(payload: { idAnimal: any }, header: any): Observable<any> {
+    return this.httpClient.post(this.app.url + this.getAtendimentos, payload, header).pipe(
+      map((response: any) => {
+        return response;
+      }),
+      catchError((e) => {
+        if (e.error.message) {
+          return throwError(() => e.error.message);
+        }
+        return throwError(() => "Não foi possível concluir a ação, tente mais tarde");
+      })
+    );
   }
 
   public pegaProcedimentos (headers: any) {

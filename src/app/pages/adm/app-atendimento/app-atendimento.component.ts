@@ -217,7 +217,7 @@ export class AppAtendimentoComponent implements OnInit{
   filteredOptionsAmo: Observable<any[]> = of([]);
   filteredOptionsCir: Observable<any[]> = of([]);
   filteredOptionsEsp: Observable<any[]> = of([]);
-  filteredOptionsVac: Observable<any[]> = of([]);
+  filteredOptionsPrc: Observable<any[]> = of([]);
   filteredOptionsVacMarca: Observable<any[]> = of([]);
   autoMed!:MatAutocomplete;
   autoDnc!:MatAutocomplete;
@@ -240,7 +240,7 @@ export class AppAtendimentoComponent implements OnInit{
   procs: any[] = [];
   especialidade: any[] = [];
   anexos: any;
-  atendimentos: any;
+  atendimentos: any[] = [];
   dnc_nome: any;
   resolve = '';
   erro: any;
@@ -254,6 +254,7 @@ export class AppAtendimentoComponent implements OnInit{
   med: any;
   vac: any;
   vet: any;
+  prc: any;
   msgError: any;
 
   atdDates = JSON.parse(localStorage.getItem('atdDates') ?? '{}');
@@ -555,7 +556,20 @@ export class AppAtendimentoComponent implements OnInit{
 
   constructor(private app: FuncionarioService, private formBuilder: FormBuilder, private router: Router) { }
 
+
+
   async ngOnInit(): Promise<void> {
+
+    console.log(this.atdDates[0]);
+
+    try {
+      await this.getAtendimentos();
+    }  catch (err) {
+      console.log(err);
+    }
+
+
+
 
     try {
       await this.validaVeterinario();
@@ -564,13 +578,15 @@ export class AppAtendimentoComponent implements OnInit{
 
     }
 
-    try {
-      await this.getAtendimentos();
+    /*try {
+      await this.pegaProcedimentos();
+      console.log(this.procedimentos);
+
     } catch (err) {
 
-    }
+    }*/
 
-    console.log(`dados agendamento: ${this.vet[0].vet_id}`);
+
     try {
       await this.pegaIndicesAutoCoomplete();
       console.log(this.med);
@@ -579,13 +595,7 @@ export class AppAtendimentoComponent implements OnInit{
 
     }
 
-    try {
-      await this.pegaProcedimentos();
-      console.log(this.procedimentos);
 
-    } catch (err) {
-
-    }
     this.filteredOptionsDiag = this.diagnosticos.valueChanges
     .pipe(
       startWith(''),
@@ -621,6 +631,7 @@ export class AppAtendimentoComponent implements OnInit{
       startWith(''),
       map(value => this._filterEsp(value))
     );
+
   }
 
 
@@ -693,9 +704,9 @@ export class AppAtendimentoComponent implements OnInit{
           this.esp = this.indices.especialistas;
           this.exm = this.indices.exames;
           this.dnc = this.indices.diagnosticos;
-          this.vac = this.indices.vacinas;
+          this.prc = this.indices.procedimentos;
           console.log(this.indices)
-          console.log(this.cir, this.esp, this.exm, this.dnc, this.med, this.vac);
+          console.log(this.cir, this.esp, this.exm, this.dnc, this.med, this.prc);
           resolve(this.indices)
         }),
         error: (err)=> reject(err)
@@ -703,18 +714,16 @@ export class AppAtendimentoComponent implements OnInit{
     });
   };
 
-  public async getAtendimentos (): Promise<any> {
-    return new Promise<any>(async (resolve, reject) => {
-      this.app.pegaAtendimentos({idAnimal: this.atdDates[0].ani_id},this.httpOptions)
+  getAtendimentos(): void {
+    this.app.pegaAtendimentos({ idAnimal: this.atdDates[0].ani_id }, this.httpOptions)
       .subscribe({
-        next: ((res)=> {
-          this.atendimentos = res;
-          console.log(this.atendimentos);
-          resolve(this.atendimentos)
-        }),
-        error: (err)=> reject(err)
+        next: (res) => {
+          console.log('atendimentos:', res.atendimentos);
+          this.atendimentos = res.atendimentos;
+          console.log(`Atds: ${this.atendimentos}`);
+        },
+        error: (err) => console.log(err.message)
       });
-    });
   }
 
   public addArray (array: any[], form: any) {
@@ -777,8 +786,8 @@ export class AppAtendimentoComponent implements OnInit{
 
   formatDate(dateString:any) {
     const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   }
@@ -865,7 +874,8 @@ export class AppAtendimentoComponent implements OnInit{
   async validaVeterinario() {
     try {
       const response = await this.app.validaVet({ id: this.funcDates.id }, this.httpOptions).toPromise(); // Convertendo Observable para Promise
-      this.vet = {vetId: response[0].vet.id, nome: response[0].col_nome}; // Atribuindo a resposta a this.vet
+      console.log(`response: ${JSON.stringify(response)}`)
+      this.vet = {vetId: response[0].vet_id, nome: response[0].col_nome}; // Atribuindo a resposta a this.vet
       this.msgError = response.message; // Definindo a mensagem de erro, se houver
       console.log('Dados Vet:', this.vet); // Verificando se os dados de vet estão corretos
     } catch (error) {
@@ -894,7 +904,8 @@ export class AppAtendimentoComponent implements OnInit{
     try {
       await this.app.pegaAnexos({id:id}, this.httpOptions).subscribe({
         next: ((res)=> {
-          return res;
+          this.anexos =  res;
+          console.log(this.anexos.aplicacoes.length);
         }),
         error: ((err)=> {
          console.log(err.message);
@@ -1317,7 +1328,7 @@ export class AppAtendimentoComponent implements OnInit{
       ambiente: this.anamnese.value.ambiente,
       ingestaoHidrica: `${this.anamnese.value.ingHidrica}/ Tipo: ${this.anamnese.value.tipoAgua}`,
       diurese: `${this.anamnese.value.diurese}/ aspecto: ${this.anamnese.value.aspectoUrina}/frequência: ${this.anamnese.value.freqMiccao}`,
-      pesoCorporal: `{this.anamnese.value.pesoCorporal}/ escore: ${this.anamnese.value.escoreCorporal}`,
+      pesoCorporal: `${this.anamnese.value.pesoCorporal}/ escore: ${this.anamnese.value.escoreCorporal}`,
       prurido: `${this.anamnese.value.prurido} /frequência: ${this.anamnese.value.freqPrurido} /inicio: ${this.anamnese.value.inicioPrurido}/ local: ${this.anamnese.value.localPrurido}`,
       vomito: `${this.anamnese.value.vomito}/ frequência: ${this.anamnese.value.freqVomito}/ inicio: ${this.anamnese.value.inicioVomito}`,
       regurgitacao: `${this.anamnese.value.regurgitacao}/ frequência: ${this.anamnese.value.freqRegurgitacao}/ inicio: ${this.anamnese.value.inicioRegurgitacao}`,
@@ -1332,7 +1343,7 @@ export class AppAtendimentoComponent implements OnInit{
       parasitos: `carrapatos: ${this.anamnese.value.carrapatos}/ pulgas: ${this.anamnese.value.pulgas}/ vermes: ${this.anamnese.value.vermes}, momento: ${this.anamnese.value.momentoLambedura}`,
       alimentação: `tipo: ${this.anamnese.value.tipoAlimentacao}/ marca: ${this.anamnese.value.marcaRacao}/ frequência de oferta: ${this.anamnese.value.freqAlimentar}, momento: ${this.anamnese.value.momentoLambedura}, motivo de oferta de comida: ${this.anamnese.value.motivoComida}`,
       defecção: `apecto: ${this.anamnese.value.aspectoFezes}/ frequência: ${this.anamnese.value.freqDefeccao}`,
-      suplementacao: `${this.anamnese.value.suplemento}/ motivo: ${this.anamnese.value.motivoSuplemento}, início: ${this.anamnese.value.inicioSuplemento}`,
+      suplementacao: `${this.anamnese.value.suplemento}/ motivo: ${this.anamnese.value.motivoSuplemento}/ início: ${this.anamnese.value.inicioSuplemento}`,
       vacinacao: `última dose polivalente: ${this.anamnese.value.polivalente}/ última dose antirrábica: ${this.anamnese.value.antirrabica}`,
       vermifugação: `última dose: ${this.anamnese.value.vermifugo}`,
       ectoparasiticida: `última dose: ${this.anamnese.value.ectoparasiticida}/ tipo: ${this.anamnese.value.tipoEcto}`,

@@ -244,6 +244,25 @@
   margin: 30px 0;
 }
 
+.session {
+  margin-top: 20px;
+}
+
+.suspeitas {
+  background-color: #fffebb;
+  border-radius: 10px;
+  margin-right: 5px;
+  text-align: center;
+}
+
+.exames {
+  margin-bottom: 5px;
+}
+
+#accordionFlushExample {
+  max-width: 90%;
+}
+
 .animal-card {
   width: 300px;
   background-color: #f2eec6;
