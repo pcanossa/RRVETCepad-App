@@ -29,12 +29,12 @@
       <div class="carteira-virtual d-flex flex-column align-items-center">
         <hr><br>
         <h1>Atendimentos</h1>
-        <div *ngIf="atendimentos && atendimentos.length > 0" >
+        <div *ngIf="atendimentos && atendimentos.length > 0" class="overflow-scroll">
           <div class="drop-itens d-flex flex-column justify-content-center">
             <div class="accordion accordion-flush" id="accordionFlushExample">
               <div class="accordion-item" *ngFor="let atendimento of atendimentos; let i = index">
                 <h2 class="accordion-header" [attr.id]="'flush-heading' + i">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#flush-collapse' + i" aria-expanded="false" [attr.aria-controls]="'flush-collapse' + i" (click)="getAnexos(atendimento.atd_id);">
+                  <button class="accordion-button collapsed" [id]="atendimento.atd_tipo" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#flush-collapse' + i" aria-expanded="false" [attr.aria-controls]="'flush-collapse' + i" (click)="getAnexos(atendimento.atd_id); getResponsavel(atendimento.agd_veterinario_vet_id)">
                     <h4><i class="fa-solid fa-stethoscope"></i></h4>
                     <h4>ATENDIMENTO {{formatDate(atendimento.agd_data)}}</h4>
                   </button>
@@ -42,7 +42,7 @@
                 <div [attr.id]="'flush-collapse' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'flush-heading' + i" data-bs-parent="#accordionFlushExample">
                   <div class="accordion-body">
                     <div href="/app-novoCliente" class="item-menu d-flex flex-row">
-                      <h5 style="color: rgb(201, 80, 0);"><i class="fa-solid fa-user-doctor"></i> MV Responsável: Dr. {{getResponsavel(atendimento.col)}}</h5>
+                      <h5 style="color: rgb(201, 80, 0);"><i class="fa-solid fa-user-doctor"></i> MV Responsável: Dr. {{vetResp}}</h5>
                     </div>
                   <div href="/buscarCliente" class="item-menu d-flex flex-row" style="text-align: center;">
                     <h4>Suspeitas Diagnósticas: </h4>
@@ -75,7 +75,7 @@
                     <h5><b>FR:</b> {{atendimento.atd_fr}} MPM</h5>
                   </div>
                   <div href="/buscarCliente" class="item-menu d-flex flex-row">
-                    <h5><b>Sons Respiratórios:</b> {{atendimento.atd_respiratorio}} </h5>
+                    <h5><b>Sons Respiratórios:</b> {{atendimento.atd_respiracao}} </h5>
                   </div>
                   <div href="/buscarCliente" class="item-menu d-flex flex-row">
                     <h5><b>Sons Cardíacos:</b> {{atendimento.atd_cardiaco}} </h5>
@@ -132,16 +132,16 @@
                     <h5><b>Regurgitação:</b> {{atendimento.atd_anregurgitacao}}</h5>
                   </div>
                   <div href="/buscarCliente" class="item-menu d-flex flex-row">
-                    <h5><b>Comportamento:</b> {{atendimento.atd_ancomprotamento}}</h5>
+                    <h5><b>Comportamento:</b> {{atendimento.atd_ancomportamento}}</h5>
                   </div>
                   <div href="/buscarCliente" class="item-menu d-flex flex-row">
-                    <h5><b>Sono:</b> {{atendimento.atd_sono}}</h5>
+                    <h5><b>Sono:</b> {{atendimento.atd_ansono}}</h5>
                   </div>
                   <div href="/buscarCliente" class="item-menu d-flex flex-row">
                     <h5><b>Vocalização:</b> {{atendimento.atd_anvocalizacao}}</h5>
                   </div>
                   <div href="/buscarCliente" class="item-menu d-flex flex-row">
-                    <h5><b>Incoordenação:</b> {{atendimento.atdanincoordenacao}}</h5>
+                    <h5><b>Incoordenação:</b> {{atendimento.atd_anincoordenacao}}</h5>
                   </div>
                   <div href="/buscarCliente" class="item-menu d-flex flex-row">
                     <h5><b>Crise Epilética:</b> {{atendimento.atd_anepilepsia}}</h5>

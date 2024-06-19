@@ -21,6 +21,7 @@ export class AppVetComponent {
   vetValidate: any;
   pex: any;
   atendimentos: any;
+  atendimentosVet: any;
 
   httpOptions = {
     headers: this.headers
@@ -41,6 +42,12 @@ export class AppVetComponent {
 
         } catch (error) {
             // Lida com erros em getAtendimentoVet()
+        }
+
+        try {
+          await this.consultaAtendimentosRealizados();
+        } catch (error) {
+          console.log(error);
         }
 
     } catch (error) {
@@ -142,6 +149,39 @@ export class AppVetComponent {
       this.msgError = error; // Lidando com erros
       console.error('Erro ao validar veterinário:', error);
       throw error; // Lançando o erro novamente para tratamento posterior
+    }
+  }
+
+  getAtualDate () {
+    let date = new Date();
+    date.setDate(date.getDate() + 7);
+    const data = `${new Date(date).getFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(date.getUTCDate()).padStart(2, '0')}`;
+    return data
+  }
+
+  formatSQLDate () {
+    const date = new Date();
+    console.log(`${new Date(date).getFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(date.getUTCDate()).padStart(2, '0')}`)
+    return `${new Date(date).getFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(date.getUTCDate()).padStart(2, '0')}`
+  }
+
+  async consultaAtendimentosRealizados () {
+    try {
+      this.app.getAtendimentosForVets(
+        {id: this.vet[0].vet_id,
+        dataInicial: this.formatSQLDate(),
+        dataFinal: this.getAtualDate()
+        }, this.httpOptions
+      )
+      .subscribe({
+        next: ((res)=> {
+          this.atendimentosVet = res.atendimentos;
+          console.log(this.atendimentosVet);
+        }),
+        error: ((err)=> console.log(err))
+      })
+    } catch (err) {
+      console.log(err);
     }
   }
 

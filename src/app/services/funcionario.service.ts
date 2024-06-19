@@ -24,6 +24,7 @@ export class FuncionarioService {
   private especialistas: string = '/getEspecialistas';
   private getEspecalidades: string = '/getEspecialidades';
   private getAgenda: string = '/getAgenda';
+  private getAtendimentoPorVets: string = '/gatAtdsVets';
   private getAgendAEsp: string = '/AgendaEsp';
   private getAgendamento: string = '/verificaAgendamento';
   private getColaborador: string = '/colaborador';
@@ -120,6 +121,21 @@ export class FuncionarioService {
       })
     )
   }
+
+  public getAtendimentosForVets (payload: {id: string, dataInicial: any, dataFinal:any}, header: any): Observable<any> {
+    return this.httpClient.post(this.app.url+this.getAtendimentoPorVets, payload, header).pipe(
+      map((response:any)=> {
+        return response;
+      }),
+      catchError((e) => {
+        if (e.error.message) {
+          return throwError(() => e.error.message)};
+
+        return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
+      })
+    )
+  }
+
 
   public enviaEmailCol (payload: {cpf: string}): Observable<any> {
     return this.httpClient.post(this.app.url+this.mail, payload).pipe(
@@ -448,7 +464,7 @@ export class FuncionarioService {
     )
    }
 
-   public validaAgenda (payload: {agdID: any}, header:any) : Observable<any> {
+   public validaAgenda (payload: {agdID: any,entrada: any}, header:any) : Observable<any> {
     return this.httpClient.post(this.app.url+this.validaAgendamento, payload, header).pipe (
       map((response:any)=> {
         return response

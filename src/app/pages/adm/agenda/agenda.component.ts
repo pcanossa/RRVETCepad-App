@@ -333,6 +333,12 @@ export class AgendaComponent implements OnInit {
     }
   }
 
+  registraHorarioValidacao() {
+    const dataHora = new Date
+    const horario = dataHora.getHours()+":"+dataHora.getMinutes()+":"+dataHora.getSeconds();
+    return horario;
+  }
+
   pegaDiaHorario() {
     const dataHora = this.dadoAgendamento.value.dataHora;
     const data = dataHora.getUTCFullYear().toString+"-"+dataHora.getUTCMonth().toString+"-"+dataHora.getDayOfWeek().toString;
@@ -354,7 +360,7 @@ export class AgendaComponent implements OnInit {
         rga: this.animalDates.ani_id,
         veterinário: this.dadoAgendamento.value.veterinario,
         descTipo: String(this.dadoAgendamento.value.especialidade),
-        triagem: this.dadoAgendamento.value.triagem
+        triagem: this.dadoAgendamento.value.triagem,
       },
       this.httpOptions
     ).subscribe({
@@ -560,7 +566,9 @@ export class AgendaComponent implements OnInit {
   }
 
   public async validaAgendamento (id: number) {
-      this.app.validaAgenda({agdID: id},this.httpOptions).subscribe({
+      this.app.validaAgenda({
+        agdID: id,
+        entrada: this.registraHorarioValidacao()},this.httpOptions).subscribe({
         next: (async (res)=> {
           this.dadosGerais = null;
           this.atualizaAgenda();

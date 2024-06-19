@@ -248,6 +248,26 @@
   margin-top: 20px;
 }
 
+.overflow-scroll {
+  max-height: 300px;
+}
+
+#consulta {
+  background-color: #67a4ba;
+}
+
+#retorno {
+  background-color: #efe258;
+}
+
+#especialista {
+  background-color: #fcac4b;
+}
+
+#exame {
+  background-color: #0ef6ea;
+}
+
 .suspeitas {
   background-color: #fffebb;
   border-radius: 10px;

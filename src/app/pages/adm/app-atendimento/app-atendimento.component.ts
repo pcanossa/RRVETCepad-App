@@ -256,6 +256,7 @@ export class AppAtendimentoComponent implements OnInit{
   vet: any;
   prc: any;
   msgError: any;
+  vetResp: any;
 
   atdDates = JSON.parse(localStorage.getItem('atdDates') ?? '{}');
   funcDates = JSON.parse(localStorage.getItem('funcDates') ?? '{}');
@@ -889,7 +890,9 @@ export class AppAtendimentoComponent implements OnInit{
     try {
       await this.app.getVetResponsavel({id:id}, this.httpOptions).subscribe({
         next: ((res)=> {
-          return res;
+          this.vetResp = res;
+          console.log(this.vetResp);
+          return this.vetResp;
         }),
         error: ((err)=> {
          console.log(err.message);
