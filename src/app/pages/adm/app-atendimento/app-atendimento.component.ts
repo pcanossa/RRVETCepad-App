@@ -1314,6 +1314,18 @@ export class AppAtendimentoComponent implements OnInit{
     }
   }
 
+  loadAtendimentoData(atendimento:any): boolean {
+    this.getAnexos(atendimento.atd_id);
+    this.getResponsavel(atendimento.agd_veterinario_vet_id);
+    return true;
+  }
+
+
+  consultaRet() {
+    console.log(this.tipoAtendimento.value.evolucao);
+    console.log(this.tipoAtendimento.value.detalhes);
+  }
+
   verDados() {
     console.log( {data: this.formatDateBD(),
       peso: this.parametros.value.peso,
@@ -1340,7 +1352,7 @@ export class AppAtendimentoComponent implements OnInit{
       vocalizacao: `${this.anamnese.value.vocalizacao}/ período: ${this.anamnese.value.periodoVocalizacao}/ inicio: ${this.anamnese.value.inicioVocalizacao}`,
       incoordenacao: `${this.anamnese.value.incoordenacao}/ momento: ${this.anamnese.value.momentoIncoordenacao}/ inicio: ${this.anamnese.value.inicioIncoordenacao}`,
       sincope: `${this.anamnese.value.sincope}/ momento: ${this.anamnese.value.momentoSincope}/frquência: ${this.anamnese.value.freqSincope}/ inicio: ${this.anamnese.value.inicioSincope}`,
-      tosse: `${this.anamnese.value.tosse}/ frquência: ${this.anamnese.value.freqTosse}/ inicio: ${this.anamnese.value.inicioTosse}`,
+      tosse: `${this.anamnese.value.tosse}/ frEquência: ${this.anamnese.value.freqTosse}/ inicio: ${this.anamnese.value.inicioTosse}`,
       epilepsia: `${this.anamnese.value.tosse}/ frquência: ${this.anamnese.value.freqTosse}/ inicio: ${this.anamnese.value.inicioTosse}`,
       lambedura: `${this.anamnese.value.lambedura}/ frquência: ${this.anamnese.value.freqLambedura}/ inicio: ${this.anamnese.value.inicioLambedura}, momento: ${this.anamnese.value.momentoLambedura}`,
       parasitos: `carrapatos: ${this.anamnese.value.carrapatos}/ pulgas: ${this.anamnese.value.pulgas}/ vermes: ${this.anamnese.value.vermes}, momento: ${this.anamnese.value.momentoLambedura}`,
@@ -1352,7 +1364,7 @@ export class AppAtendimentoComponent implements OnInit{
       ectoparasiticida: `última dose: ${this.anamnese.value.ectoparasiticida}/ tipo: ${this.anamnese.value.tipoEcto}`,
       castracao: `${this.anamnese.value.castracao}/ motivo: ${this.anamnese.value.motivoCastracao}`,
       outrasInfos: this.anamnese.value.outras,
-      retorno: this.tipoAtendimento.value.evolucao,
+      retorno: `${this.tipoAtendimento.value.evolucao} / Detalhes: ${this.tipoAtendimento.value.detalhes}`,
       sistCardiovascular: this.exameFisico.value.cardiovascular,
       dermatologico: this.exameFisico.value.dermatologico,
       sistEndocrino: this.exameFisico.value.endocrino,

@@ -29,6 +29,7 @@ import { AdmClientesComponent } from './pages/adm/adm-clientes/adm-clientes.comp
 import { AdmBuscaAnimalComponent } from './pages/adm/adm-busca-animal/adm-busca-animal.component';
 import { AtualizaTutorComponent } from './pages/adm/atualiza-tutor/atualiza-tutor.component';
 import { AtualizaAnimalComponent } from './pages/adm/atualiza-animal/atualiza-animal.component';
+import { AppEnfermagemComponent } from './pages/adm/app-enfermagem/app-enfermagem.component';
 
 const routes: Routes = [
   {
@@ -155,6 +156,11 @@ const routes: Routes = [
   {
     path: 'atualizaAnimal',
     component: AtualizaAnimalComponent,
+    canActivate: [AuthGuardADMService]
+  },
+  {
+    path: 'app-enfermagem',
+    component: AppEnfermagemComponent,
     canActivate: [AuthGuardADMService]
   }
 

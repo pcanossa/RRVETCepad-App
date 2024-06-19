@@ -36,7 +36,7 @@
                 <h2 class="accordion-header" [attr.id]="'flush-heading' + i">
                   <button class="accordion-button collapsed" [id]="atendimento.atd_tipo" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#flush-collapse' + i" aria-expanded="false" [attr.aria-controls]="'flush-collapse' + i" (click)="getAnexos(atendimento.atd_id); getResponsavel(atendimento.agd_veterinario_vet_id)">
                     <h4><i class="fa-solid fa-stethoscope"></i></h4>
-                    <h4>ATENDIMENTO {{formatDate(atendimento.agd_data)}}</h4>
+                    <h4>ATENDIMENTO {{formatDate(atendimento.atd_data)}}</h4>
                   </button>
                 </h2>
                 <div [attr.id]="'flush-collapse' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'flush-heading' + i" data-bs-parent="#accordionFlushExample">
@@ -347,21 +347,16 @@
         </div>
         <div class="form-floating" *ngIf="tipoAtendimento.value?.tipo === 'Retorno' || tipoAtendimento.value?.tipo === 'Exame'">
           <select class="form-select" id="floatingSelect" aria-label="Floating label select example" formControlName="evolucao">
-            <option value="meohora">Melhora do Quadro</option>
+            <option value="melhora">Melhora do Quadro</option>
             <option value="piora">Piora do Quadro</option>
             <option value="igual">Quadro se mantem igual</option>
           </select>
-          <div class="mb-2" >
-            <label for="exampleFormControlTextarea1" class="form-label" >Detalhes</label>
-            <h4>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" cols="50" style="font-size: large;" formControlName="detalhes"></textarea>
-          </h4>
-          </div>
+
         </div>
         <div class="mb-2" *ngIf="tipoAtendimento.value?.tipo === 'Retorno' || tipoAtendimento.value?.tipo === 'Exame'" >
           <label for="exampleFormControlTextarea1" class="form-label" >Detalhes sobre Evolução Clínica</label>
           <h4>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" cols="50" style="font-size: large;" formControlName="detalhes" ></textarea>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" cols="50" style="font-size: large;" formControlName="detalhes" (click)="consultaRet();"></textarea>
         </h4>
         </div>
       </div>

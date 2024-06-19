@@ -55,6 +55,7 @@ import { AdmClientesComponent } from './adm/adm-clientes/adm-clientes.component'
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { AtualizaTutorComponent } from './adm/atualiza-tutor/atualiza-tutor.component';
 import { AtualizaAnimalComponent } from './adm/atualiza-animal/atualiza-animal.component';
+import { AppEnfermagemComponent } from './adm/app-enfermagem/app-enfermagem.component';
 
 
 
@@ -99,7 +100,8 @@ import { AtualizaAnimalComponent } from './adm/atualiza-animal/atualiza-animal.c
     AdmBuscaAnimalComponent,
     AdmClientesComponent,
     AtualizaTutorComponent,
-    AtualizaAnimalComponent
+    AtualizaAnimalComponent,
+    AppEnfermagemComponent
   ],
   providers: [AnimaisAppService],
   imports: [

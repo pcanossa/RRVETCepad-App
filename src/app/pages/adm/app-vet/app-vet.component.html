@@ -59,17 +59,17 @@
       <div *ngIf="atendimentos && atendimentos.length > 0" class="overflow-scroll">
         <div class="drop-itens d-flex flex-column justify-content-center">
           <div class="accordion accordion-flush" id="accordionFlushExample">
-            <div class="accordion-item" *ngFor="let atendimento of atendimentos; let i = index">
+            <div class="accordion-item" *ngFor="let atendimento of atendimentosVet; let i = index">
               <h2 class="accordion-header" [attr.id]="'flush-heading' + i">
-                <button class="accordion-button collapsed" [id]="atendimento.atd_tipo" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#flush-collapse' + i" aria-expanded="false" [attr.aria-controls]="'flush-collapse' + i" (click)="getAnexos(atendimento.atd_id); getResponsavel(atendimento.agd_veterinario_vet_id)">
+                <button class="accordion-button collapsed" [id]="atendimento.atd_tipo" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#flush-collapse' + i" aria-expanded="false" [attr.aria-controls]="'flush-collapse' + i" (click)="getAnexos(atendimento.atd_id);">
                   <h4><i class="fa-solid fa-stethoscope"></i></h4>
-                  <h4>ATENDIMENTO {{formatDate(atendimento.agd_data)}}</h4>
+                  <h4>ATENDIMENTO {{formatDateForm(atendimento.atd_data)}}</h4>
                 </button>
               </h2>
               <div [attr.id]="'flush-collapse' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'flush-heading' + i" data-bs-parent="#accordionFlushExample">
                 <div class="accordion-body">
                   <div href="/app-novoCliente" class="item-menu d-flex flex-row">
-                    <h5 style="color: rgb(201, 80, 0);"><i class="fa-solid fa-user-doctor"></i> MV Responsável: Dr. {{vetResp}}</h5>
+                    <h5 style="color: rgb(201, 80, 0);"><i class="fa-solid fa-user-doctor"></i> MV Responsável: Dr. {{vet.vet_id}}</h5>
                   </div>
                 <div href="/buscarCliente" class="item-menu d-flex flex-row" style="text-align: center;">
                   <h4>Suspeitas Diagnósticas: </h4>
@@ -250,7 +250,7 @@
                   <div *ngFor="let exame of anexos.exames">
                   <div class="exames d-flex flex-column justify-content-start align-items-start">
                       <h5 style="color:rgb(206, 126, 72)">Exame: {{exame.exm_exame}}</h5>
-                      <h5>Data de Solicitação: {{formatDate(exame.pex_data)}}</h5>
+                      <h5>Data de Solicitação: {{formatDateForm(exame.pex_data)}}</h5>
                       <h5 *ngIf="exame.pex_realizacao != null">Realização: {{exame.pex_realizacao}}</h5>
                       <h5 *ngIf="exame.pex_realizacao === null">Realização: Exame ainda não realizado</h5>
                       <h5>Laudo: {{exame.pex_laudo}}</h5>

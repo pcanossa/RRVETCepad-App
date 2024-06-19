@@ -53,6 +53,7 @@ export class FuncionarioService {
   private desmarcaAgd: string = '/desmarca';
   private consultaAgdAnimal: string = '/consultaAgd';
   private validado: string = '/validados';
+  private filaAplicacoes: string = '/filaAplicacoes';
   private vet: string ='/consultaVet';
   private listExames: string = '/filaExames';
   private indices: string = '/listaMedic'
@@ -154,6 +155,21 @@ export class FuncionarioService {
 
   public pegaAnexos (payload: {id: number}, header:any): Observable<any> {
     return this.httpClient.post(this.app.url+this.getAnexos, payload, header).pipe(
+    map((response:any)=> {
+        console.log(response);
+        return response;
+      }),
+      catchError((e) => {
+        if (e.error.message) {
+          return throwError(() => e.error.message)};
+
+        return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
+      })
+    )
+  }
+
+  public pegaAplicacoes (header:any): Observable<any> {
+    return this.httpClient.get(this.app.url+this.filaAplicacoes, header).pipe(
     map((response:any)=> {
         console.log(response);
         return response;

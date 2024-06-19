@@ -29,6 +29,7 @@ export class AppVetComponent {
 
   validados: any[] = [];
   vet: any;
+  anexos: any;
 
   constructor(private app: FuncionarioService, private router: Router) { }
 
@@ -184,6 +185,22 @@ export class AppVetComponent {
       console.log(err);
     }
   }
+
+  async getAnexos(id: number): Promise<any> {
+    try {
+      await this.app.pegaAnexos({id:id}, this.httpOptions).subscribe({
+        next: ((res)=> {
+          this.anexos =  res;
+          console.log(this.anexos.aplicacoes.length);
+        }),
+        error: ((err)=> {
+         console.log(err.message);
+        })
+      })
+    } catch (error) {
+      return console.log(error)
+    }
+  };
 
   async consultaExames (): Promise<any> {
     return new Promise(async (resolve, reject) =>{

@@ -1,0 +1,55 @@
+<div class="body-animal-page d-flex flex-wrap">
+  <app-adm-navbar class="nav-menu"></app-adm-navbar>
+  <div class="animais d-flex flex-column align-items-center" >
+    <app-header></app-header>
+    <h1>Fila de Medicações</h1>
+    <div class="fila d-flex flex-column align-items-center justify-content-center">
+      <div class="aguard-card d-flex flex-column justify-content-evenly">
+        <div class="container tab-agd" id="agd-tab">
+          <div class="desc row d-flex justify-content-evenly align-items-center" *ngFor="let aplicacao of fila">
+            <div class="col">
+              <h6><i class="fa-solid fa-notes-medical"></i></h6>
+            </div>
+            <div class="col">
+              <h6>{{aplicacao.med_nome}}</h6>
+            </div>
+            <div class="col">
+              <h6>{{aplicacao.med_concentracao}}</h6>
+            </div>
+            <div class="col">
+              <h6>{{aplicacao.apl_dose}}</h6>
+            </div>
+            <div class="col">
+              <h6>{{aplicacao.apl_tipo}}</h6>
+            </div>
+            <div class="col">
+              <h6> <i  class="fa-solid fa-circle"></i></h6>
+            </div>
+            <div class="animal row d-flex justify-content-evenly align-items-center">
+              <div class="col">
+                <h6>{{aplicacao.ani_nome}}</h6>
+              </div>
+              <div class="col">
+                <h6>{{aplicacao.ani_especie}}</h6>
+              </div>
+              <div class="col">
+                <h6>{{aplicacao.ani_sexo}}</h6>
+              </div>
+              <div class="col">
+                <h6>{{aplicacao.ani_raca}}</h6>
+              </div>
+              <div class="col">
+                <h6>{{aplicacao.ani_cor}}</h6>
+              </div>
+            </div>
+            <div class="col">
+              <h6>Tutor: {{aplicacao.tut_nome}}</h6>
+            </div>
+            <div class="col">
+              <h6>Veterinário: {{aplicacao.col_nome}}</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
