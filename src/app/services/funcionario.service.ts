@@ -33,6 +33,7 @@ export class FuncionarioService {
   private getAgendaExm: string = '/AgendaExm';
   private getProcedimentos = '/procedimentos';
   private getAnexos = '/getAnexos';
+  private updateAplicacoes: string = '/registraAplicacao';
   private getVetAtendimento: string = '/vetAtendimento';
   private validaVeterinario: string = '/validaVet';
   private getAtendimentosVet: string = '/atendimentoVet';
@@ -167,6 +168,22 @@ export class FuncionarioService {
       })
     )
   }
+
+  public registraAplicacoes (payload: {array: any, id: number}, header:any): Observable<any> {
+    return this.httpClient.post(this.app.url+this.updateAplicacoes, payload, header).pipe(
+    map((response:any)=> {
+        console.log(response);
+        return response;
+      }),
+      catchError((e) => {
+        if (e.error.message) {
+          return throwError(() => e.error.message)};
+
+        return throwError (() => "Não foi possível concluir a ação, tente mais tarde")
+      })
+    )
+  }
+
 
   public pegaAplicacoes (header:any): Observable<any> {
     return this.httpClient.get(this.app.url+this.filaAplicacoes, header).pipe(
