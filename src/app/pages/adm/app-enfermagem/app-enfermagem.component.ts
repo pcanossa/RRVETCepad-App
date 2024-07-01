@@ -43,7 +43,7 @@ export class AppEnfermagemComponent {
 
   constructor(private app: FuncionarioService, private formBuilder: FormBuilder, private router: Router) { }
 
-
+  realizacoes: any [] = [];
 
   async ngOnInit(): Promise<void> {
     try {
@@ -69,6 +69,18 @@ export class AppEnfermagemComponent {
 
     }
   }
+
+  pegaIds (id:number) {
+    this.realizacoes.push(id);
+    console.log(this.realizacoes)
+  };
+
+  public removeArray (index: number) {
+    this.realizacoes.splice(index,1);
+    console.log(this.realizacoes)
+  }
+
+
 
 
 }
