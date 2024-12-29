@@ -1,37 +1,92 @@
-<div #tudo class="tudo" id="tudo">
-  <div id="dados" class="d-flex flex-column align-items-center justify-content-between">
-    <div class="d-flex justify-content-between align-items-center" id="cab-rec">
-      <div class="logo d-flex justify-content-center">
-        <img src="../../../../assets/img/logoPlano.png" alt="">
-      </div>
-      <div class="atend d-flex flex-column align-items-start justify-content-center">
-        <b><h1 style="color: #f2b950">Atendimento Veterinario |</h1></b>
-        <h4 style="color: aliceblue;"><b>Data:</b> {{formatDateForm(atd.atd_data_hora)}}</h4>
-        <h4 style="color: aliceblue;"><b>Hora:</b> {{formatHourMinutes(atd.atd_data_hora)}}</h4>
-        <h4 style="color: aliceblue;"><b>Médico Veterinário(a):</b> {{funcDates.col_nome}}</h4>
-      </div>
+<header class="d-flex flex-column align-items-center justify-content-center">
+  <div class="cabecalho d-flex flex-row align-items-center justify-content-evenly flex-wrap">
+    <div class="cepad d-flex flex-column justify-content-center align-items-center">
+      <h4>
+        <b>CEPAD</b>
+      </h4>
+      <h4>
+        Centro de Proteção
+      </h4>
+      <h4>
+        ao Animal Doméstico
+      </h4>
     </div>
-    <div class="d-flex justify-content-between align-items-center" id="tutor-animal">
-      <div class="atend d-flex flex-column align-items-start justify-content-center">
-        <h3 style="color: #f2b950">Dados do Tutor</h3>
-        <h4 style="color: aliceblue;"><b>Nome:</b> {{atdDates.agdDates.cli_nome}}</h4>
-        <h4 style="color: aliceblue;"><b>Telefone:</b> {{formatarTelefone(atdDates.agdDates.cli_telefone)}}</h4>
-        <h4 style="color: aliceblue;"><b>Endereço:</b> {{atdDates.agdDates.cli_rua}}, {{atdDates.agdDates.cli_numero}} - {{atdDates.agdDates.cli_bairro}} - {{atdDates.agdDates.cli_cidade}}</h4>
-      </div>
-      <div class="d-flex flex-column align-items-start justify-content-center" id="animal">
-        <h4><b>Animal:</b> {{atdDates.agdDates.ani_nome}}</h4>
-        <h4><b>Espécie:</b> {{atdDates.agdDates.ani_especie}}</h4>
-        <h4><b>Raça:</b> {{atdDates.agdDates.ani_raca}}</h4>
-        <h4><b>Idade:</b> {{calcIdade(atdDates.agdDates.ani_nascimento)}}</h4>
-      </div>
+    <div>
+      <img src="../../../../assets/img/logorrvet.png" alt="" class="logorr">
+    </div>
+    <div>
+      <img src="../../../../assets/img/brasaoBarueri.png" alt="" class="brasao">
     </div>
   </div>
-  <div class="prescricao d-flex flex-column align-items-start justify-content-center">
-    <h1><i class="fa-solid fa-paw"></i> RECEITUÁRIO VETERINÁRIO <i class="fa-solid fa-paw"></i></h1>
-    <h2 *ngIf="vo.length > 0">USO ORAL</h2>
+  <div class="dados-atendimento d-flex flex-column justify-content-center align-items-start">
+    <h5><i class="fa-solid fa-address-card"></i> Tutor</h5>
+    <div class="identificacao-tutor d-flex flex-row align-items-center justify-content-between flex-wrap">
+      <h6>
+        <b>Nome: </b> {{animalDates.dados[0].tut_nome}}
+      </h6>
+      <h6>
+        <b>Telefone: </b>{{formatarTelefone(animalDates.dados[0].tut_telefone)}}
+      </h6>
+      <h6>
+        <b>Endereço: </b> {{animalDates.dados[0].tut_rua}}, {{animalDates.dados[0].tut_numero}} - {{animalDates.dados[0].tut_bairro}}
+      </h6>
+      <h6>
+        <b>Cidade: </b>{{animalDates.dados[0].tut_cidade}}
+      </h6>
+      <h6>
+        <b>CEP: </b>{{animalDates.dados[0].tut_cep}}
+      </h6>
+    </div>
+    <h5>
+      <i class="fa-solid fa-shield-dog"></i> Animal
+    </h5>
+    <div class="identificacao-tutor d-flex flex-row align-items-center justify-content-between flex-wrap">
+      <h6>
+        <b>Animal: </b>{{animalDates.dados[0].ani_nome}}
+      </h6>
+      <h6>
+        <b>RGA: </b>{{animalDates.dados[0].ani_rga}}
+      </h6>
+      <h6>
+        <b>Espécie: </b>{{animalDates.dados[0].ani_especie}}
+      </h6>
+      <div class="identificacao-tutor d-flex flex-row align-items-center justify-content-between flex-wrap">
+      <h6>
+        <b>Raça: </b>{{animalDates.dados[0].ani_raca}}
+      </h6>
+
+      <h6>
+        <b>Idade: </b>{{calcIdade(animalDates.dados[0].ani_nascimento)}}
+      </h6>
+      <h6>
+        <b>Sexo: </b>{{animalDates.dados[0].ani_sexo}}
+      </h6>
+    </div>
+  </div>
+  <h5><i class="fa-solid fa-stethoscope"></i> Atendimento</h5>
+    <div class="identificacao-tutor d-flex flex-row align-items-center justify-content-between flex-wrap">
+      <h6>
+        <b>Data: </b> {{formatDateForm(getDate())}}
+      </h6>
+      <h6>
+        <b>M.V. Responsável: </b>{{vet[0].col_nome}}
+      </h6>
+      <h6>
+        <b>CRMV: </b> {{vet[0].vet_crmv}}
+      </h6>
+    </div>
+    <div class="cepad d-flex flex-column align-items-center justify-content-center">
+      <img src="../../../../assets/img/rodape.png" alt="" class="cepad-ident">
+    </div>
+  </div>
+</header>
+<div class="d-flex flex-column align-items-center justify-content-center">
+  <h2>RECEITUÁRIO VETERINÁRIO</h2>
+  <div class="dados-atendimento d-flex flex-column justify-content-center align-items-start">
+    <h4 *ngIf="vo.length > 0"> USO ORAL</h4>
     <div class="prescs d-flex flex-column align-items-start justify-content-center" *ngFor="let med of vo; let i for index">
       <div class="prescs d-flex justify-content-between align-items-center">
-        <h4>{{getCount()}}- {{med.medicacao}} {{med.concentracao}}{{med.medidaC}}</h4>
+        <h4>{{med.medicacao}} {{med.concentracao}}{{med.medidaC}}</h4>
         <hr>
         <h4>{{apresentac[med.apresentacao]}}</h4>
       </div>
@@ -39,10 +94,10 @@
         <h5>Dar {{med.dose}} {{apresentacoes[med.medidaD]}}, {{frequencias[med.frequencia]}} durante {{med.duracao}} dias.</h5>
       </div>
     </div>
-    <h2 *ngIf="tp.length > 0">USO TÓPICO</h2>
+    <h4 *ngIf="tp.length > 0">USO TÓPICO</h4>
     <div class="prescs d-flex flex-column align-items-start justify-content-center" *ngFor="let med of tp; let i for index">
       <div class="prescs d-flex justify-content-between align-items-center">
-        <h4>{{getCount()}}- {{med.medicacao}} {{med.concentracao}}{{med.medidaC}}</h4>
+        <h4>{{med.medicacao}} {{med.concentracao}}{{med.medidaC}}</h4>
         <hr>
         <h4>{{apresentac[med.apresentacao]}}</h4>
       </div>
@@ -51,10 +106,6 @@
       </div>
     </div>
   </div>
-  <div class="vet d-flex flex-column align-items-center justify-content-center">
-    <h5>M.V. {{vetValidate[0].col_nome}}</h5>
-    <h5>CRMV-SP {{vetValidate[0].vet_crmv}}</h5>
-  </div>
 </div>
-<button (click)="gerarPDF()">Gerar PDF</button>
+
 

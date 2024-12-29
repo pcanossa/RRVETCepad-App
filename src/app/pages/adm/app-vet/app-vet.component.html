@@ -33,18 +33,18 @@
         <h1>Exames Aguardando Realização</h1>
         <div class="aguard-card d-flex align-items-center justify-content-start">
           <div class="container tab-agd justify-content-start" id="agd-tab">
-            <div class="row d-flex justify-content-between align-items-center" *ngFor="let ex of pex">
+            <div class="row d-flex justify-content-between align-items-center" *ngFor="let ex of exames">
               <div class="col">
-                <h6>{{ formatDateForm(ex.pex_data_pedido) }}</h6>
+                <h6>{{ formatDateForm(ex.pex_data) }}</h6>
               </div>
               <div class="col">
-                <h6>{{ ex.exm_nome }}</h6>
+                <h6>{{ ex.exm_exame }}</h6>
               </div>
               <div class="col">
                 <h6>{{ ex.ani_nome }}</h6>
               </div>
               <div class="col">
-                <h6>{{ ex.pex_amostra }}</h6>
+                <h6>{{ ex.tut_nome }}</h6>
               </div>
               <div class="col d-flex justify-content-center align-items-center">
                 <button class="btn btn-primary" type="button" id="btnOk">

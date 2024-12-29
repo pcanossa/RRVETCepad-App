@@ -56,6 +56,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { AtualizaTutorComponent } from './adm/atualiza-tutor/atualiza-tutor.component';
 import { AtualizaAnimalComponent } from './adm/atualiza-animal/atualiza-animal.component';
 import { AppEnfermagemComponent } from './adm/app-enfermagem/app-enfermagem.component';
+import { ProntuarioComponent } from './adm/prontuario/prontuario.component';
 
 
 
@@ -101,7 +102,8 @@ import { AppEnfermagemComponent } from './adm/app-enfermagem/app-enfermagem.comp
     AdmClientesComponent,
     AtualizaTutorComponent,
     AtualizaAnimalComponent,
-    AppEnfermagemComponent
+    AppEnfermagemComponent,
+    ProntuarioComponent
   ],
   providers: [AnimaisAppService],
   imports: [

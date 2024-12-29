@@ -190,8 +190,9 @@ export class AdmBuscaAnimalComponent {
       })
   }
 
-  enviarID (id:any, nome:any, especie:any, raca:any, cor:any, sexo:any, idade:any, particularidades:any, rga:any, urlfoto:any, tutor:any, telefone:any, rua:any, numero:any, bairro:any, cidade:any, cpf:any, tipo:any, cep:any, porte:any) {
+  enviarID (animalId: any, id:any, nome:any, especie:any, raca:any, cor:any, sexo:any, idade:any, particularidades:any, rga:any, urlfoto:any, tutor:any, telefone:any, rua:any, numero:any, bairro:any, cidade:any, cpf:any, tipo:any, cep:any, porte:any) {
     localStorage.setItem('animalDates', JSON.stringify({
+      animalId: animalId,
       id: id,
       nome: nome,
       raca: raca,

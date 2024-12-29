@@ -1,0 +1,183 @@
+<div class="d-flex flex-column align-items-center justify-content-center">
+  <div class="cabecalho d-flex flex-row align-items-center justify-content-evenly flex-wrap">
+    <div class="cepad d-flex flex-column justify-content-center align-items-center">
+      <h4>
+        <b>CEPAD</b>
+      </h4>
+      <h4>
+        Centro de Proteção
+      </h4>
+      <h4>
+        ao Animal Doméstico
+      </h4>
+    </div>
+    <div>
+      <img src="../../../../assets/img/logorrvet.png" alt="" class="logorr">
+    </div>
+    <div>
+      <img src="../../../../assets/img/brasaoBarueri.png" alt="" class="brasao">
+    </div>
+  </div>
+  <h2>PRONTUÁRIO DE ATENDIMENTO</h2>
+  <div class="dados-atendimento d-flex flex-column justify-content-center align-items-start">
+    <h5><i class="fa-solid fa-address-card"></i> Tutor</h5>
+    <div class="identificacao-tutor d-flex flex-row align-items-center justify-content-between flex-wrap">
+      <h6>
+        <b>Nome: </b> {{animalDates.tutor}}
+      </h6>
+      <h6>
+        <b>Telefone: </b>{{formatarTelefone(animalDates.telefone)}}
+      </h6>
+      <h6>
+        <b>CPF: </b> {{animalDates.cpf}}
+      </h6>
+      <h6>
+        <b>Endereço: </b> {{animalDates.rus}}, {{animalDates.numero}} - {{animalDates.bairro}}
+      </h6>
+      <h6>
+        <b>Cidade: </b>{{animalDates.cidade}}
+      </h6>
+      <h6>
+        <b>CEP: </b>{{animalDates.cep}}
+      </h6>
+    </div>
+    <h5>
+      <i class="fa-solid fa-shield-dog"></i> Animal
+    </h5>
+    <div class="identificacao-tutor d-flex flex-row align-items-center justify-content-between flex-wrap">
+      <h6>
+        <b>Animal: </b>{{animalDates.nome}}
+      </h6>
+      <h6>
+        <b>RGA: </b>{{animalDates.rga}}
+      </h6>
+      <h6>
+        <b>Espécie: </b>{{animalDates.especie}}
+      </h6>
+      <div class="identificacao-tutor d-flex flex-row align-items-center justify-content-between flex-wrap">
+      <h6>
+        <b>Raça: </b>{{animalDates.raca}}
+      </h6>
+      <h6>
+        <b>Porte: </b>{{animalDates.porte}}
+      </h6>
+      <h6>
+        <b>Idade: </b>{{calcIdade(animalDates.idade)}}
+      </h6>
+      <h6>
+        <b>Sexo: </b>{{animalDates.sexo}}
+      </h6>
+    </div>
+  </div>
+  </div>
+  <h4>ATENDIMENTO {{formatDateForm(atendimentos.atendimento.atd_data)}} - {{formatHour(atendimentos.atendimento.atd_hora)}}</h4>
+  <div class="dados-atendimento d-flex flex-column justif.
+  y-content-center align-items-start">
+    <h5><i class="fa-solid fa-user-doctor"></i><b> M.V. Responsável:</b> Patrícia Canossa Gagliardi</h5>
+    <h5><b>Tipo de Atendimento:</b> {{atendimentos.atendimento.atd_tipo}}</h5>
+    <div class="suspeitas d-flex flex-row align-items-center justify-content-start">
+      <h5><b>Suspeitas Diagnósticas: </b></h5>
+      <div class="susp d-flex flex-row align-items-center justify-content-evenly">
+        <h5 *ngFor="let suspeita of atendimentos.anexos.suspeitas"> {{suspeita.dnc_doenca}}  </h5>
+      </div>
+    </div>
+
+    <div class="items-atd d-flex flex-column justify-content-center align-items-start">
+      <h5><i class="fa-solid fa-notes-medical"></i><b> Parâmetros Observados</b></h5>
+      <h6><b>Peso: </b>{{atendimentos.atendimento.atd_peso}} Kg</h6>
+      <h6><b>Temperatura: </b>{{atendimentos.atendimento.atd_temperatura}} ºC</h6>
+      <h6><b>Mucosas: </b>{{atendimentos.atendimento.atd_mucosas}}</h6>
+      <h6><b>Linfonodos: </b>{{atendimentos.atendimento.atd_linfonodos}}</h6>
+      <h6><b>FC: </b>{{atendimentos.atendimento.atd_fc}} BPM</h6>
+      <h6><b>FR: </b>{{atendimentos.atendimento.atd_fr}} MPM</h6>
+      <h6><b>Sons Respiratórios: </b>{{atendimentos.atendimento.atd_respiracao}}</h6>
+      <h6><b>Sons Cardíacos: </b>{{atendimentos.atendimento.atd_cardiaco}}</h6>
+    </div>
+    <br>
+    <br>
+    <div class="items-atd d-flex flex-column justify-content-center align-items-start">
+      <h5><i class="fa-solid fa-staff-snake"></i><b> Anamnese</b></h5>
+      <h6><b>Ambiente: </b>{{atendimentos.atendimento.atd_anambiente}}</h6>
+      <h6><b>Ingestão Hídrica: </b>{{atendimentos.atendimento.atd_aningestaoh}}</h6>
+      <h6><b>Alimentação: </b>{{atendimentos.atendimento.atd_analimentacao}}</h6>
+      <h6><b>Suplementação: </b>{{atendimentos.atendimento.atd_ansuplementacao}}</h6>
+      <h6><b>Peso Corporal: </b>{{atendimentos.atendimento.atd_anpeso}}</h6>
+      <h6><b>Vacinação: </b>{{atendimentos.atendimento.atd_anvacinacao}}</h6>
+      <h6><b>Vermifugação: </b>{{atendimentos.atendimento.atd_anvermifugacao}}</h6>
+      <h6><b>Ectoparasiticida: </b>{{atendimentos.atendimento.atd_anectoparasiticida}}</h6>
+      <h6><b>Castração: </b>{{atendimentos.atendimento.atd_ancastracao}}</h6>
+      <h6><b>Diurese: </b>{{atendimentos.atendimento.atd_andiurese}}</h6>
+      <h6><b>Defecção: </b>{{atendimentos.atendimento.atd_andefeccao}}</h6>
+      <h6><b>Parasitos: </b>{{atendimentos.atendimento.atd_anparasitos}}</h6>
+      <h6><b>Prurido: </b>{{atendimentos.atendimento.atd_anprurido}}</h6>
+      <h6><b>Vômito: </b>{{atendimentos.atendimento.atd_anvomito}}</h6>
+      <h6><b>Regurgitação: </b>{{atendimentos.atendimento.atd_anregurgitacao}}</h6>
+      <h6><b>Comportamento: </b>{{atendimentos.atendimento.atd_ancomportamento}}</h6>
+      <h6><b>Sono: </b>{{atendimentos.atendimento.atd_ansono}}</h6>
+      <h6><b>Vocalização: </b>{{atendimentos.atendimento.atd_anvocalizacao}}</h6>
+      <h6><b>Incoordenação: </b>{{atendimentos.atendimento.atd_anincoordenacao}}</h6>
+      <h6><b>Crise Epilética: </b>{{atendimentos.atendimento.atd_anepilepsia}}</h6>
+      <h6><b>Síncope: </b>{{atendimentos.atendimento.atd_ansincope}}</h6>
+      <h6><b>Tosse: </b>{{atendimentos.atendimento.atd_antosse}}</h6>
+      <h6><b>Lambedura: </b>{{atendimentos.atendimento.atd_anlambedura}}</h6>
+    </div>
+    <div class="items-atd d-flex flex-column justify-content-center align-items-start">
+      <h5><i class="fa-solid fa-heart-circle-exclamation"></i> Outras Observações</h5>
+      <h6>{{atendimentos.atendimento.atd_outras}}</h6>
+    </div>
+    <div class="items-atd d-flex flex-column justify-content-center align-items-start">
+      <h5><i class="fa-solid fa-staff-snake"></i> Exame Físico</h5>
+      <h6><b>Sistema Respiratório:</b> {{atendimentos.atendimento.exf_respiratorio}}</h6>
+      <h6><b>Sistema Cardiovascular:</b> {{atendimentos.atendimento.exf_cardiovascular}}</h6>
+      <h6><b>Sistema Gastrointestinal:</b> {{atendimentos.atendimento.exf_gastroinstetinal}}</h6>
+      <h6><b>Sistema Endócrino:</b> {{atendimentos.atendimento.exf_endocrino}}</h6>
+      <h6><b>Sistema Urinário:</b> {{atendimentos.atendimento.exf_urinario}}</h6>
+      <h6><b>Sistema Reprodutor:</b> {{atendimentos.atendimento.exf_reprodutor}}</h6>
+      <h6><b>Ortopédico:</b> {{atendimentos.atendimento.exf_ortopedico}}</h6>
+      <h6><b>Neurológico:</b> {{atendimentos.atendimento.exf_neurologico}}</h6>
+      <h6><b>Dermatológico:</b> {{atendimentos.atendimento.exf_dermatologico}}</h6>
+      <h6><b>Oftálmico:</b> {{atendimentos.atendimento.exf_oftalmico}}</h6>
+      <h6><b>Ondontológico:</b> {{atendimentos.atendimento.exf_ondontologico}}</h6>
+    </div>
+    <div class="items-atd d-flex flex-column justify-content-center align-items-start">
+      <h5><i class="fa-solid fa-syringe"></i> Aplicações</h5>
+      <div *ngFor="let aplicacao of atendimentos.anexos.aplicacoes" class="items-int d-flex flex-column justify-content-center align-items-start">
+        <h6><b>Medicação:</b> {{aplicacao.med_nome}}</h6>
+        <h6><b>Apresentação:</b> {{aplicacao.med_apresentacao}}</h6>
+        <h6><b>Concentração:</b> {{aplicacao.med_concentracao}}</h6>
+        <h6><b>Dose:</b> {{aplicacao.apl_dose}}</h6>
+        <h6><b>Via:</b> {{aplicacao.apl_via}}</h6>
+      </div>
+    </div>
+    <div class="items-atd d-flex flex-column justify-content-center align-items-start">
+      <h5><i class="fa-solid fa-bandage"></i> Procedimentos Realizados</h5>
+      <h6 *ngFor="let procedimento of atendimentos.anexos.procedimentos">{{procedimento.prc_procedimento}}</h6>
+    </div>
+    <div class="items-atd d-flex flex-column justify-content-center align-items-start">
+      <h5><i class="fa-solid fa-pills"></i> Receituário</h5>
+      <div *ngFor="let receita of atendimentos.anexos.receita" class="items-int d-flex flex-column justify-content-center align-items-start">
+        <h6><b>Medicação:</b> {{receita.med_nome}}</h6>
+        <h6><b>Apresentação:</b> {{receita.med_apresentacao}}</h6>
+        <h6><b>Concentração:</b> {{receita.med_concentracao}}</h6>
+        <h6><b>Dose:</b> {{receita.rec_dose}}</h6>
+        <h6><b>Duração:</b> {{receita.rec_duracao}}</h6>
+        <h6><b>Via:</b> {{receita.rec_via}}</h6>
+      </div>
+    </div>
+    <div class="items-atd d-flex flex-column justify-content-center align-items-start">
+      <h5><i class="fa-solid fa-vial-circle-check"></i> Exames Solicitados</h5>
+      <h6 *ngFor="let exame of atendimentos.anexos.exames">{{exame.exm_exame}}</h6>
+    </div>
+    <div class="items-atd d-flex flex-column justify-content-center align-items-start">
+      <h5><i class="fa-solid fa-heart-pulse"></i> Encaminhamento Cirúrgico</h5>
+      <h6 *ngFor="let cirurgia of atendimentos.anexos.cirurgias">{{cirurgia.cir_cirurgia}}
+        <h6 *ngIf="cirurgia.enc_realizacao === null"> (Aguardando Realização)</h6>
+        <h6 *ngIf="cirurgia.enc_realizacao !== null"> (Realizada {{formatDateForm(cirurgia.enc_realizacao)}})</h6>
+      </h6>
+    </div>
+    <div class="items-atd d-flex flex-column justify-content-center align-items-start">
+      <h5><i class="fa-solid fa-hand-holding-medical"></i> Encaminhamentos</h5>
+      <h6 *ngFor="let encaminhamento of atendimentos.anexos.especialidades">{{encaminhamento.ece_especialidade}}</h6>
+    </div>
+  </div>
+</div>

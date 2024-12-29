@@ -3,6 +3,7 @@ import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AnimaisAppService } from 'src/app/services/animais-app.service';
+import { FuncionarioService } from 'src/app/services/funcionario.service';
 
 @Component({
   selector: 'app-animal-page',
@@ -39,7 +40,8 @@ export class AnimalPageComponent implements OnInit {
   msgError:any;
   atraso:boolean = true;
   atendimentos:any;
-  anexos: any[] = [];
+  anexos: any;
+  vetResp: any;
   collapsed:boolean = false;
   tamanho= {
     aplicacoes: 0,
@@ -66,10 +68,11 @@ export class AnimalPageComponent implements OnInit {
   };
 
 
-  constructor( private appAnimal: AnimaisAppService, private router: Router, private formBuilder: FormBuilder) {
+  constructor( private appAnimal: AnimaisAppService, private app: FuncionarioService, private router: Router, private formBuilder: FormBuilder) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    console.log(this.animalDates)
     console.log(this.tipoAtendimento);
     console.log('ngOnInit() chamado!');
 
@@ -91,6 +94,12 @@ export class AnimalPageComponent implements OnInit {
       'Especialista',
       'Exames',
     ];
+
+    try {
+      await this.getAtendimentos();
+    }  catch (err) {
+      console.log(err);
+    }
   }
 
 
@@ -202,6 +211,23 @@ export class AnimalPageComponent implements OnInit {
 
   }
 
+  async getResponsavel(id: number): Promise<any> {
+    try {
+      await this.app.getVetResponsavel({id:id}, this.httpOptions).subscribe({
+        next: ((res)=> {
+          this.vetResp = res;
+          console.log(this.vetResp);
+          return this.vetResp;
+        }),
+        error: ((err)=> {
+         console.log(err.message);
+        })
+      })
+    } catch (error) {
+      return console.log(error)
+    }
+  };
+
   analisaRealizacao(data:any) {
     if (data === null) {
       return 'Aguardando Realização';
@@ -209,6 +235,42 @@ export class AnimalPageComponent implements OnInit {
       return this.formatDate(data);
     }
   }
+
+  getAtendimentos(): void {
+    this.app.pegaAtendimentos({ idAnimal: this.animalDates.animalId }, this.httpOptions)
+      .subscribe({
+        next: (res) => {
+          console.log('atendimentos:', res.atendimentos);
+          this.atendimentos = res.atendimentos;
+          console.log(`Atds: ${this.atendimentos}`);
+        },
+        error: (err: { message: any; }) => console.log(err.message)
+      });
+  }
+
+  async getAnexos(id: number): Promise<any> {
+    try {
+      this.app.pegaAnexos({id:id}, this.httpOptions).subscribe({
+        next: ((res)=> {
+          this.anexos =  res;
+          console.log(this.anexos.aplicacoes.length);
+        }),
+        error: ((err)=> {
+         console.log(err.message);
+        })
+      })
+    } catch (error) {
+      return console.log(error)
+    }
+  };
+
+  enviaDadosAtendimento (atendimento: any, anexos: any) {
+    localStorage.setItem('atdDates', JSON.stringify({atendimento: atendimento, anexos: anexos}))
+    console.log(atendimento, anexos)
+  }
+
+
+
 
 
 

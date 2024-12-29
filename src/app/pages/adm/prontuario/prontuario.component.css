@@ -1,7 +1,3 @@
-footer {
-  width: 100%;
-}
-
 .cabecalho {
   margin-top: 40px;
 }
@@ -17,20 +13,6 @@ footer {
 
 .brasao {
   max-height: 100px;
-}
-
-.cepad {
-  width: 100%;
-}
-
-hr {
-  border: 2px solid;
-  width: 60%;
-  align-self: last baseline;
-}
-
-.prescs {
-  width: 100%;
 }
 
 .dados-atendimento {
@@ -67,19 +49,3 @@ hr {
 .identificacao-tutor {
   width: 100%;
 }
-
-@media print {
-  .page-break {
-    page-break-before: always;
-  }
-}
-
-@media print {
-  .vet {
-    display: block !important;
-    position: fixed;
-    bottom: 0;
-  }
-}
-
-

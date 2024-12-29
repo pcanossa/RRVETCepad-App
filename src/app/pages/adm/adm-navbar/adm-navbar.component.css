@@ -90,4 +90,8 @@
   .animais {
     height: 100%;
   }
+
+  .items-menu {
+    flex-wrap: nowrap !important;
+  }
 }

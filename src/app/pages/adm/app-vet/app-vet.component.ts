@@ -22,6 +22,7 @@ export class AppVetComponent {
   pex: any;
   atendimentos: any;
   atendimentosVet: any;
+  exames: any;
 
   httpOptions = {
     headers: this.headers
@@ -51,6 +52,15 @@ export class AppVetComponent {
           console.log(error);
         }
 
+        try {
+          await this.getFilaExames();
+        } catch (error) {
+          console.log(error);
+        }
+
+
+
+
     } catch (error) {
         // Lida com erros em validaVeterinario()
     }
@@ -68,6 +78,22 @@ export class AppVetComponent {
           console.log(this.validados)
 
           resolve(this.validados)
+        }),
+        error: (err)=> reject (err)
+      })
+    })
+  }
+
+  async getFilaExames (): Promise<any> {
+    return new Promise<any>(async (resolve, reject) => {
+      await this.app.pegaFilaExames(this.httpOptions)
+      .subscribe ({
+        next: ((res)=>{
+          this.exames = res;
+          console.log(res);
+          console.log(this.exames)
+
+          resolve(this.exames)
         }),
         error: (err)=> reject (err)
       })

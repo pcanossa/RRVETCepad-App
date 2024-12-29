@@ -110,6 +110,8 @@ export class ReceituarioComponent implements OnInit {
     msgError: any;
     vet: any;
 
+  animalDates = JSON.parse(localStorage.getItem('recDates') ?? '{}');
+
   token = JSON.parse(localStorage.getItem('token') ?? '{}');
   headers = new HttpHeaders({
     'Authorization': `${this.token}`
@@ -126,6 +128,7 @@ export class ReceituarioComponent implements OnInit {
   async ngOnInit() {
     try {
       console.log(this.funcDates)
+      console.log('dados:'+JSON.stringify(this.animalDates))
       await this.validaVeterinario();
       //console.log(this.atdDates);
       console.log(this.vet);
@@ -265,9 +268,21 @@ export class ReceituarioComponent implements OnInit {
     }
   }
 
+  getDate() {
+
+      const date = new Date();
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getUTCFullYear();
+      return `${day}/${month}/${year}`;
+
+  }
+
   getCount():number {
-    const indice = this.counter+1;
+    const indice = this.counter;
+    this.counter++;
     return indice
   }
+
 }
 

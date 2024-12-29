@@ -42,13 +42,35 @@ export class AppAtendimentoComponent implements OnInit{
 
   exameFisico: FormGroup = this.formBuilder.group({
     ortopedico: ['NDN', Validators.required],
-    cardiovascular: ['NDN', Validators.required],
+    cardiovascular: [`Presença de Sopro:
+      ( )Grau I
+      ( )Grau II
+      ( )Grau III
+      ( )Grau IV
+
+      ( )Arritmia de Pulsação (A. Safena)
+
+      ( )Distenção Jugular`, Validators.required],
     gastrointestinal: ['NDN', Validators.required],
     urinario: ['NDN', Validators.required],
     reprodutivo: ['NDN', Validators.required],
     respiratorio: ['NDN', Validators.required],
     endocrino: ['NDN', Validators.required],
-    dermatologico: ['NDN', Validators.required],
+    dermatologico: [`Lesões:
+    ( )Pavilhão Auricular
+    ( )Periocular
+    ( )Face
+    ( )Tronco
+    ( )Cotovelos
+    ( )Patas
+    ( )Interdigitos
+    ( )Ânus
+    ( )Rabo
+    ( )Dorso
+     Outros:
+
+     Tipo de Lesão:
+     Tratamento Realizado:`, Validators.required],
     oftalmico: ['NDN', Validators.required],
     odontologico: ['NDN', Validators.required],
     neurologico: ['NDN', Validators.required],
@@ -255,6 +277,7 @@ export class AppAtendimentoComponent implements OnInit{
   vac: any;
   vet: any;
   prc: any;
+  btnAtd: boolean = false;
   msgError: any;
   vetResp: any;
 
@@ -579,13 +602,13 @@ export class AppAtendimentoComponent implements OnInit{
 
     }
 
-    /*try {
+    try {
       await this.pegaProcedimentos();
       console.log(this.procedimentos);
 
     } catch (err) {
 
-    }*/
+    }
 
 
     try {
@@ -828,7 +851,7 @@ export class AppAtendimentoComponent implements OnInit{
   }
 
   mostraReceita() {
-    localStorage.setItem('recDates', JSON.stringify({receita: this.rec, orientacoes: this.orientacoes}));
+    localStorage.setItem('recDates', JSON.stringify({receita: this.rec, orientacoes: this.orientacoes, dados: this.atdDates}));
   }
 
 
@@ -876,7 +899,8 @@ export class AppAtendimentoComponent implements OnInit{
     try {
       const response = await this.app.validaVet({ id: this.funcDates.id }, this.httpOptions).toPromise(); // Convertendo Observable para Promise
       console.log(`response: ${JSON.stringify(response)}`)
-      this.vet = {vetId: response[0].vet_id, nome: response[0].col_nome}; // Atribuindo a resposta a this.vet
+      this.vet = {vetId: response[0].vet_id, nome: response[0].col_nome};
+      console.log(`vet = ${this.vet}`) // Atribuindo a resposta a this.vet
       this.msgError = response.message; // Definindo a mensagem de erro, se houver
       console.log('Dados Vet:', this.vet); // Verificando se os dados de vet estão corretos
     } catch (error) {
@@ -1192,7 +1216,7 @@ export class AppAtendimentoComponent implements OnInit{
 
   async getEspecialidades () {
     try {
-      await this.app.pegaEspecialidadeVet({vetId: this.vet[0].vet_id}, this.httpOptions).subscribe({
+      await this.app.pegaEspecialidadeVet({vetId: this.vet.vetId}, this.httpOptions).subscribe({
         next: ((res)=> {
           console.log(res);
           this.especialidade = res;
@@ -1251,6 +1275,14 @@ export class AppAtendimentoComponent implements OnInit{
       reject(this.erro);
     })
   };
+
+  mostraAtendimentos () {
+    if (this.btnAtd) {
+      return this.btnAtd = false;
+    }
+
+    return this.btnAtd = true;
+  }
 
   async registraEncEspecialista () {
     return new Promise(async (resolve, reject) => {

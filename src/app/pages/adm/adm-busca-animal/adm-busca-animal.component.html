@@ -32,6 +32,7 @@
             <h1><i class="fa-solid fa-cat" *ngIf="animalDates.ani_especie === 'Felina'"></i></h1>
             <div class="card-content">
               <a href="/animalPage" (click)="enviarID(
+                animalDates.ani_id,
                 animalDates.tut_id,
                 animalDates.ani_nome,
                 animalDates.ani_especie,

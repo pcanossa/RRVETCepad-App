@@ -5,6 +5,8 @@ body {
   width: 100%;
 }
 
+
+
 * {
   margin: 0;
   padding: 0;
@@ -20,3 +22,9 @@ body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@media screen and (min-width: 451px) {
+  .nav-menu {
+    flex-wrap: nowrap !important;
+  }
+}

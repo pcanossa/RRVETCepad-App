@@ -30,6 +30,7 @@ import { AdmBuscaAnimalComponent } from './pages/adm/adm-busca-animal/adm-busca-
 import { AtualizaTutorComponent } from './pages/adm/atualiza-tutor/atualiza-tutor.component';
 import { AtualizaAnimalComponent } from './pages/adm/atualiza-animal/atualiza-animal.component';
 import { AppEnfermagemComponent } from './pages/adm/app-enfermagem/app-enfermagem.component';
+import { ProntuarioComponent } from './pages/adm/prontuario/prontuario.component';
 
 const routes: Routes = [
   {
@@ -161,6 +162,11 @@ const routes: Routes = [
   {
     path: 'app-enfermagem',
     component: AppEnfermagemComponent,
+    canActivate: [AuthGuardADMService]
+  },
+  {
+    path: 'prontuario',
+    component: ProntuarioComponent,
     canActivate: [AuthGuardADMService]
   }
 

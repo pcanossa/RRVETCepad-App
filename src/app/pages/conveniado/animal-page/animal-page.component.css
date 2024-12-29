@@ -145,6 +145,14 @@ input .tratatamento {
   margin: 30px 0;
 }
 
+.accordion-button {
+  margin-bottom: 30px !important;
+}
+
+.accordion-body {
+  margin-bottom: 30px !important;
+}
+
 .vacina {
   background-color: rgb(2, 71, 151);
   border-radius: 15px;
@@ -167,6 +175,64 @@ input .tratatamento {
 
 .topo-carteirinha h5 {
   color: #c6c6c6
+}
+
+#Consulta {
+  background-color: #a5def3;
+  padding: 2px;
+  border-radius: 15px;
+}
+
+#Pos-Cirurgico {
+  background-color: #c5cccc;
+  padding: 2px;
+  border-radius: 15px;
+}
+
+#Especialista {
+  background-color: #a5f3ef;
+  padding: 2px;
+  border-radius: 15px;
+}
+
+#Ultrassonografia {
+  background-color: #c5cccc;
+  padding: 2px;
+  border-radius: 15px;
+}
+
+#Coleta-Exame {
+  background-color: #ffdffa;
+  padding: 2px;
+  border-radius: 15px;
+}
+
+#Ultrassonografia {
+  background-color: #f8d094;
+  padding: 2px;
+  border-radius: 15px;
+}
+
+#Retorno {
+  background-color: #bef3a5;
+  padding: 2px;
+  border-radius: 15px;
+}
+
+#Eletrocardiograma {
+  background-color: #f3aaa5;
+  padding: 2px;
+  border-radius: 15px;
+}
+
+.overflow-scroll {
+  max-width: 80%;
+}
+
+#Encaixe {
+  background-color: #eef3a5;
+  padding: 2px;
+  border-radius: 15px;
 }
 
 .topo-carteirinha img {
@@ -204,6 +270,7 @@ h5 {
   border-radius: 15px;
   color: #0478A1;
 }
+
 
 .accordion-collapse {
   background-color: #fff598;
@@ -251,6 +318,10 @@ h5 {
     min-width:25%;
     background-color: #67a4ba;
     min-height: 100vh;
+  }
+
+  .body-animal-page {
+    flex-wrap: nowrap !important;
   }
 }
 
