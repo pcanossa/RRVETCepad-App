@@ -108,8 +108,11 @@
       <div class="erros d-flex justify-content-center align-items-center" *ngIf="dadosAnimal.errors?.['erro'] || cliente.errors?.['erro']">
         <h5>Os campos com * são obrigatórios</h5>
       </div>
-      <div class="ok d-flex justify-content-center align-items-center">
-        <h5>{{ msgOK?.message }}</h5>
+      <div class="ok d-flex justify-content-center align-items-center" *ngIf="msgOK && !msgError" >
+        <h5 style="color: rgb(6, 146, 99);">Animal cadastrado com sucesso</h5>
+      </div>
+      <div class="ok d-flex justify-content-center align-items-center" *ngIf="!msgOK && msgError" >
+        <h5 style="color: rgb(146, 39, 6);">RGA já cadastrado</h5>
       </div>
     </form>
   </div>

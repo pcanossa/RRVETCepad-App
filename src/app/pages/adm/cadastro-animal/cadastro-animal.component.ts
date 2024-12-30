@@ -411,9 +411,11 @@ tutorId: number = 0;
         {
           next: ((res)=> {
             this.msgOK =  res;
+            this.msgError = null;
             resolve();
           }),
           error: ((err)=> {
+            this.msgOK =  null;
             console.log(this.dadosAnimal.value);
             this.msgError = err.message;
             reject(err);
