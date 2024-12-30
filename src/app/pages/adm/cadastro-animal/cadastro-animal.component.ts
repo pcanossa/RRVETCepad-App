@@ -410,14 +410,14 @@ tutorId: number = 0;
       .subscribe(
         {
           next: ((res)=> {
-            this.msgOK =  res;
+            this.msgOK =    'OK';
             this.msgError = null;
             resolve();
           }),
           error: ((err)=> {
             this.msgOK =  null;
             console.log(this.dadosAnimal.value);
-            this.msgError = err.message;
+            this.msgError = 'err.message';
             reject(err);
           })
         });
